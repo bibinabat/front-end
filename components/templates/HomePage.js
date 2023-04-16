@@ -15,7 +15,7 @@ const HomePage = () => {
                 <Image src="/images/square-mustard-pattern.png"
                        alt="banners background"
                        width={700} height={700}
-                       className="w-full opacity-10 pointer-events-none z-0"
+                       className="w-full opacity-20 pointer-events-none z-0"
                        priority
                 />
             </div>

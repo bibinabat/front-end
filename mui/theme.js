@@ -1,4 +1,5 @@
 import {createTheme} from "@mui/material";
+import {red} from "@mui/material/colors";
 
 const theme = createTheme({
     typography: {
@@ -32,6 +33,14 @@ const theme = createTheme({
                     "::before": {
                         backgroundColor: "white"
                     }
+                }
+            }
+        },
+        MuiBackdrop: {
+            styleOverrides: {
+                root: {
+                    backdropFilter: 'blur(7px) saturate(100%)',
+                    backgroundColor: 'rgba(31, 26, 80, 0.34)'
                 }
             }
         }

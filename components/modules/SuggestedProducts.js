@@ -14,17 +14,20 @@ const SuggestedProducts = ({title}) => {
 
     return (
         <div className="w-full">
-            <div className="flex bg-blue-dark items-center justify-between rounded-xl text-white relative overflow-hidden -z-20 mb-3">
+            <div
+                className="flex bg-blue-dark items-center justify-between rounded-xl text-white relative overflow-hidden -z-20 mb-3">
                 <div className="py-3 px-5 sm:px-10 items-center flex w-full justify-between">
                     <span className="font-bold text-lg">
                         {title}
                     </span>
                     <div className="flex gap-3">
                         مشاهده همه
-                        <Image src="/customIcons/NavIcon.svg" alt="nav icon" width={10} height={10} className="-scale-x-100"/>
+                        <Image src="/customIcons/NavIcon.svg" alt="nav icon" width={10} height={10}
+                               className="-scale-x-100"/>
                     </div>
                 </div>
-                <Image src="/images/title-bar-img.png" alt="tile bar image" width="700" height="100" className="absolute -z-10 w-full opacity-20"/>
+                <Image src="/images/title-bar-img.png" alt="tile bar image" width="700" height="100"
+                       className="absolute -z-10 w-full opacity-25"/>
             </div>
             <div className="px-5 relative">
                 <NavBtnR prevRef={prevRef} classes={"right-5"}/>

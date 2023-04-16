@@ -30,3 +30,36 @@
         border-radius: 5px;
     }
 }
+
+.ReactInputVerificationCode__input {
+    right: 0;
+}
+
+.ReactInputVerificationCode__container {
+    direction: ltr;
+    gap: 0.4rem;
+    justify-content: center !important;
+    position: unset !important;
+}
+
+.ReactInputVerificationCode__item {
+    background-color: #E7E7E7;
+    --ReactInputVerificationCode-itemWidth: 2.5rem;
+    --ReactInputVerificationCode-itemHeight: 2.5rem;
+    border-radius: 0.5rem !important;
+    font-weight: normal !important;
+    font-size: 1.3rem !important;
+}
+
+.ReactInputVerificationCode__item.is-active {
+    border: 1px solid #1F1A50;
+}
+
+.ReactInputVerificationCode__item,
+.ReactInputVerificationCode__item.is-active {
+    box-shadow: none !important;
+}
+
+.search-container:focus-within {
+    box-shadow: 0px 0px 0px 2px rgb(31, 26, 80);
+}
