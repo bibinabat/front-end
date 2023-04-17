@@ -1,17 +1,26 @@
 import Link from "next/link";
 import {Button, Dialog, Slide, SwipeableDrawer} from "@mui/material";
 import NavBarCart from "@/components/modules/NavBarCart";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import React from "react";
 import SearchMobile from "@/components/modules/SearchMobile";
+import {useRouter} from "next/router";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const NavBar = ({handleLoginOpen}) => {
+    const router = useRouter()
+
     const [isCartOpen, setIsCartOpen] = useState(false)
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(router.asPath.split("#")[1] === "searchMobile")
+
+    useEffect(() => {
+        const onHashChange = () => setIsSearchOpen(window.location.hash === "#searchMobile")
+        window.addEventListener("hashchange", onHashChange)
+        return () => window.removeEventListener("hashchange", onHashChange)
+    }, [])
 
     const toggleCart = (open) => (event) => {
         if (
@@ -25,11 +34,11 @@ const NavBar = ({handleLoginOpen}) => {
     }
 
     const handleSearchOpen = () => {
-        setIsSearchOpen(true)
+        window.location.hash = "#searchMobile"
     }
 
     const handleSearchClose = () => {
-        setIsSearchOpen(false)
+        window.history.back()
     }
 
     return (
@@ -49,17 +58,17 @@ const NavBar = ({handleLoginOpen}) => {
                 <NavBarCart/>
             </SwipeableDrawer>
             <div
-                className="grid items-center justify-around grid-cols-4 bottom-0 right-0 fixed z-[999] bg-white w-full text-[#9F9F9F] py-3 shadow-[0px_-20px_62px_9px_rgba(0,0,0,0.1)] lg:hidden">
+                className="grid items-center justify-around grid-cols-4 bottom-0 right-0 fixed z-[999] bg-white w-full text-[#ABB4BC] py-3 shadow-[0px_-20px_62px_9px_rgba(0,0,0,0.1)] lg:hidden">
                 <Link href="/">
                     <div className="flex flex-col items-center justify-center gap-1" onClick={handleSearchClose}>
                         <i className="fa-solid fa-house text-lg"></i>
-                        <span className="text-sm">صفحه اصلی</span>
+                        <span className="text-xs">صفحه اصلی</span>
                     </div>
                 </Link>
                 <div className="flex flex-col items-center justify-center gap-1 cursor-pointer"
                      onClick={isSearchOpen ? handleSearchClose : handleSearchOpen}>
                     <i className="fa-solid fa-magnifying-glass text-lg"></i>
-                    <span className="text-sm">جست و جو</span>
+                    <span className="text-xs">جست و جو</span>
                 </div>
                 <Dialog
                     fullScreen
@@ -75,11 +84,11 @@ const NavBar = ({handleLoginOpen}) => {
                 <div className="flex flex-col items-center justify-center gap-1 cursor-pointer"
                      onClick={toggleCart(true)}>
                     <i className="fa-solid fa-cart-shopping text-lg"></i>
-                    <span className="text-sm">سبد خرید</span>
+                    <span className="text-xs">سبد خرید</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-1" onClick={handleLoginOpen}>
                     <i className="fa-solid fa-user text-lg"></i>
-                    <span className="text-sm">ورود</span>
+                    <span className="text-xs">ورود</span>
                 </div>
             </div>
         </nav>

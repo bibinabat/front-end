@@ -11,7 +11,8 @@ const TextInput = ({
                        validationSchema,
                        focused = false,
                        id,
-                       value
+                       value,
+                       inputMode
                    }) => {
     useEffect(() => {
         if (focused) {
@@ -38,6 +39,7 @@ const TextInput = ({
                     className={`${addClasses} bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark`}
                     id={id}
                     value={value}
+                    inputMode={inputMode}
                 />
                 {errors[name] && (
                     <span className="text-xs pt-2 text-red">{errors[name].message}</span>

@@ -6,13 +6,22 @@ import HeaderCart from "@/components/modules/HeaderCart";
 import HeaderUserMenu from "@/components/modules/HeaderUserMenu";
 import Sidebar from "@/components/modules/Sidebar";
 import DesktopSearchBar from "@/components/modules/DesktopSearchBar";
+import {useRouter} from "next/router";
 
 const Header = ({handleLoginOpen}) => {
+    const router = useRouter()
+
     const [scrolled, setScrolled] = useState(false)
     const [isCartOpen, setIsCartOpen] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-    const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const [isSearchOpen, setIsSearchOpen] = useState(router.asPath.split("#")[1] === "search")
+
+    useEffect(() => {
+        const onHashChange = () => setIsSearchOpen(window.location.hash === "#search")
+        window.addEventListener("hashchange", onHashChange)
+        return () => window.removeEventListener("hashchange", onHashChange)
+    }, [])
 
     const toggleSidebar = (open) => (event) => {
         if (
@@ -26,11 +35,11 @@ const Header = ({handleLoginOpen}) => {
     }
 
     const handleSearchOpen = () => {
-        setIsSearchOpen(true)
+        window.location.hash = "#search"
     }
 
     const handleSearchClose = () => {
-        setIsSearchOpen(false)
+        window.history.back()
     }
 
     const header = useRef(null)

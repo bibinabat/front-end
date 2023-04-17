@@ -44,6 +44,7 @@ const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum}) => {
                     addClasses="px-3 py-2"
                     focused={true}
                     id="loginNumInput"
+                    inputMode="numeric"
                 />
                 <p className="text-sm my-3">
                     با ورود به بی بی نبات،

@@ -20,7 +20,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum}) => {
                 </button>
                 <button
                     onClick={handleEditNum}
-                    className="mt-3 text-center bg-white font-[600] text-[#5F53D5] w-full py-2 rounded-lg transition hover:bg-[#E6E3FF]">ویرایش
+                    className="mt-3 text-center bg-white font-[600] text-blue-dark w-full py-2 rounded-lg transition hover:bg-[#E6E3FF]">ویرایش
                     شماره موبایل
                 </button>
             </div>

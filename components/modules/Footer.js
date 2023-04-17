@@ -1,30 +1,12 @@
 import Image from "next/image";
 import {Tooltip} from "@mui/material";
 import Link from "next/link";
-import TextInput from "@/components/elements/TextInput";
-
-import {useForm} from "react-hook-form";
-
-import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import FooterAccordion from "@/components/elements/FooterAccordion";
 
 const Footer = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: {
-            errors
-        }
-    } = useForm()
-
-    const handleFooterFormSubmit = (data) => {
-        console.log(data)
-        toast.info("ایمیل شما با موفقیت ثبت شد!", {
-            position: toast.POSITION.TOP_CENTER,
-            closeButton: false,
-            icon: false
-        })
+    const handleFooterInputClick = () => {
+        window.location.hash = "#login"
     }
 
     const handleScrollToTop = () => {
@@ -103,7 +85,25 @@ const Footer = () => {
             <div
                 className="flex flex-col lg:flex-row gap-10 lg:gap-0 items-center lg:items-start justify-between mt-10 px-5 lg:px-10 xl:px-20">
                 <div className="md:flex gap-x-5 gap-y-10 md:gap-10">
-                    <div className="flex flex-col justify-start mb-5 md:mb-0">
+                    <div className="flex gap-5 mb-5 md:mb-0">
+                        <div className="flex flex-col gap-5 justify-start">
+                            <p className="font-bold mb-1 text-lg">دسته بندی محصولات</p>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید نبات</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">پرده نبات</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">کاسه نبات</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرده نبات</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قند</Link>
+                        </div>
+                        <div className="flex flex-col gap-5 justify-start">
+                            <p className="font-bold mb-1 text-lg">صفحات دیگر</p>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید عمده</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">سوالات متداول</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">تماس با ما</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">ثبت شکایت</Link>
+                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قوانین و مقررات</Link>
+                        </div>
+                    </div>
+                    <div className="flex flex-col justify-start">
                         <FooterAccordion title="پرفروش ترین محصولات"
                                          items={[
                                              {text: "نبات", url: "/"},
@@ -126,42 +126,15 @@ const Footer = () => {
                                              {text: "پرده نبات", url: "/"}
                                          ]}/>
                     </div>
-                    <div className="flex gap-5">
-                        <div className="flex flex-col gap-5 justify-start">
-                            <p className="font-bold mb-1 text-lg">دسته بندی محصولات</p>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">پرده نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">کاسه نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرده نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قند</Link>
-                        </div>
-                        <div className="flex flex-col gap-5 justify-start">
-                            <p className="font-bold mb-1 text-lg">صفحات دیگر</p>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید عمده</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">سوالات متداول</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">تماس با ما</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">ثبت شکایت</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قوانین و مقررات</Link>
-                        </div>
-                    </div>
                 </div>
                 <div className="flex flex-col gap-5">
                     <span className="text-[#4A4A4A]">از تخفیف ها با خبر شوید</span>
                     <div>
-                        <form onSubmit={handleSubmit(handleFooterFormSubmit)} className="h-full flex">
-                            <TextInput
-                                addClasses="w-64 px-3 py-2"
-                                placeholder="ایمیل خود را وارد کنید"
-                                name="email"
-                                errors={errors}
-                                register={register}
-                                validationSchema={{
-                                    required: "وارد کردن ایمیل الزامی است",
-                                    pattern: {
-                                        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-                                        message: "ایمیل باید معتبر باشد"
-                                    }
-                                }}
+                        <form className="h-full flex">
+                            <input
+                                onClick={handleFooterInputClick}
+                                className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
+                                placeholder="شماره موبایل خود را وارد کنید"
                             />
                             <button
                                 className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
