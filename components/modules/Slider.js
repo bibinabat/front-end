@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import {Swiper, SwiperSlide, useSwiper} from "swiper/react";
+import {Swiper, SwiperSlide} from "swiper/react";
 import {Navigation, Autoplay} from "swiper";
 import 'swiper/swiper-bundle.min.css'
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
