@@ -1,9 +1,9 @@
 import {Rating} from "@mui/material";
 import Image from "next/image";
 
-const ProductInfo = ({noButton}) => {
+const ProductInfo = () => {
     return (
-        <div className="bg-[#f5f5f5] p-6 mr-0 md:mr-5 rounded-2xl sticky top-40 mb-5">
+        <div className="bg-[#f5f5f5] p-6 mr-0 md:mr-5 rounded-2xl sticky top-40 md:mb-5">
             <div className="flex items-center gap-2 mb-3">
                 <i className="fa-solid fa-shop text-cyan text-xl"></i>
                 <span className="text-blue-dark font-[500] text-lg">بی بی نبات</span>
@@ -65,16 +65,11 @@ const ProductInfo = ({noButton}) => {
                     <span>تومان</span>
                 </div>
             </div>
-            {
-                noButton ? null :
-                    (
-                        <button className="bg-blue-dark w-full text-white py-2 rounded-lg relative overflow-hidden">
-                            <span className="z-[9] relative font-bold">افزودن به سبد خرید</span>
-                            <Image src="/images/btn-bg-img.png" alt="Button background" width={500} height={100}
-                                   className="absolute top-0 z-[6] w-full"/>
-                        </button>
-                    )
-            }
+            <button className="bg-blue-dark w-full text-white py-2 rounded-lg relative overflow-hidden">
+                <span className="z-[9] relative font-bold">افزودن به سبد خرید</span>
+                <Image src="/images/btn-bg-img.png" alt="Button background" width={500} height={100}
+                       className="absolute top-0 z-[6] w-full"/>
+            </button>
         </div>
     );
 };

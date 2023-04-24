@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ProductVideo = () => {
     return (
-        <div className="mt-5">
+        <div className="mb-5 xl:mt-5">
             <div
                 className="bg-[#D2EFED] text-blue-dark flex gap-2 items-center px-5 py-2 rounded relative overflow-hidden mb-3">
                 <i className="fa-regular fa-play text-lg"></i>
