@@ -41,8 +41,8 @@ const CommentForm = ({handleClose}) => {
                 <form>
                     <label htmlFor="commentText" className="font-bold text-[#4D4D4D]">متن نظر*</label>
                     <div>
-                        <textarea id="commentText" rows="5" className="w-full bg-[#EEEEEE] mt-2 rounded-xl"
-                                  onInput={this.parentNode.dataset.replicatedValue = this.value}></textarea>
+                        {/*<textarea id="commentText" rows="5" className="w-full bg-[#EEEEEE] mt-2 rounded-xl"*/}
+                        {/*          onInput={this.parentNode.dataset.replicatedValue = this.value}></textarea>*/}
                     </div>
                 </form>
             </DialogContent>
