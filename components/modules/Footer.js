@@ -41,7 +41,7 @@ const Footer = () => {
                             <div className="grid grid-cols-2 grid-rows-2 gap-x-20 md:flex md:gap-20">
                                 <div className="flex flex-col items-center gap-9">
                                     <Image src="/images/footerImages/24-7Support.png" alt="warranty" width={55}
-                                           height={100} className="w-auto"/>
+                                           height={100} className="w-auto h-auto"/>
                                     <span className="text-[#4E4E4E] text-center">پشتیبانی 24/7</span>
                                 </div>
                                 <div className="flex flex-col items-center gap-5">

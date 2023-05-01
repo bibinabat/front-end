@@ -20,7 +20,8 @@ const NavBtnL = ({nextRef, classes}) => {
             ref={nextRef}>
             <div
                 className="">
-                <Image src="/customIcons/NavIcon.svg" alt="nav icon" width={10} height={10} className="-scale-x-100"/>
+                <Image src="/customIcons/NavIcon.svg" alt="nav icon" width={10} height={10}
+                       className="-scale-x-100"/>
             </div>
         </button>
     );

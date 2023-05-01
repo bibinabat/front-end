@@ -34,18 +34,20 @@ const ProductDescription = () => {
     return (
         <div className="mt-5 mb-5">
             <div
-                className="bg-[#DBDAE3] text-blue-dark flex gap-2 items-center px-5 py-2 rounded relative overflow-hidden mb-3">
-                <i className="fa-regular fa-memo text-lg"></i>
-                <span className="text-lg font-[600]">توضیحات</span>
+                className="bg-[#DBDAE3] text-[#2D2D2D] flex gap-2 items-center px-5 py-2 rounded relative overflow-hidden mb-3">
+                <i className="fa-regular fa-memo text-lg text-blue-dark"></i>
+                <span className="text-lg font-bold">توضیحات</span>
                 <Image src="/images/darkblue-line.png" alt="darkblue line" fill
-                       className="opacity-10 object-center object-cover pointer-events-none"/>
+                       className="opacity-10 object-center object-cover pointer-events-none"
+                       sizes="(max-width: 768px) 100vw,
+                            (max-width: 1200px) 70vw"/>
             </div>
             <div className="relative" onClick={handleOpen}>
                 <div
                     className={`${open ? "before:opacity-0" : "cursor-pointer"} before:content-[''] before:bg-gradient-to-t before:from-[rgba(277,277,277,0.95)] before:w-full before:h-full before:block before:absolute before:rounded-3xl`}>
                     <animated.div style={openAnimation}
                                   className="bg-[#f5f5f5] px-5 lg:px-20 xl:px-44 py-5 rounded-3xl overflow-hidden">
-                        <div className="text-blue-dark leading-relaxed">
+                        <div className="text-blue-dark leading-relaxed text-justify">
                             <h2 className="text-xl font-bold mb-3">اطلاعاتی کلی راجع به خرید نبات پرده</h2>
                             <p className="mb-3">
                                 نبات یکی از محصولات نام آشنا برای همه ماست که نه تنها برای مصارف خوراکی انتخاب می شود،

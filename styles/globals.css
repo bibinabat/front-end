@@ -5,16 +5,19 @@
 @tailwind utilities;
 
 @layer base {
+
     * {
         box-sizing: border-box;
         -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-        font-family: "IRANSansX";
         -moz-font-feature-settings: "ss02";
         -webkit-font-feature-settings: "ss02";
         font-feature-settings: "ss02";
+    }
+
+    html {
+        font-family: "IRANSansX", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
     }
 
     .home-articles::-webkit-scrollbar {

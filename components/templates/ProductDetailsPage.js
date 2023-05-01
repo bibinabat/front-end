@@ -5,11 +5,13 @@ import SuggestedProducts from "@/components/modules/SuggestedProducts";
 import ProductDescription from "@/components/modules/ProductDescription";
 import ProductVideo from "@/components/modules/ProductVideo";
 import MobileAddToCart from "@/components/modules/MobileAddToCart";
+import Comments from "@/components/modules/Comments";
+import BuyersComments from "@/components/modules/BuyersComments";
 
 const ProductDetailsPage = () => {
     return (
         <>
-            <div className="mt-36 md:mt-40 px-4 sm:px-7 lg:px-20">
+            <div className="mt-36 md:mt-40 px-3 sm:px-7 lg:px-20">
                 <div
                     className="text-[#abb4bc] font-[700] text-sm flex gap-3 items-center mb-5 whitespace-nowrap overflow-auto">
                     <Link href="/" className="hover:text-blue-dark text-lg"><i className="fa-solid fa-house"></i></Link>
@@ -64,6 +66,7 @@ const ProductDetailsPage = () => {
                             <ProductVideo/>
                         </div>
                         <ProductDescription/>
+                        <Comments/>
                     </div>
                     <div className="hidden md:block">
                         <ProductInfo/>
