@@ -135,6 +135,7 @@ const Footer = () => {
                                 onClick={handleFooterInputClick}
                                 className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
                                 placeholder="شماره موبایل خود را وارد کنید"
+                                readOnly
                             />
                             <button
                                 className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
