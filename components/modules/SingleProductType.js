@@ -3,7 +3,7 @@ import Image from "next/image";
 const SingleProductType = (props) => {
     return (
         <div className="flex p-3 bg-[#f5f5f5] rounded-xl">
-            <Image src="/testImages/khz3.jpg" alt="text" width={150} height={150} className="rounded-lg ml-3"/>
+            <Image src="/testImages/khz3.jpg" alt="text" width={150} height={150} className="rounded-lg ml-3 block max-w-[150px] max-h-[150px] w-auto h-auto"/>
             <div className="w-full">
                 <span className="text-blue-dark font-[600] text-lg">پرده نبات ساده درجه یک</span>
                 <div className="flex">
@@ -28,7 +28,7 @@ const SingleProductType = (props) => {
                 </div>
                 <button
                     className="text-white bg-blue-dark flex items-center gap-2 py-2 px-3 rounded-lg w-full justify-center">
-                    <i className="fa-regular fa-cart-shopping"></i>
+                    <i className="fa-regular fa-cart-shopping hidden min-[388px]:block"></i>
                     افزودن به سبد خرید
                 </button>
             </div>
