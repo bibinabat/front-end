@@ -1,7 +1,7 @@
 const NavBarCart = () => {
     return (
         <div>
-            <div className="mt-2 flex items-center justify-center flex-col border-b border-blue-dark">
+            <div className="mt-2 flex items-center justify-center flex-col">
                 <hr className="border-[3px] border-[#939393] w-8 rounded-full"/>
                 <span className="font-bold mt-3 mb-2 text-blue-dark">سبد خرید</span>
             </div>

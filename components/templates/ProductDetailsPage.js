@@ -7,8 +7,24 @@ import ProductVideo from "@/components/modules/ProductVideo";
 import MobileAddToCart from "@/components/modules/MobileAddToCart";
 import Comments from "@/components/modules/Comments";
 import BuyersComments from "@/components/modules/BuyersComments";
+import {SwipeableDrawer} from "@mui/material";
+import {useState} from "react";
+import SingleProductType from "@/components/modules/SingleProductType";
 
 const ProductDetailsPage = () => {
+    const [isMobileTypesOpen, setIsMobileTypesOpen] = useState(false)
+
+    const toggleTypes = (open) => (event) => {
+        if (
+            event &&
+            event.type === "keydown" &&
+            (event.key === "Tab" || event.key === "Shift")
+        ) {
+            return
+        }
+        setIsMobileTypesOpen(open)
+    }
+
     return (
         <>
             <div className="mt-36 md:mt-40 px-3 sm:px-7 lg:px-20">
@@ -59,7 +75,7 @@ const ProductDetailsPage = () => {
                             </div>
                             <div className="md:hidden w-full">
                                 <ProductVideo/>
-                                <ProductInfo/>
+                                <ProductInfo toggleTypes={toggleTypes}/>
                             </div>
                         </div>
                         <div className="hidden md:block">
@@ -69,12 +85,32 @@ const ProductDetailsPage = () => {
                         <Comments/>
                     </div>
                     <div className="hidden md:block">
-                        <ProductInfo/>
+                        <ProductInfo toggleTypes={toggleTypes}/>
                     </div>
                 </div>
                 <SuggestedProducts title="محصولات مشابه"/>
             </div>
-            <MobileAddToCart/>
+            <MobileAddToCart toggleTypes={toggleTypes}/>
+            <SwipeableDrawer
+                anchor="bottom"
+                open={isMobileTypesOpen}
+                onClose={toggleTypes(false)}
+                onOpen={toggleTypes(true)}
+                PaperProps={{
+                    sx: {
+                        borderTopLeftRadius: "20px",
+                        borderTopRightRadius: "20px"
+                    }
+                }}
+            >
+                <div className="mt-2 flex items-center justify-center flex-col">
+                    <hr className="border-[3px] border-[#939393] w-8 rounded-full "/>
+                </div>
+                <div className="flex flex-col gap-3 p-3">
+                    <SingleProductType weight="1"/>
+                    <SingleProductType weight="3"/>
+                </div>
+            </SwipeableDrawer>
         </>
     );
 };

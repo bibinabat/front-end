@@ -1,5 +1,8 @@
 import {Rating} from "@mui/material";
 import Image from "next/image";
+import CommentImage from "@/components/modules/CommentImage";
+import CommentVideo from "@/components/modules/CommentVideo";
+import ReplyCommentForm from "@/components/modules/ReplyCommentForm";
 
 const SingleComment = (props) => {
     return (
@@ -44,19 +47,11 @@ const SingleComment = (props) => {
             {
                 props.media ? (
                     <div className="flex items-center gap-2 mt-3">
-                        <Image src="/testImages/khz3.jpg" alt="product name" width={70} height={70}
-                               className="rounded-lg cursor-pointer"/>
-                        <Image src="/testImages/khz3.jpg" alt="product name" width={70} height={70}
-                               className="rounded-lg cursor-pointer"/>
-                        <div
-                            className="rounded-lg overflow-hidden relative before:content-[''] before:bg-black before:opacity-50 before:w-full before:h-full before:block before:absolute cursor-pointer">
-                            <i className="fa-solid fa-play absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 text-white"></i>
-                            <Image src="/testImages/khz3.jpg" alt="product name" width={70} height={70}/>
-                        </div>
+                        <CommentImage src="/testImages/khz3.jpg" name="1"/>
+                        <CommentImage src="/testImages/category-ghand.jpg" name="2"/>
+                        <CommentVideo src="/testImages/test-video.mp4" name="1"/>
                     </div>
-                ) : (
-                    null
-                )
+                ) : null
             }
             <div className="flex items-center justify-between mt-3">
                 <div className="text-xs min-[385px]:text-sm font-[600] text-[#B8B8B8] flex items-center">
@@ -65,11 +60,7 @@ const SingleComment = (props) => {
                     <span>14 اسفند 1401</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button
-                        className="px-3 py-2 bg-[#CECDD7] text-blue-dark rounded-full flex items-center text-xs gap-1 font-bold">
-                        <i className="fa-solid fa-reply"></i>
-                        <span>پاسخ</span>
-                    </button>
+                    <ReplyCommentForm text={props.text} commentId={props.commentId}/>
                     <button
                         className="px-3 py-1 bg-[#F8C3C3] text-red rounded-full flex items-center gap-1 font-bold">
                         <span>5</span>

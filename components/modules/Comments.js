@@ -22,14 +22,16 @@ const Comments = () => {
                     <CommentsAside/>
                 </div>
                 <div className="w-full">
-                    <SingleComment media={true} text="پرده نبات بی بی نبات بسیار با کیفیته" user="کاربر بی بی نبات"/>
+                    <SingleComment media={true} text="پرده نبات بی بی نبات بسیار با کیفیته" user="کاربر بی بی نبات"
+                                   commentId="1"/>
                     <SingleComment
                         text="ممنون از شما آقای خلیلی
                         <br>
                         بی بی نبات محصولات با کیفیت رو خدمت شما ارسال میکنه
                         "
                         user="مدیر بی بی نبات"
-                        replyText="پرده نبات بی بی نبات بسیار با کیفیته"/>
+                        replyText="پرده نبات بی بی نبات بسیار با کیفیته"
+                        commentId="2"/>
                 </div>
             </div>
         </div>

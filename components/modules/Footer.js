@@ -39,7 +39,7 @@ const Footer = () => {
                         </div>
                         <div className="flex items-center flex-col justify-center lg:ml-10">
                             <div className="grid grid-cols-2 grid-rows-2 gap-x-20 md:flex md:gap-20">
-                                <div className="flex flex-col items-center gap-9">
+                                <div className="flex flex-col items-center gap-5 mt-2">
                                     <Image src="/images/footerImages/24-7Support.png" alt="warranty" width={55}
                                            height={100} className="w-auto h-auto"/>
                                     <span className="text-[#4E4E4E] text-center">پشتیبانی 24/7</span>
@@ -88,7 +88,8 @@ const Footer = () => {
                     <div className="flex gap-5 mb-5 md:mb-0">
                         <div className="flex flex-col gap-5 justify-start">
                             <p className="font-bold mb-1 text-lg">دسته بندی محصولات</p>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید نبات</Link>
+                            <Link href="/"
+                                  className="text-[#4A4A4A] hover:text-cyan">خرید نبات</Link>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">پرده نبات</Link>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">کاسه نبات</Link>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرده نبات</Link>

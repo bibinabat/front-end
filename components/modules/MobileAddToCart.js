@@ -1,10 +1,11 @@
 import Image from "next/image";
 
-const MobileAddToCart = () => {
+const MobileAddToCart = ({toggleTypes}) => {
     return (
         <div
             className="z-[997] bg-white w-full flex sticky bottom-[72px] px-4 py-3 items-center gap-12 shadow-[0px_-20px_62px_9px_rgba(0,0,0,0.1)] lg:hidden">
-            <button className="bg-blue-dark w-full text-white py-2 rounded-lg relative overflow-hidden">
+            <button className="bg-blue-dark w-full text-white py-2 rounded-lg relative overflow-hidden"
+                    onClick={toggleTypes?.(true)}>
                 <span className="z-[9] relative font-bold">افزودن به سبد خرید</span>
                 <Image src="/images/btn-bg-img.png" alt="Button background" width={500} height={100}
                        className="absolute top-0 z-[6] w-full"/>

@@ -126,7 +126,10 @@ const VideoUploader = () => {
                             <span>انتخاب ویدئو</span>
                             <i className="fa-solid fa-video"></i>
                         </div>
-                        <p className="text-[#8A8A8A]">کلیک کنید یا ویدئو های خود را به اینجا بکشید و رها کنید.</p>
+                        <p className="text-[#8A8A8A] text-center hidden md:block">کلیک کنید یا ویدئو های خود را به اینجا
+                            بکشید و
+                            رها
+                            کنید.</p>
                     </div>
                 ) : (
                     <div className="mt-2 flex flex-wrap w-full gap-5">

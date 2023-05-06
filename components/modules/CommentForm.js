@@ -99,27 +99,17 @@ const CommentForm = ({handleClose}) => {
                 }
                 <div className="mt-5">
                     <span className="font-bold text-[#4D4D4D]">خرید این محصول را:*</span>
-                    <div className="bg-[#f5f5f5] w-fit py-1 px-2 mt-2 rounded-lg flex gap-3">
+                    <div
+                        className="bg-[#f5f5f5] w-full py-1 px-2 mt-2 rounded-lg flex gap-3 justify-around flex-wrap">
                         <div>
-                            <label htmlFor="suggested" className="cursor-pointer text-[#46B715] font-bold">پیشنهاد
-                                میکنم</label>
+                            <label htmlFor="suggested" className="cursor-pointer text-[#46B715] font-bold">
+                                پیشنهاد می‌کنم
+                            </label>
                             <Radio {...controlProps("suggested")} id="suggested"
                                    sx={{
                                        color: '#46B715',
                                        '&.Mui-checked': {
                                            color: '#46B715'
-                                       }
-                                   }}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="notSuggested" className="cursor-pointer text-red font-bold">پیشنهاد
-                                نمیکنم</label>
-                            <Radio {...controlProps("notSuggested")} id="notSuggested"
-                                   sx={{
-                                       color: '#FF5050',
-                                       '&.Mui-checked': {
-                                           color: '#FF5050'
                                        }
                                    }}
                             />
@@ -132,6 +122,18 @@ const CommentForm = ({handleClose}) => {
                                        color: '#FFA200',
                                        '&.Mui-checked': {
                                            color: '#FFA200'
+                                       }
+                                   }}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="notSuggested" className="cursor-pointer text-red font-bold">پیشنهاد
+                                نمی‌کنم</label>
+                            <Radio {...controlProps("notSuggested")} id="notSuggested"
+                                   sx={{
+                                       color: '#FF5050',
+                                       '&.Mui-checked': {
+                                           color: '#FF5050'
                                        }
                                    }}
                             />
