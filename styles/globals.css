@@ -67,3 +67,32 @@
 .search-container:focus-within {
     box-shadow: 0px 0px 0px 2px rgb(31, 26, 80);
 }
+
+.tab-item-animate {
+    position: absolute;
+    width: 20%;
+    height: 36px;
+    transform-origin: 0 0;
+    transition: transform 0.25s;
+    z-index: -1;
+}
+
+.tabs .tabs-item:first-child.active ~ .tab-item-animate {
+    transform: translateX(0);
+}
+
+.tabs .tabs-item:nth-child(2).active ~ .tab-item-animate {
+    transform: translateX(-100%);
+}
+
+.tabs .tabs-item:nth-child(3).active ~ .tab-item-animate {
+    transform: translateX(calc(-100% * 2));
+}
+
+.tabs .tabs-item:nth-child(4).active ~ .tab-item-animate {
+    transform: translateX(calc(-100% * 3));
+}
+
+.tabs .tabs-item:nth-child(5).active ~ .tab-item-animate {
+    transform: translateX(calc(-100% * 4));
+}

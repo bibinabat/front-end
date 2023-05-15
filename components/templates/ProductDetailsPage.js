@@ -2,7 +2,7 @@ import Link from "next/link";
 import ProductAlbum from "@/components/modules/ProductAlbum";
 import ProductInfo from "@/components/modules/ProductInfo";
 import SuggestedProducts from "@/components/modules/SuggestedProducts";
-import ProductDescription from "@/components/modules/ProductDescription";
+import Description from "@/components/modules/Description";
 import ProductVideo from "@/components/modules/ProductVideo";
 import MobileAddToCart from "@/components/modules/MobileAddToCart";
 import Comments from "@/components/modules/Comments";
@@ -10,8 +10,11 @@ import BuyersComments from "@/components/modules/BuyersComments";
 import {SwipeableDrawer} from "@mui/material";
 import {useState} from "react";
 import SingleProductType from "@/components/modules/SingleProductType";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const ProductDetailsPage = () => {
+    const windowSize = useWindowSize()
+
     const [isMobileTypesOpen, setIsMobileTypesOpen] = useState(false)
 
     const toggleTypes = (open) => (event) => {
@@ -75,18 +78,23 @@ const ProductDetailsPage = () => {
                             </div>
                             <div className="md:hidden w-full">
                                 <ProductVideo/>
-                                <ProductInfo toggleTypes={toggleTypes}/>
+                                {
+                                    windowSize.width < 768 &&
+                                    <ProductInfo toggleTypes={toggleTypes}/>
+                                }
                             </div>
                         </div>
                         <div className="hidden md:block">
                             <ProductVideo/>
                         </div>
-                        <ProductDescription/>
+                        <Description/>
                         <Comments/>
                     </div>
-                    <div className="hidden md:block">
-                        <ProductInfo toggleTypes={toggleTypes}/>
-                    </div>
+                    {windowSize.width >= 768 &&
+                        <div className="hidden md:block">
+                            <ProductInfo toggleTypes={toggleTypes}/>
+                        </div>
+                    }
                 </div>
                 <SuggestedProducts title="محصولات مشابه"/>
             </div>

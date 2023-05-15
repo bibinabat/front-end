@@ -2,7 +2,7 @@ import Image from "next/image";
 import {useState} from "react";
 import {useSpring, animated} from "@react-spring/web";
 
-const ProductDescription = () => {
+const Description = () => {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => {
@@ -162,4 +162,4 @@ const ProductDescription = () => {
     );
 };
 
-export default ProductDescription;
+export default Description;

@@ -2,19 +2,20 @@ import {Dialog, Rating, SwipeableDrawer} from "@mui/material";
 import Image from "next/image";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import CommentForm from "@/components/modules/CommentForm";
 import ProductTypes from "@/components/modules/ProductTypes";
-import NavBarCart from "@/components/modules/NavBarCart";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const ProductInfo = ({toggleTypes}) => {
-    const [isLg, setIsLg] = useState(false)
+    const windowSize = useWindowSize()
 
-    useEffect(() => {
-        console.log(typeof toggleTypes)
-        if (window.innerWidth <= 1024) {
-            setIsLg(true)
-        } else setIsLg(false)
-    }, [])
+    // const [isLg, setIsLg] = useState(false)
+    //
+    // useEffect(() => {
+    //     console.log(typeof toggleTypes)
+    //     if (window.innerWidth <= 1024) {
+    //         setIsLg(true)
+    //     } else setIsLg(false)
+    // }, [])
 
     const router = useRouter()
 
@@ -98,7 +99,7 @@ const ProductInfo = ({toggleTypes}) => {
                 </div>
             </div>
             <button className="bg-blue-dark w-full text-white py-2 rounded-lg relative overflow-hidden"
-                    onClick={isLg ? toggleTypes?.(true) : handleTypesOpen}>
+                    onClick={windowSize.width <= 1024 ? toggleTypes?.(true) : handleTypesOpen}>
                 <span className="z-[9] relative font-bold">افزودن به سبد خرید</span>
                 <Image src="/images/btn-bg-img.png" alt="Button background" width={500} height={100}
                        className="absolute top-0 z-[6] w-full"/>
