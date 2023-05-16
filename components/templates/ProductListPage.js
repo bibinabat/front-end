@@ -61,7 +61,7 @@ const ProductListPage = () => {
                         <Sorting/>
                     </div>
                     {
-                        windowSize.width >= 640 ? (
+                        windowSize.width >= 640 && (
                             <div className="flex flex-wrap gap-6 justify-center mt-5">
                                 <ProductCard discount={20}/>
                                 <ProductCard/>
@@ -75,7 +75,10 @@ const ProductListPage = () => {
                                 <ProductCard/>
                                 <ProductCard/>
                             </div>
-                        ) : (
+                        )
+                    }
+                    {
+                        windowSize.width < 640 && (
                             <div className="flex flex-wrap gap-3 justify-center mt-5">
                                 <MobileProductCard discount={20}/>
                                 <MobileProductCard/>

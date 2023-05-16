@@ -25,6 +25,9 @@ const Sorting = () => {
 
     useEffect(() => {
         const {sort} = router.query
+        if (!sort) {
+            setSelectedSorting('popular')
+        }
         if (selectedSorting !== sort) {
             setSelectedSorting(sort)
         }
