@@ -45,6 +45,7 @@ const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum}) => {
                     focused={true}
                     id="loginNumInput"
                     inputMode="numeric"
+                    autoComplete="new-password"
                 />
                 <p className="text-sm my-3">
                     با ورود به بی بی نبات،

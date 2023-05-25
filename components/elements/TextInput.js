@@ -12,7 +12,10 @@ const TextInput = ({
                        focused = false,
                        id,
                        value,
-                       inputMode
+                       inputMode,
+                       type,
+                       autoComplete,
+                       disabled
                    }) => {
     useEffect(() => {
         if (focused) {
@@ -21,11 +24,11 @@ const TextInput = ({
     }, [])
 
     return (
-        <>
+        <div className={`${disabled ? 'opacity-50' : ''}`}>
             {
                 label ? (
-                    <div className="mb-3">
-                        <label htmlFor={name} className="text-blue-dark font-[500]">
+                    <div className="mb-2">
+                        <label htmlFor={name} className="text-sm text-blue-dark font-bold">
                             {label}
                         </label>
                     </div>
@@ -34,18 +37,20 @@ const TextInput = ({
             <div className="flex flex-col">
                 <input
                     {...register(name, validationSchema)}
-                    type="text"
+                    type={type}
                     placeholder={placeholder}
-                    className={`${addClasses} bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark`}
+                    className={`${addClasses} rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent focus:border-blue-dark bg-[#EEEEEE] ${disabled ? '' : ' hover:border-2 hover:border-[#BABABA]'}`}
                     id={id}
                     value={value}
                     inputMode={inputMode}
+                    autoComplete={autoComplete}
+                    disabled={disabled}
                 />
                 {errors[name] && (
                     <span className="text-xs pt-2 text-red">{errors[name].message}</span>
                 )}
             </div>
-        </>
+        </div>
     );
 };
 

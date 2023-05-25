@@ -1,0 +1,96 @@
+import {useState} from "react";
+
+const CheckoutAside = ({submitHandler, handleSubmit}) => {
+    const [discountCode, setDiscountCode] = useState('')
+    const [isSubBtnDisable, setIsSubBtnDisable] = useState(true)
+
+    const handleDiscountInput = (e) => {
+        setDiscountCode(e.target.value)
+        if (e.target.value !== "") {
+            setIsSubBtnDisable(false)
+        } else {
+            setIsSubBtnDisable(true)
+        }
+    }
+
+    return (
+        <div className="bg-[#f5f5f5] rounded-xl p-3 sticky top-40">
+            <p className="text-center text-gray-500 font-bold text-sm mb-4">اطلاعات پرداخت</p>
+            <div className="flex flex-col gap-5 text-sm">
+                <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1">
+                            <span className="text-blue-dark font-[600]">مبلغ کالاها</span>
+                            <span
+                                className="bg-blue-dark pt-0.5 px-2 text-xs text-white rounded-full font-bold">2</span>
+                        </div>
+                        <div className="flex items-center gap-1 font-bold text-blue-dark">
+                            <span>118,000</span>
+                            <span className="text-xs">تومان</span>
+                        </div>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg flex flex-col gap-2 text-xs">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1">
+                                <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
+                                <span
+                                    className="bg-blue-dark pt-0.5 px-1.5 text-[10px] text-white rounded-full font-bold">1</span>
+                            </div>
+                            <div className="flex gap-1 text-[#2B2B2B]">
+                                <span className="font-bold">94,000</span>
+                                <span className="font-[600]">تومان</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1">
+                                <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
+                                <span
+                                    className="bg-blue-dark pt-0.5 px-1.5 text-[10px] text-white rounded-full font-bold">1</span>
+                            </div>
+                            <div className="flex gap-1 text-[#2B2B2B]">
+                                <span className="font-bold">94,000</span>
+                                <span className="font-[600]">تومان</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full bg-gray-200 flex overflow-hidden rounded font-[600]">
+                        <input className="flex-1 bg-transparent outline-none py-2 pr-3"
+                               placeholder="کد تخفیف دارید اینجا وارد کنید..." value={discountCode}
+                               onChange={handleDiscountInput}/>
+                        <button
+                            className={`transition duration-400 px-5 text-blue-dark ${isSubBtnDisable ? 'opacity-50' : 'hover:bg-gray-300'}`}
+                            disabled={isSubBtnDisable}>ثبت
+                        </button>
+                    </div>
+                </div>
+                <div className="flex text-red items-center justify-between">
+                    <span className="font-[600]">تخفیف</span>
+                    <div className="flex items-center gap-1 font-bold">
+                        <span>37,600</span>
+                        <span className="text-xs">تومان</span>
+                    </div>
+                </div>
+                <div className="flex justify-between items-center gap-14">
+                    <span className="font-[600] text-blue-dark">هزینه ارسال</span>
+                    <div className="text-blue-dark flex items-center gap-1 font-bold">
+                        <span>50,000</span>
+                        <span className="text-xs">تومان</span>
+                    </div>
+                </div>
+            </div>
+            <hr className="border-[1px] border-gray-400 my-4"/>
+            <div className='text-sm flex items-center justify-between'>
+                <span className="font-[600] text-blue-dark">مبلغ قابل پرداخت</span>
+                <div className="font-bold flex items-center gap-1">
+                    <span>150,400</span>
+                    <span className="text-xs">تومان</span>
+                </div>
+            </div>
+            <button className="text-center bg-blue-dark rounded-lg text-white w-full mt-3 font-bold py-1.5"
+                    onClick={handleSubmit(submitHandler)}>ادامه
+            </button>
+        </div>
+    );
+};
+
+export default CheckoutAside;

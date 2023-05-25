@@ -82,12 +82,11 @@ const CommentForm = ({handleClose}) => {
                 <label htmlFor="commentText" className="font-bold text-[#4D4D4D]">متن نظر*</label>
                 <textarea id="commentText" rows="3"
                           className="w-full bg-[#EEEEEE] mt-2 rounded-xl p-3 font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
-                    // ref={textAreaRef} value={commentText} onChange={onChange}
                           placeholder="متن نظر خود را وارد کنید..."
                           {...register('commentText', {
                               required: 'وارد کردن متن نظر الزامی میباشد.',
                               maxLength: {
-                                  value: 100,
+                                  value: 200,
                                   message: 'متن نظر باید حداکثر 200 حرف باشد'
                               }
                           })}
