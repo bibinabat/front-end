@@ -1,16 +1,18 @@
-import {useForm} from "react-hook-form";
 import TextInput from "@/components/elements/TextInput";
-import {Autocomplete, Box, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Checkbox, FormControlLabel} from "@mui/material";
 import {provinces} from "@/public/provinces";
 import {cities} from "@/public/cities";
 import CheckoutSelect from "@/components/elements/CheckoutSelect";
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {useSpring, animated} from "@react-spring/web";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}) => {
     const [filteredCities, setFilteredCities] = useState([])
     const [provinceQuery, setProvinceQuery] = useState('')
     const [cityQuery, setCityQuery] = useState('')
     const [selfReceiver, setSelfReceiver] = useState(true)
+    const {width} = useWindowSize()
 
     const handleProvinceSelect = (optionName) => {
         setValue('province', optionName)
@@ -33,6 +35,20 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
             setFilteredCities([])
         }
     }
+
+    const openAnimation = useSpring({
+        from: {
+            maxHeight: "49px",
+            paddingTop: "1px",
+            paddingBottom: "1px"
+        },
+        to: {
+            maxHeight: !selfReceiver ? width > 640 ? "150px" : "350px" : "49px",
+            paddingTop: !selfReceiver ? "12px" : "1px",
+            paddingBottom: !selfReceiver ? "12px" : "1px"
+        },
+        config: {duration: "300"}
+    })
 
     return (
         <div className="p-5 xl:px-20">
@@ -79,9 +95,11 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
                         }
                     }}
                     name="phoneNumber"
-                    addClasses="px-3 py-2"/>
-                <div
-                    className="flex flex-col sm:grid sm:grid-cols-3 col-span-3 gap-y-3 sm:gap-y-0 sm:gap-x-3 border-y-2 my-3 py-3">
+                    addClasses="px-3 py-2"
+                    inputMode="numeric"/>
+                <animated.div
+                    style={openAnimation}
+                    className="flex flex-col sm:grid sm:grid-cols-3 col-span-3 gap-y-3 sm:gap-y-0 sm:gap-x-3 border-y-2 my-3 overflow-hidden">
                     <FormControlLabel className="col-span-3"
                                       control={
                                           <Checkbox checked={selfReceiver}
@@ -135,8 +153,9 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
                         name="receiverPhoneNumber"
                         addClasses="px-3 py-2"
                         disabled={selfReceiver}
+                        inputMode="numeric"
                     />
-                </div>
+                </animated.div>
                 <CheckoutSelect register={register} errors={errors} name="province" label="استان" options={provinces}
                                 placeholder="استان خود را انتخاب کنید"
                                 validationSchema={{
@@ -179,7 +198,8 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
                         }
                     }}
                     name="postalCode"
-                    addClasses="px-3 py-2"/>
+                    addClasses="px-3 py-2"
+                    inputMode="numeric"/>
                 <div className="sm:col-span-3 text-sm mt-3">
                     <label htmlFor="address" className="font-bold text-blue-dark">آدرس</label>
                     <textarea id="address" rows="2"
