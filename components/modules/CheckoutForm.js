@@ -3,16 +3,27 @@ import {Checkbox, FormControlLabel} from "@mui/material";
 import {provinces} from "@/public/provinces";
 import {cities} from "@/public/cities";
 import CheckoutSelect from "@/components/elements/CheckoutSelect";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSpring, animated} from "@react-spring/web";
 import useWindowSize from "@/hooks/useWindowSize";
 
-const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}) => {
+const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue, infos}) => {
     const [filteredCities, setFilteredCities] = useState([])
     const [provinceQuery, setProvinceQuery] = useState('')
     const [cityQuery, setCityQuery] = useState('')
     const [selfReceiver, setSelfReceiver] = useState(true)
     const {width} = useWindowSize()
+
+    useEffect(() => {
+        if (infos) {
+            for (const key in infos) {
+                setValue(`${key}`, infos[key])
+            }
+            if (infos.self_receiver === false) {
+                setSelfReceiver(false)
+            }
+        }
+    }, [])
 
     const handleProvinceSelect = (optionName) => {
         setValue('province', optionName)
@@ -54,34 +65,36 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
         <div className="p-5 xl:px-20">
             <h1 className="font-bold text-xl text-blue-dark mb-5">اطلاعات سفارش</h1>
             <form className="flex flex-col sm:grid sm:grid-cols-3 gap-y-3 sm:gap-y-0 sm:gap-x-3">
-                <TextInput
-                    type="text"
-                    label="نام"
-                    errors={errors}
-                    register={register}
-                    validationSchema={{
-                        required: "وارد کردن نام الزامی است.",
-                        maxLength: {
-                            value: 40,
-                            message: "نام میتواند حداکثر 40 حرف باشد."
-                        }
-                    }}
-                    name="name"
-                    addClasses="px-3 py-2"/>
-                <TextInput
-                    type="text"
-                    label="نام خانوادگی"
-                    errors={errors}
-                    register={register}
-                    validationSchema={{
-                        required: "وارد کردن نام خانوادگی الزامی است.",
-                        maxLength: {
-                            value: 40,
-                            message: "نام خانوادگی میتواند حداکثر 40 حرف باشد."
-                        }
-                    }}
-                    name="lastName"
-                    addClasses="px-3 py-2"/>
+                <div className="grid grid-cols-2 gap-3 sm:col-span-2">
+                    <TextInput
+                        type="text"
+                        label="نام"
+                        errors={errors}
+                        register={register}
+                        validationSchema={{
+                            required: "وارد کردن نام الزامی است.",
+                            maxLength: {
+                                value: 40,
+                                message: "نام میتواند حداکثر 40 حرف باشد."
+                            }
+                        }}
+                        name="name"
+                        addClasses="px-3 py-2"/>
+                    <TextInput
+                        type="text"
+                        label="نام خانوادگی"
+                        errors={errors}
+                        register={register}
+                        validationSchema={{
+                            required: "وارد کردن نام خانوادگی الزامی است.",
+                            maxLength: {
+                                value: 40,
+                                message: "نام خانوادگی میتواند حداکثر 40 حرف باشد."
+                            }
+                        }}
+                        name="lastName"
+                        addClasses="px-3 py-2"/>
+                </div>
                 <TextInput
                     type="text"
                     label="شماره موبایل"
@@ -156,35 +169,36 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue}
                         inputMode="numeric"
                     />
                 </animated.div>
-                <CheckoutSelect register={register} errors={errors} name="province" label="استان" options={provinces}
-                                placeholder="استان خود را انتخاب کنید"
-                                validationSchema={{
-                                    required: "وارد کردن استان الزامی است."
-                                }}
-                                control={control}
-                                setFocus={setFocus}
-                                getValues={getValues}
-                                setValue={setValue}
-                                query={provinceQuery}
-                                setQuery={setProvinceQuery}
-                                handleOptionClick={handleProvinceSelect}
-                                handleSelectKeyUp={handleSelectKeyUp}
-                />
-                <CheckoutSelect register={register} errors={errors} name="city" label="شهر"
-                                options={filteredCities.length > 0 ? filteredCities : null}
-                                placeholder="شهر خود را انتخاب کنید"
-                                validationSchema={{
-                                    required: "وارد کردن شهر الزامی است."
-                                }}
-                                control={control}
-                                setFocus={setFocus}
-                                getValues={getValues}
-                                setValue={setValue}
-                                query={cityQuery}
-                                setQuery={setCityQuery}
-                                handleOptionClick={handleCitySelect}
-                                handleSelectKeyUp={handleSelectKeyUp}
-                />
+                <div className="grid grid-cols-2 gap-3 sm:col-span-2">
+                    <CheckoutSelect register={register} errors={errors} name="province" label="استان"
+                                    options={provinces}
+                                    validationSchema={{
+                                        required: "وارد کردن استان الزامی است."
+                                    }}
+                                    control={control}
+                                    setFocus={setFocus}
+                                    getValues={getValues}
+                                    setValue={setValue}
+                                    query={provinceQuery}
+                                    setQuery={setProvinceQuery}
+                                    handleOptionClick={handleProvinceSelect}
+                                    handleSelectKeyUp={handleSelectKeyUp}
+                    />
+                    <CheckoutSelect register={register} errors={errors} name="city" label="شهر"
+                                    options={filteredCities.length > 0 ? filteredCities : null}
+                                    validationSchema={{
+                                        required: "وارد کردن شهر الزامی است."
+                                    }}
+                                    control={control}
+                                    setFocus={setFocus}
+                                    getValues={getValues}
+                                    setValue={setValue}
+                                    query={cityQuery}
+                                    setQuery={setCityQuery}
+                                    handleOptionClick={handleCitySelect}
+                                    handleSelectKeyUp={handleSelectKeyUp}
+                    />
+                </div>
                 <TextInput
                     type="text"
                     label="کد پستی"

@@ -1,0 +1,145 @@
+import {useEffect, useRef, useState} from "react";
+import {useSpring, animated} from "@react-spring/web";
+import {Dialog, Radio} from "@mui/material";
+import AddAddress from "@/components/modules/AddAddress";
+import useWindowSize from "@/hooks/useWindowSize";
+import EditAddress from "@/components/modules/EditAddress";
+
+const ChooseAddressCard = ({controlProps, name, selectedValue, setSelectedValue}) => {
+    const menuRef = useRef(null)
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIMenuOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [menuRef])
+
+    const [isMenuOpen, setIMenuOpen] = useState(false)
+
+    const handleToggle = (e) => {
+        e.stopPropagation()
+        setIMenuOpen(!isMenuOpen)
+    }
+
+    const openAnimation = useSpring({
+        from: {
+            top: '-1.75rem',
+            opacity: '0',
+            display: 'block'
+        },
+        to: [
+            {
+                top: isMenuOpen ? '0' : '-1.75rem',
+                opacity: isMenuOpen ? '1' : '0',
+                display: 'block'
+            },
+            {
+                display: isMenuOpen ? 'block' : 'none'
+            }
+        ]
+    })
+
+    const handleCLick = () => {
+        setSelectedValue(name)
+    }
+
+    const {width} = useWindowSize()
+
+    const [isEditAddressOpen, setIsEditAddressOpen] = useState(false)
+
+    const handleEditAddressOpen = () => {
+        setIsEditAddressOpen(true)
+    }
+
+    const handleEditAddressClose = () => {
+        setIsEditAddressOpen(false)
+    }
+
+    return (
+        <div
+            className={`p-5 pt-3 bg-[#EFEFEF] rounded-lg transition cursor-pointer ${selectedValue === name ? "shadow-[0px_0px_0px_2px_rgba(31,26,80,1)]" : "hover:shadow-[0px_0px_0px_2px_rgba(31,26,80,0.3)]"}`}
+            onClick={handleCLick}>
+            <div className="flex justify-end relative">
+                <animated.div
+                    ref={menuRef}
+                    style={openAnimation}
+                    className="absolute text-sm bg-white rounded shadow-[0px_5px_10px_5px_rgba(0,0,0,0.1)] overflow-hidden">
+                    <div
+                        onClick={handleEditAddressOpen}
+                        className="flex items-center gap-1.5 text-blue-dark font-[500] px-5 py-1 cursor-pointer transition hover:bg-gray-100 border-b-[1.3px] border-gray-400">
+                        <i className="fa-solid fa-pen-to-square"></i>
+                        <span>ویرایش</span>
+                    </div>
+                    <Dialog
+                        open={isEditAddressOpen}
+                        onClose={handleEditAddressClose}
+                        fullWidth={true}
+                        fullScreen={width < 640 ? true : false}
+                        maxWidth="md"
+                        PaperProps={{
+                            sx: {
+                                borderRadius: "15px"
+                            }
+                        }}
+                        scroll="body"
+                    >
+                        <EditAddress handleClose={handleEditAddressClose}/>
+                    </Dialog>
+                    <div
+                        className="flex items-center justify-center gap-1.5 text-red font-[500] px-5 py-1 cursor-pointer transition hover:bg-gray-100">
+                        <i className="fa-solid fa-trash"></i>
+                        <span>حذف</span>
+                    </div>
+                </animated.div>
+                <i className="fa-solid fa-ellipsis-vertical text-gray-400 text-2xl rounded-full cursor-pointer"
+                   onClick={handleToggle}></i>
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:gap-6">
+                    <div className="flex items-center gap-2">
+                        <i className="fa-solid fa-location-dot text-xl text-gray-400"></i>
+                        <p className="font-[500] text-gray-600 text-justify text-sm sm:text-base">بلوار فردوسی، نرسیده
+                            به م. امام
+                            موسی صدر، خ.
+                            نگارستان،
+                            بن.
+                            نگارستان7، اولین خانه سمت چپ</p>
+                    </div>
+                    <div className="flex flex-wrap flex-col sm:flex-row font-[600] gap-3 sm:gap-10 text-sm">
+                        <div>
+                            <span className="text-gray-400 ml-2">کد پستی:</span>
+                            <span className="text-gray-600">8915164576</span>
+                        </div>
+                        <div>
+                            <span className="text-gray-400 ml-2">گیرنده:</span>
+                            <span className="text-gray-600">امیرمحمد خلیلی میبدی</span>
+                        </div>
+                        <div>
+                            <span className="text-gray-400 ml-2">شماره موبایل:</span>
+                            <span className="text-gray-600">09134423596</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="hidden sm:block">
+                    <Radio {...controlProps(name)} id={name}
+                           sx={{
+                               color: '#1F1A50',
+                               '&.Mui-checked': {
+                                   color: '#1F1A50'
+                               }
+                           }}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ChooseAddressCard;

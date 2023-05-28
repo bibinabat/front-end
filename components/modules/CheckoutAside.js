@@ -87,7 +87,7 @@ const CheckoutAside = ({submitHandler, handleSubmit}) => {
                 </div>
             </div>
             <button className="text-center bg-blue-dark rounded-lg text-white w-full mt-3 font-bold py-1.5"
-                    onClick={handleSubmit(submitHandler)}>ادامه
+                    onClick={handleSubmit(submitHandler)}>ثبت سفارش و پرداخت
             </button>
         </div>
     );
