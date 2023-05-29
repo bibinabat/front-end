@@ -129,7 +129,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
-                    <span className="text-[#4A4A4A]">از تخفیف ها با خبر شوید</span>
+                    <span className="text-[#4A4A4A] font-[600]">از تخفیف ها با خبر شوید</span>
                     <div>
                         <form className="h-full flex">
                             <input
@@ -143,7 +143,7 @@ const Footer = () => {
                             </button>
                         </form>
                     </div>
-                    <span className="text-[#4A4A4A]">ما را در شبکه های اجتماعی دنبال کنید</span>
+                    <span className="text-[#4A4A4A] font-[600]">ما را در شبکه های اجتماعی دنبال کنید</span>
                     <div className="w-full flex gap-10 text-[#C4C4C4] text-3xl">
                         <Link href="https://twitter.com/share?url=https://bibinabat.com/" target="_blank">
                             <i className="fa-brands fa-twitter hover:text-[#1d9bf0]"></i>

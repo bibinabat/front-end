@@ -44,7 +44,7 @@ const EditAddress = ({handleClose}) => {
             <div>
                 <CheckoutForm errors={errors} control={control} register={register} setValue={setValue}
                               getValues={getValues} infos={infos}/>
-                <div className="grid grid-cols-2 gap-3 pb-5 px-5 xl:px-20">
+                <div className="grid grid-cols-2 gap-3 pb-5 px-5 xl:px-20 mt-3">
                     <button className="bg-blue-dark text-white font-[600] py-2 rounded-lg"
                             onClick={handleSubmit(submitHandler)}>ثبت
                     </button>

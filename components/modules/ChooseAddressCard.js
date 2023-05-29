@@ -64,9 +64,9 @@ const ChooseAddressCard = ({controlProps, name, selectedValue, setSelectedValue}
 
     return (
         <div
-            className={`p-5 pt-3 bg-[#EFEFEF] rounded-lg transition cursor-pointer ${selectedValue === name ? "shadow-[0px_0px_0px_2px_rgba(31,26,80,1)]" : "hover:shadow-[0px_0px_0px_2px_rgba(31,26,80,0.3)]"}`}
+            className={`bg-[#EFEFEF] rounded-lg transition cursor-pointer ${selectedValue === name ? "shadow-[0px_0px_0px_2px_rgba(31,26,80,1)]" : "hover:shadow-[0px_0px_0px_2px_rgba(31,26,80,0.3)]"}`}
             onClick={handleCLick}>
-            <div className="flex justify-end relative">
+            <div className="flex justify-end relative mt-1">
                 <animated.div
                     ref={menuRef}
                     style={openAnimation}
@@ -98,10 +98,10 @@ const ChooseAddressCard = ({controlProps, name, selectedValue, setSelectedValue}
                         <span>حذف</span>
                     </div>
                 </animated.div>
-                <i className="fa-solid fa-ellipsis-vertical text-gray-400 text-2xl rounded-full cursor-pointer"
+                <i className="fa-solid fa-ellipsis-vertical text-gray-400 text-2xl rounded-full cursor-pointer w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-300"
                    onClick={handleToggle}></i>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pb-3 px-5">
                 <div className="flex flex-col gap-4 sm:gap-6">
                     <div className="flex items-center gap-2">
                         <i className="fa-solid fa-location-dot text-xl text-gray-400"></i>
