@@ -25,7 +25,7 @@ const AboutUsPage = () => {
     return (
         <div className="mt-36 md:mt-48 px-3 sm:px-7 lg:px-0 max-w-4xl mx-auto flex flex-col md:flex-row gap-5">
             <div>
-                <h1 className="text-2xl font-bold text-blue-dark text-center md:text-start">سلام درباره بی بی نبات</h1>
+                <h1 className="text-2xl font-bold text-blue-dark text-center md:text-start">درباره بی بی نبات</h1>
                 <div className="flex gap-6 justify-center mt-5">
                     <Link href="https://trustseal.enamad.ir/?id=249865&Code=n7XI910ux5rZG6SjyEa7" target="_blank">
                         <Image src="/images/footerImages/enamad.png" alt="enamad" width={90} height={150}/>
@@ -53,13 +53,14 @@ const AboutUsPage = () => {
                             </Link>
                         </div>
                     </div>
-                    {
-                        isLoading ? (
-                            <Skeleton animation="wave" variant="rounded" width={210} height={60}/>
-                        ) : (
-                            <div id="ienebox6-container" dangerouslySetInnerHTML={{__html: componentContent}}/>
-                        )
-                    }
+                    {/*{*/}
+                    {/*    isLoading ? (*/}
+                    {/*        <Skeleton animation="wave" variant="rounded" width={210} height={60}/>*/}
+                    {/*    ) : (*/}
+                    {/*        <div id="ienebox6-container" dangerouslySetInnerHTML={{__html: componentContent}}/>*/}
+                    {/*    )*/}
+                    {/*}*/}
+                    <div id="ienebox6-container" dangerouslySetInnerHTML={{__html: componentContent}}/>
                 </div>
                 <div className="mt-5 flex gap-2 items-center justify-center md:justify-start">
                     <i className="fa-solid fa-location-dot text-xl text-gray-500"></i>
