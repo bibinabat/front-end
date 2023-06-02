@@ -22,7 +22,7 @@ const CheckoutAside = ({submitHandler, handleSubmit}) => {
                         <div className="flex items-center gap-1">
                             <span className="text-blue-dark font-[600]">مبلغ کالاها</span>
                             <span
-                                className="bg-blue-dark pt-0.5 px-2 text-xs text-white rounded-full font-bold">2</span>
+                                className="bg-blue-dark text-xs text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">2</span>
                         </div>
                         <div className="flex items-center gap-1 font-bold text-blue-dark">
                             <span>118,000</span>
@@ -34,7 +34,7 @@ const CheckoutAside = ({submitHandler, handleSubmit}) => {
                             <div className="flex items-center gap-1">
                                 <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
                                 <span
-                                    className="bg-blue-dark pt-0.5 px-1.5 text-[10px] text-white rounded-full font-bold">1</span>
+                                    className="bg-blue-dark text-[10px] text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">1</span>
                             </div>
                             <div className="flex gap-1 text-[#2B2B2B]">
                                 <span className="font-bold">94,000</span>
@@ -45,7 +45,7 @@ const CheckoutAside = ({submitHandler, handleSubmit}) => {
                             <div className="flex items-center gap-1">
                                 <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
                                 <span
-                                    className="bg-blue-dark pt-0.5 px-1.5 text-[10px] text-white rounded-full font-bold">1</span>
+                                    className="bg-blue-dark text-[10px] text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">1</span>
                             </div>
                             <div className="flex gap-1 text-[#2B2B2B]">
                                 <span className="font-bold">94,000</span>

@@ -7,7 +7,7 @@ const CartAside = () => {
                     <div className="flex items-center gap-1">
                         <span className="text-blue-dark font-[600]">مبلغ کالاها</span>
                         <span
-                            className="bg-blue-dark pt-0.5 px-2 text-xs text-white rounded-full font-bold">2</span>
+                            className="bg-blue-dark text-xs text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">2</span>
                     </div>
                     <div className="flex items-center gap-1 font-bold text-blue-dark">
                         <span>118,000</span>
