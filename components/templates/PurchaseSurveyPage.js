@@ -41,14 +41,15 @@ const PurchaseSurveyPage = () => {
 
     return (
         <div className="mt-36 md:mt-48 px-3 sm:px-7 max-w-6xl mx-auto">
-            <h1 className="text-center text-blue-dark font-bold text-2xl mb-10">فرم نظرسنجی</h1>
+            <h1 className="text-center text-blue-dark font-bold text-xl sm:text-2xl mb-5 sm:mb-10">فرم نظرسنجی</h1>
             <div className="grid lg:grid-cols-2 gap-10">
                 <div className="bg-[#EEEEEE] rounded-3xl pt-7 px-5 pb-5">
                     <h2 className="text-center font-bold text-gray-500 text-lg mb-5">لیست محصولات خریداری شده</h2>
                     <ul className="bg-white rounded-2xl p-5 flex flex-col gap-2">
                         <li className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <span className="font-[600] text-blue-dark">پرده نبات ساده درجه یک</span>
+                                <span
+                                    className="font-[600] text-blue-dark text-sm sm:text-base">پرده نبات ساده درجه یک</span>
                                 <span
                                     className="text-[12px] font-bold text-white bg-blue-dark rounded-full h-4 min-w-[16px] flex justify-center px-1">1</span>
                             </div>
@@ -59,7 +60,7 @@ const PurchaseSurveyPage = () => {
                         </li>
                         <li className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <span className="font-[600] text-blue-dark">پرده نبات زعفرانی درجه یک</span>
+                                <span className="font-[600] text-blue-dark text-sm sm:text-base">پرده نبات زعفرانی درجه یک</span>
                                 <span
                                     className="text-[12px] font-bold text-white bg-blue-dark rounded-full h-4 min-w-[16px] flex justify-center px-1">2</span>
                             </div>

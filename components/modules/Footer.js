@@ -175,10 +175,12 @@ const Footer = () => {
                 </div>
                 <div className="flex gap-5">
                     <Link href="/about-us">
-                        <Image src="/images/footerImages/enamad.png" alt="enamad" width={130} height={200}/>
+                        <Image src="/images/footerImages/enamad.png" alt="enamad" width={125} height={136}
+                               className="w-32 h-auto"/>
                     </Link>
                     <Link href="https://gateway.zibal.ir/trustMe/bibinabat.com" target="_blank">
-                        <Image src="/images/footerImages/zibal.png" alt="enamad" width={105} height={200}/>
+                        <Image src="/images/footerImages/zibal.png" alt="enamad" width={183} height={255}
+                               className="w-32 h-auto"/>
                     </Link>
                 </div>
             </div>
@@ -194,7 +196,7 @@ const Footer = () => {
                 </p>
             </div>
             <div className="overflow-hidden h-full absolute bottom-0 -z-10 w-full">
-                <Image src="/images/footerImages/yazd.png" alt="Yazd" width={1000} height={1000}
+                <Image src="/images/footerImages/yazd.png" alt="Yazd" width={982} height={3072}
                        className="absolute left-[600px] scale-[7] bottom-72 lg:left-0 lg:scale-100 lg:bottom-0 lg:w-full opacity-5"/>
             </div>
         </footer>
