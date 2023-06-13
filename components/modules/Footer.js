@@ -189,7 +189,8 @@ const Footer = () => {
                 <p>
                     ©
                     تمام حقوق برای
-                    <Link href="/" className="text-mustard"> بی بی نبات </Link>
+                    <Link href="/"
+                          className="text-mustard"> بی بی نبات </Link>
                     |
                     <Link href="/" className="text-mustard"> bibinabat </Link>
                     محفوظ است.

@@ -46,9 +46,12 @@ const TextInput = ({
                     autoComplete={autoComplete}
                     disabled={disabled}
                 />
-                {errors[name] && (
+                {
+                    errors ?
+                    errors[name] && (
                     <span className="text-xs pt-2 text-red">{errors[name].message}</span>
-                )}
+                ) : null
+                }
             </div>
         </div>
     );

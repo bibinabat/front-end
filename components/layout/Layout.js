@@ -7,9 +7,12 @@ import {Dialog} from "@mui/material";
 import {useEffect, useState} from "react";
 import Login from "@/components/modules/Login";
 import {useRouter} from "next/router";
+import ProfileAside from "@/components/modules/ProfileAside";
 
 const Layout = ({children}) => {
     const router = useRouter()
+
+    const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
 
     const [isLoginOpen, setIsLoginOpen] = useState(router.asPath.split("#")[1] === "login")
 
@@ -44,9 +47,17 @@ const Layout = ({children}) => {
             </Dialog>
             <Header handleLoginOpen={handleLoginOpen}/>
             <AdBar/>
-            {children}
+            <div
+                className={`${isProfilePage ? "flex gap-5 mt-48 md:mt-56 px-5 lg:px-24 pb-20 lg:pb-6 flex-flow absolute top-0 bottom-0 w-full" : ""}`}>
+                {isProfilePage && (
+                    <ProfileAside/>
+                )}
+                {children}
+            </div>
             <NavBar handleLoginOpen={handleLoginOpen}/>
-            <Footer/>
+            {!isProfilePage && (
+                <Footer/>
+            )}
         </>
     );
 };

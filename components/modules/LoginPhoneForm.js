@@ -32,7 +32,6 @@ const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum}) => {
                     label="شماره موبایل"
                     placeholder="شماره موبایل خود را وارد کنید"
                     name="phoneNumber"
-                    errors={errors}
                     register={register}
                     validationSchema={{
                         required: "وارد کردن شماره موبایل الزامی است",
