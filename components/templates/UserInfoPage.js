@@ -65,7 +65,7 @@ const UserInfoPage = () => {
     // };
 
     return (
-        <div className={`p-10 ${isUserInfoPage ? "" : "hidden md:block"}rounded-3xl border-[1.5px] flex-1`}>
+        <div className={`p-10 ${isUserInfoPage ? "" : "hidden md:block"} rounded-3xl border-[1.5px] flex-1`}>
             <div className="flex md:gap-0 gap-3 items-center">
                 <Link href="/profile">
                     <i className="fa-solid fa-circle-chevron-right text-2xl text-gray-300 md:hidden"></i>

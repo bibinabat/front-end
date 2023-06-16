@@ -55,7 +55,7 @@ const ProfileAside = () => {
                         <i className="fa-solid fa-arrow-right-from-bracket text-red text-lg cursor-pointer"></i>
                     </Tooltip>
                 </div>
-                <div className="rounded-lg flex items-center justify-between bg-[#F3F2F2] my-3">
+                <Link href="/profile/wallet" className="rounded-lg flex items-center justify-between bg-gray-100 my-3">
                     <div className="flex items-center">
                         <i className="fa-regular fa-wallet flex items-center justify-center h-14 w-14 m-2 rounded text-2xl text-blue-dark bg-[#C6C5D1]"></i>
                         <div className="text-sm font-[600]">
@@ -67,7 +67,7 @@ const ProfileAside = () => {
                         </div>
                     </div>
                     <i className="fa-solid fa-chevron-left ml-3 text-gray-400 text-sm"></i>
-                </div>
+                </Link>
                 <ul className="flex flex-col gap-3">
                     {
                         profileList.map((item, index) => (

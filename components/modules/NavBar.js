@@ -60,7 +60,7 @@ const NavBar = ({handleLoginOpen}) => {
             <div
                 className="grid items-center justify-around grid-cols-4 bottom-0 right-0 fixed z-[999] bg-white w-full text-[#ABB4BC] py-3 shadow-[0px_-20px_62px_9px_rgba(0,0,0,0.1)] lg:hidden">
                 <Link href="/">
-                    <div className="flex flex-col items-center justify-center gap-1" onClick={handleSearchClose}>
+                    <div className="flex flex-col items-center justify-center gap-1">
                         <i className="fa-solid fa-house text-lg"></i>
                         <span className="text-xs">صفحه اصلی</span>
                     </div>
@@ -75,9 +75,6 @@ const NavBar = ({handleLoginOpen}) => {
                     open={isSearchOpen}
                     onClose={handleSearchClose}
                     TransitionComponent={Transition}
-                    style={{
-                        zIndex: "998"
-                    }}
                 >
                     <SearchMobile handleClose={handleSearchClose}/>
                 </Dialog>
@@ -86,7 +83,7 @@ const NavBar = ({handleLoginOpen}) => {
                     <i className="fa-solid fa-cart-shopping text-lg"></i>
                     <span className="text-xs">سبد خرید</span>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-1" onClick={handleLoginOpen}>
+                <div className="flex flex-col items-center cursor-pointer justify-center gap-1" onClick={handleLoginOpen}>
                     <i className="fa-solid fa-user text-lg"></i>
                     <span className="text-xs">ورود</span>
                 </div>

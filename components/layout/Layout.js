@@ -8,9 +8,11 @@ import {useEffect, useState} from "react";
 import Login from "@/components/modules/Login";
 import {useRouter} from "next/router";
 import ProfileAside from "@/components/modules/ProfileAside";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const Layout = ({children}) => {
     const router = useRouter()
+    const {width} = useWindowSize()
 
     const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
 
@@ -45,10 +47,14 @@ const Layout = ({children}) => {
             >
                 <Login handleClose={handleLoginClose}/>
             </Dialog>
-            <Header handleLoginOpen={handleLoginOpen}/>
+            {
+                isProfilePage ? width > 1024 ? (
+                    <Header handleLoginOpen={handleLoginOpen}/>
+                ) : null : <Header handleLoginOpen={handleLoginOpen}/>
+            }
             <AdBar/>
             <div
-                className={`${isProfilePage ? "flex gap-5 mt-48 md:mt-56 px-5 lg:px-24 pb-20 lg:pb-6 flex-flow absolute top-0 bottom-0 w-full" : ""}`}>
+                className={`${isProfilePage ? "flex gap-5 mt-14 lg:mt-52 px-5 lg:px-24 pb-20 lg:pb-6 flex-flow absolute top-0 bottom-0 w-full" : ""}`}>
                 {isProfilePage && (
                     <ProfileAside/>
                 )}

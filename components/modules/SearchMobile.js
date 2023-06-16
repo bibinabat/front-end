@@ -13,7 +13,7 @@ const SearchMobile = ({handleClose}) => {
     }
 
     return (
-        <div className="relative pb-20">
+        <div className="relative">
             <button
                 className="w-10 h-10 bg-white rounded-full flex justify-center items-center transition focus:bg-[#F1F1F1] absolute left-5 top-3"
                 onClick={handleClose}>
