@@ -30,7 +30,7 @@ const ProductDetailsPage = () => {
 
     return (
         <>
-            <div className="mt-36 md:mt-40 px-3 sm:px-7 lg:px-20">
+            <div className="mt-5 lg:mt-40 px-3 sm:px-7 lg:px-20">
                 <div
                     className="text-[#abb4bc] font-[700] text-sm flex gap-3 items-center mb-5 whitespace-nowrap overflow-auto">
                     <Link href="/" className="hover:text-blue-dark text-lg"><i className="fa-solid fa-house"></i></Link>

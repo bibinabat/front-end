@@ -1,8 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
-import {Rating, Tooltip} from "@mui/material";
+import {Dialog, Rating, Tooltip} from "@mui/material";
+import {useRouter} from "next/router";
+import FastView from "@/components/modules/FastView";
 
 const ProductCard = ({discount}) => {
+    const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
+
+    const router = useRouter()
+
+    const [isFastViewOpen, setIsFastViewOpen] = useState(router.asPath.split("#")[1] === `fast_view_${productId}`)
+
+    useEffect(() => {
+        const onHashChange = () => setIsFastViewOpen(window.location.hash === `#fast_view_${productId}`)
+        window.addEventListener("hashchange", onHashChange)
+        return () => window.removeEventListener("hashchange", onHashChange)
+    }, [])
+
+    const handleFastViewOpen = () => {
+        window.location.hash = `#fast_view_${productId}`
+    }
+
+    const handleFastViewClose = () => {
+        window.history.back()
+    }
+
     return (
         <div className="flex justify-center">
             <div className="bg-gray-100 w-max p-4 rounded-2xl text-blue-dark">
@@ -32,10 +54,25 @@ const ProductCard = ({discount}) => {
                     </button>
                     <Tooltip arrow title="نمایش سریع">
                         <button
+                            onClick={handleFastViewOpen}
                             className="text-blue-dark flex items-center justify-center p-3 bg-[#D0CFD7] rounded-lg text-lg">
                             <i className="fa-light fa-eye"></i>
                         </button>
                     </Tooltip>
+                    <Dialog
+                        open={isFastViewOpen}
+                        onClose={handleFastViewClose}
+                        fullWidth={true}
+                        maxWidth="md"
+                        PaperProps={{
+                            sx: {
+                                borderRadius: "15px"
+                            }
+                        }}
+                        scroll="body"
+                    >
+                        <FastView handleClose={handleFastViewClose}/>
+                    </Dialog>
                 </div>
             </div>
         </div>

@@ -1,36 +1,13 @@
 import Image from "next/image";
-import {Swiper, SwiperSlide, useSwiper} from "swiper/react";
+import {Swiper, SwiperSlide} from "swiper/react";
 import {Navigation} from "swiper";
 import 'swiper/swiper-bundle.min.css'
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
-import {Dialog, Tooltip} from "@mui/material";
-import {useRouter} from "next/router";
-import Share from "@/components/modules/Share";
+import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 
 const ProductAlbum = ({images}) => {
-    const router = useRouter()
-
-    const [isShareOpen, setIsShareOpen] = useState(router.asPath.split("#")[1] === "share")
-
-    useEffect(() => {
-        const onHashChange = () => setIsShareOpen(window.location.hash === "#share")
-        window.addEventListener("hashchange", onHashChange)
-        return () => window.removeEventListener("hashchange", onHashChange)
-    }, [])
-
-    const handleShareOpen = () => {
-        window.location.hash = "#share"
-    }
-
-    const handleShareClose = () => {
-        window.history.back()
-    }
-
     const [_, setInit] = useState()
-
-    const prevRef = useRef(null)
-    const nextRef = useRef(null)
 
     const AlPrevRef = useRef(null)
     const AlNextRef = useRef(null)
@@ -39,60 +16,7 @@ const ProductAlbum = ({images}) => {
 
     return (
         <div className="w-[350px] h-[350px] mb-8 md:mb-28 xl:mb-20">
-            <div className="bg-[#EFEDED] p-6 rounded-2xl relative">
-                <NavBtnR prevRef={prevRef} classes="right-0"/>
-                <div className="rounded-xl overflow-hidden">
-                    <Swiper
-                        modules={[Navigation]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        navigation={{
-                            prevEl: prevRef.current,
-                            nextEl: nextRef.current
-                        }}
-                        onInit={() => setInit(true)}
-                        ref={viewSwiperRef}
-                    >
-                        {
-                            images.map((image, index) => (
-                                <SwiperSlide key={index}>
-                                    <Image src={`/testImages/${image}`} alt="test" width={300} height={300} priority/>
-                                </SwiperSlide>
-                            ))
-                        }
-                    </Swiper>
-                </div>
-                <NavBtnL nextRef={nextRef} classes="left-0"/>
-                <div
-                    className="text-[#9E9E9E] flex justify-center gap-2 absolute left-1/2 -translate-x-1/2 -bottom-3 z-10">
-                    <Tooltip title="اضافه به علاقه مندی ها" arrow>
-                        <button
-                            className="h-11 w-11 bg-white rounded-xl flex items-center justify-center shadow-[0px_5px_43px_-6px_rgba(0,0,0,0.3)] transition hover:text-red">
-                            <i className="fa-regular fa-heart"></i>
-                        </button>
-                    </Tooltip>
-                    <Tooltip arrow title="اشتراک گذاری">
-                        <button
-                            onClick={handleShareOpen}
-                            className="h-11 w-11 bg-white rounded-xl flex items-center justify-center shadow-[0px_5px_43px_-6px_rgba(0,0,0,0.3)] transition hover:text-blue-dark">
-                            <i className="fa-solid fa-share-nodes"></i>
-                        </button>
-                    </Tooltip>
-                    <Dialog
-                        open={isShareOpen}
-                        onClose={handleShareClose}
-                        fullWidth={true}
-                        maxWidth="xs"
-                        PaperProps={{
-                            sx: {
-                                borderRadius: "15px"
-                            }
-                        }}
-                    >
-                        <Share handleClose={handleShareClose}/>
-                    </Dialog>
-                </div>
-            </div>
+            <ProductAlbumSlider images={images} setInit={setInit} viewSwiperRef={viewSwiperRef}/>
             <div className="mt-3 w-[325px] mx-auto relative hidden md:block">
                 <NavBtnR prevRef={AlPrevRef} classes="scale-50 active:!scale-50 -right-6 !top-4"/>
                 <div className="">

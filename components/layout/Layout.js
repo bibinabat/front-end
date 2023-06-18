@@ -15,6 +15,7 @@ const Layout = ({children}) => {
     const {width} = useWindowSize()
 
     const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
+    const isPdp = router.asPath.includes("product/") && router.route !== "/404"
 
     const [isLoginOpen, setIsLoginOpen] = useState(router.asPath.split("#")[1] === "login")
 
@@ -48,7 +49,7 @@ const Layout = ({children}) => {
                 <Login handleClose={handleLoginClose}/>
             </Dialog>
             {
-                isProfilePage ? width > 1024 ? (
+                isProfilePage || isPdp ? width > 1024 ? (
                     <Header handleLoginOpen={handleLoginOpen}/>
                 ) : null : <Header handleLoginOpen={handleLoginOpen}/>
             }

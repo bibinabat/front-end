@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FavoriteMobileCard from "@/components/modules/FavoritMobileCard";
+import FavoriteProductCard from "@/components/modules/FavoriteProductCard";
 
 const FavoritesPage = () => {
     return (
@@ -23,10 +23,10 @@ const FavoritesPage = () => {
                     </div>
                 </div>
                 <div className="grid min-[1420px]:grid-cols-2 gap-3">
-                    <FavoriteMobileCard discount={2}/>
-                    <FavoriteMobileCard/>
-                    <FavoriteMobileCard/>
-                    <FavoriteMobileCard/>
+                    <FavoriteProductCard discount={2}/>
+                    <FavoriteProductCard/>
+                    <FavoriteProductCard/>
+                    <FavoriteProductCard/>
                 </div>
             </div>
         </div>
