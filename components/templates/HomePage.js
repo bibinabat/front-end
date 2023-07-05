@@ -23,13 +23,15 @@ const HomePage = () => {
                 <div
                     className="mt-56 bg-[#F2F2F2] mx-[20px] lg:mx-[100px] rounded-[30px] md:rounded-[50px] p-6 md:p-10 lg:grid gap-7 lg:grid-cols-3 lg:grid-rows-2">
                     <Slider/>
-                    <div className="bg-gray-600 rounded-3xl overflow-hidden justify-center items-center hidden lg:flex">
-                        <Image src="/testImages/category-ghand.jpg" alt="banner" width={500} height={500}
-                               className="w-full h-full object-cover"/>
+                    <div className="rounded-3xl overflow-hidden justify-center items-center hidden lg:flex relative">
+                        <Image src="/testImages/category-ghand.jpg" alt="banner" fill
+                               sizes="(min-width: 808px) 50vw, 100vw"
+                               className="object-cover"/>
                     </div>
-                    <div className="bg-gray-600 rounded-3xl overflow-hidden justify-center items-center hidden lg:flex">
-                        <Image src="/testImages/category-nabat-1.jpg" alt="banner" width={500} height={500}
-                               className="w-full h-full object-cover"/>
+                    <div className="rounded-3xl overflow-hidden justify-center items-center hidden lg:flex relative">
+                        <Image src="/testImages/category-nabat-1.jpg" alt="banner" fill
+                               sizes="(min-width: 808px) 50vw, 100vw"
+                               className="object-cover"/>
                     </div>
                 </div>
             </div>

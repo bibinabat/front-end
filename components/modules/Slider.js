@@ -16,26 +16,26 @@ const Slider = () => {
         <div className="row-span-2 col-span-2 flex items-center justify-center relative">
             <NavBtnR prevRef={prevRef} classes={"-right-6"}/>
             <div className="relative flex justify-center item-center overflow-hidden rounded-2xl">
-                    <Swiper
-                        modules={[Navigation, Autoplay]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        autoplay={true}
-                        navigation={{
-                            prevEl: prevRef.current,
-                            nextEl: nextRef.current
-                        }}
-                        onInit={() => setInit(true)}
-                    >
-                        <SwiperSlide>
-                            <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
-                                   className="w-full h-full object-cover" priority/>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
-                                   className="w-full h-full object-cover"/>
-                        </SwiperSlide>
-                    </Swiper>
+                <Swiper
+                    modules={[Navigation, Autoplay]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    autoplay={true}
+                    navigation={{
+                        prevEl: prevRef.current,
+                        nextEl: nextRef.current
+                    }}
+                    onInit={() => setInit(true)}
+                >
+                    <SwiperSlide>
+                        <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
+                               className="object-cover" priority/>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
+                               className="object-cover"/>
+                    </SwiperSlide>
+                </Swiper>
             </div>
             <NavBtnL nextRef={nextRef} classes={"-left-6"}/>
         </div>

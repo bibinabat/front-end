@@ -1,16 +1,19 @@
 import TextInput from "@/components/elements/TextInput";
 import {useForm} from "react-hook-form";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import Image from "next/image";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import useAuthState from "@/hooks/useAuth";
 
 const UserInfoPage = () => {
     // const fileInput = useRef(null)
     // const [images, setImages] = useState([])
     // const [count, setCount] = useState(0)
     const router = useRouter()
+    const {isLoggedIn} = useAuthState()
 
     const isUserInfoPage = router.asPath === "/profile/user-info"
 
@@ -20,11 +23,53 @@ const UserInfoPage = () => {
             errors
         },
         handleSubmit,
-        getValues
+        getValues,
+        setValue
     } = useForm()
 
-    const submitHandler = () => {
-        console.log(getValues())
+    useEffect(() => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.user) {
+                    setValue('name', data.data.user.first_name)
+                    setValue('lastName', data.data.user.last_name)
+                    setValue('phoneNumber', data.data.user.phone_number)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }, [isLoggedIn])
+
+    const submitHandler = (data) => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
+            method: "PATCH",
+            credentials: "include",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            },
+            body: JSON.stringify({
+                "first_name": data.name,
+                "last_name": data.lastName,
+                "phone_number": data.phoneNumber
+            })
+        })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     // const handleFileSelect = (e) => {

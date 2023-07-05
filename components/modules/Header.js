@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import {useEffect, useRef, useState} from "react";
-import {Dialog, SwipeableDrawer, Tooltip} from "@mui/material";
+import {Dialog, Skeleton, SwipeableDrawer, Tooltip} from "@mui/material";
 import HeaderCart from "@/components/modules/HeaderCart";
 import HeaderUserMenu from "@/components/modules/HeaderUserMenu";
 import Sidebar from "@/components/modules/Sidebar";
 import DesktopSearchBar from "@/components/modules/DesktopSearchBar";
 import {useRouter} from "next/router";
+import useAuthState from "@/hooks/useAuth";
+import Cookies from "js-cookie";
 
 const Header = ({handleLoginOpen}) => {
     const router = useRouter()
@@ -16,6 +18,11 @@ const Header = ({handleLoginOpen}) => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(router.asPath.split("#")[1] === "search")
+    const {isLoggedIn} = useAuthState()
+
+    useEffect(() => {
+        console.log(isLoggedIn)
+    }, [isLoggedIn])
 
     useEffect(() => {
         const onHashChange = () => setIsSearchOpen(window.location.hash === "#search")
@@ -57,6 +64,28 @@ const Header = ({handleLoginOpen}) => {
 
         window.addEventListener("scroll", handleScroll)
     }, [])
+
+    const [userData, setUserData] = useState("")
+
+    useEffect(() => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.user) {
+                    setUserData(data.data.user)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }, [isLoggedIn])
 
     return (
         <div className="relative">
@@ -104,36 +133,68 @@ const Header = ({handleLoginOpen}) => {
                     </Link>
                 </div>
                 <div className="gap-7 font-[600] hidden lg:flex">
-                    <Link href="/" className="text-mustard hover:text-mustard">صفحه اصلی</Link>
-                    <Link href="/" className="hover:text-mustard">خرید نبات</Link>
-                    <Link href="/" className="hover:text-mustard">خرید قند</Link>
-                    <Link href="/" className="hover:text-mustard">وبلاگ</Link>
-                    <Link href="/" className="hover:text-mustard">درباره ما</Link>
-                    <Link href="/" className="hover:text-mustard">تماس با ما</Link>
+                    <Link href="/" className={`hover:text-mustard ${router.asPath === "/" ? "text-mustard" : ""}`}>صفحه
+                        اصلی</Link>
+                    <Link href="/product-category/nabat"
+                          className={`hover:text-mustard ${router.asPath === "/product-category/nabat" ? "text-mustard" : ""}`}>خرید
+                        نبات</Link>
+                    <Link href="/product-category/ghand"
+                          className={`hover:text-mustard ${router.asPath === "/product-category/ghand" ? "text-mustard" : ""}`}>خرید
+                        قند</Link>
+                    <Link href="https://bibinabat.com/blog/" target="_blank" className="hover:text-mustard">وبلاگ</Link>
+                    <Link href="/about-us"
+                          className={`hover:text-mustard ${router.asPath === "/about-us" ? "text-mustard" : ""}`}>درباره
+                        ما</Link>
+                    <Link href="/contact-us"
+                          className={`hover:text-mustard ${router.asPath === "/contact-us" ? "text-mustard" : ""}`}>تماس
+                        با ما</Link>
                 </div>
                 <div className="flex gap-2 items-center">
-                    {/*<button className="bg-slate-100 rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center"*/}
-                    {/*        onMouseEnter={() => setIsUserMenuOpen(true)}*/}
-                    {/*        onMouseLeave={() => setIsUserMenuOpen(false)}>*/}
-                    {/*    <i className="fa-solid fa-user xl:ml-2"></i>*/}
-                    {/*    <span className="hidden xl:inline">امیرمحمد خلیلی</span>*/}
-                    {/*</button>*/}
-                    <button
-                        className="bg-blue-dark text-white rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center hover:bg-[#2D2671]"
-                        onClick={handleLoginOpen}
-                    >
-                        <i className="fa-solid fa-user xl:hidden"></i>
-                        <span className="hidden xl:inline">ورود / ثبت نام</span>
-                    </button>
-                    <Tooltip arrow title="اعلانات">
-                        <div className="relative ">
+                    {
+                        isLoggedIn === "loading" ? (
+                                <Skeleton variant="rounded" width={150} height={60} sx={{
+                                    borderRadius: "50px",
+                                    marginLeft: "8px"
+                                }
+                                }/>
+                            ) :
+                        isLoggedIn ? (
+                            <button className="bg-slate-100 rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center"
+                                    onMouseEnter={() => setIsUserMenuOpen(true)}
+                                    onMouseLeave={() => setIsUserMenuOpen(false)}>
+                                <i className="fa-solid fa-user xl:ml-2"></i>
+                                <span
+                                    className="hidden xl:inline font-[600] max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
+                                    {
+                                        userData.first_name === "" || userData.last_name === "" ? (
+                                            userData.phone_number
+                                        ) : (
+                                            userData.first_name + " " + userData.last_name
+                                        )
+                                    }
+                                </span>
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-blue-dark text-white rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center hover:bg-[#2D2671]"
+                                onClick={handleLoginOpen}
+                            >
+                                <i className="fa-solid fa-user xl:hidden"></i>
+                                <span className="hidden xl:inline">ورود / ثبت نام</span>
+                            </button>
+                        )
+                    }
+                    {isLoggedIn && (
+                        <Tooltip arrow title="اعلانات">
+                            <Link href="/profile/notifications" className="relative ">
                             <span
                                 className="absolute bg-red text-white rounded-full h-5 w-5 flex justify-center items-center text-sm p-3 -top-2 -right-2 border-2 border-white">5</span>
-                            <button className="w-8 h-8 bg-[#D6D5DF] rounded-full flex items-center justify-center p-6">
-                                <i className="fa-regular fa-bell text-lg text-blue-dark"></i>
-                            </button>
-                        </div>
-                    </Tooltip>
+                                <button className="w-8 h-8 bg-[#D6D5DF] rounded-full flex items-center justify-center p-6">
+                                    <i className="fa-regular fa-bell text-lg text-blue-dark"></i>
+                                </button>
+                            </Link>
+                        </Tooltip>
+                    )}
                     <Tooltip title="جستوجو" arrow>
                         <button
                             onClick={handleSearchOpen}
@@ -164,7 +225,9 @@ const Header = ({handleLoginOpen}) => {
                     </div>
                 </div>
                 <HeaderCart isOpen={isCartOpen} setIsOpen={setIsCartOpen}/>
-                <HeaderUserMenu isOpen={isUserMenuOpen} setIsOpen={setIsUserMenuOpen}/>
+                {isLoggedIn && (
+                    <HeaderUserMenu isOpen={isUserMenuOpen} setIsOpen={setIsUserMenuOpen} userData={userData}/>
+                )}
             </header>
         </div>
     );

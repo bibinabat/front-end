@@ -3,20 +3,17 @@ import Link from "next/link";
 import {useForm} from "react-hook-form";
 import {useEffect, useRef} from "react";
 
-const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum}) => {
-    const submitBtn = useRef(null)
-
+const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum, isDataSend}) => {
     const {
         register,
         handleSubmit,
-        formState: {
-            errors
-        },
         formState,
-        setValue
+        setValue,
     } = useForm({
         mode: "onChange"
     })
+
+    const submitBtn = useRef(null)
 
     useEffect(() => {
         if (phoneNum) {
@@ -51,12 +48,22 @@ const LoginPhoneForm = ({handleFormSubmit, setPhoneNum, phoneNum}) => {
                     <Link href="/" className="text-mustard"> شرایط و قوانین حریم خصوصی </Link>
                     آن را می پذیرم.
                 </p>
-                <button
-                    ref={submitBtn}
-                    disabled={!formState.isValid}
-                    className="text-center bg-blue-dark font-[600] text-white w-full py-2 rounded-lg transition hover:bg-[#2D2671] disabled:bg-[#EEEEEE] disabled:text-gray-500">
-                    ورود به بی بی نبات
-                </button>
+                {
+                    isDataSend ? (
+                        <button
+                            ref={submitBtn}
+                            disabled={!formState.isValid}
+                            className="text-center flex items-center justify-center bg-blue-dark h-10 font-[600] text-white w-full rounded-lg transition hover:bg-[#2D2671] disabled:bg-[#EEEEEE] disabled:text-gray-500">
+                            ارسال کد
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            className="text-center flex items-center justify-center bg-blue-dark h-10 font-[600] text-white w-full rounded-lg transition hover:bg-[#2D2671]">
+                            <img src="/loading.svg" width={40}/>
+                        </button>
+                    )
+                }
             </form>
         </div>
     );

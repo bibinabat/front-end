@@ -1,15 +1,64 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import LoginPhoneForm from "@/components/modules/LoginPhoneForm";
 import LoginVerCodeForm from "@/components/modules/LoginVerCodeForm";
+import {toast} from "react-toastify";
+import useAuthState from "@/hooks/useAuth";
 
 const Login = ({handleClose}) => {
-
     const [enterCode, setEnterCode] = useState(false)
     const [phoneNum, setPhoneNum] = useState("")
+    const [isDataSend, setIsDataSend] = useState(true)
+    const {isLoggedIn} = useAuthState()
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            handleClose()
+        }
+    }, [isLoggedIn])
 
     const handleLoginFormSubmit = (data) => {
-        setPhoneNum(data.phoneNumber)
-        setEnterCode(true)
+        setIsDataSend(false)
+
+        const formData = {
+            "phone_number": data.phoneNumber
+        }
+
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/login/", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(json => {
+                setIsDataSend(true)
+                if (json.data.messages) {
+                    setPhoneNum(data.phoneNumber)
+                    setEnterCode(true)
+                    toast.info(json.data.messages.success[0], {
+                        icon: false,
+                        closeButton: false
+                    })
+                } else if (json.data.errors) {
+                    const errors = json.data.errors
+                    for (const error in errors) {
+                        toast.error(errors[error][0], {
+                            icon: false,
+                            closeButton: false
+                        })
+                    }
+                }
+            })
+            .catch(error => {
+                setIsDataSend(true)
+                console.log(error)
+                toast.error("یک ارور رخ داده است", {
+                    icon: false,
+                    closeButton: false
+                })
+            })
     }
 
     const handleEditNum = () => {
@@ -26,9 +75,10 @@ const Login = ({handleClose}) => {
                 <p>ورود به بی بی نبات</p>
             </div>
             {
-                enterCode ? <LoginVerCodeForm phoneNum={phoneNum} handleEditNum={handleEditNum}/> :
+                enterCode ?
+                    <LoginVerCodeForm phoneNum={phoneNum} handleEditNum={handleEditNum} handleClose={handleClose}/> :
                     <LoginPhoneForm handleFormSubmit={handleLoginFormSubmit} phoneNum={phoneNum}
-                                    setPhoneNum={setPhoneNum}/>
+                                    setPhoneNum={setPhoneNum} isDataSend={isDataSend}/>
             }
         </div>
     );

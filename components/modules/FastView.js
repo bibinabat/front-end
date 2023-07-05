@@ -1,4 +1,3 @@
-import ProductAlbum from "@/components/modules/ProductAlbum";
 import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 import {useRef, useState} from "react";
 import {Rating} from "@mui/material";
