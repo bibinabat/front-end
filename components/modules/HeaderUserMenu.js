@@ -2,9 +2,14 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import {toast} from "react-toastify";
 import useAuthState from "@/hooks/useAuth";
+import {Skeleton} from "@mui/material";
+import {useRouter} from "next/router";
 
 const HeaderUserMenu = ({isOpen, setIsOpen, userData}) => {
     const {setIsLoggedIn} = useAuthState()
+    const router = useRouter()
+
+    const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
 
     const handleUserLogout = () => {
         fetch("https://backend-bibinabat.iran.liara.run/api/auth/logout/", {
@@ -19,6 +24,9 @@ const HeaderUserMenu = ({isOpen, setIsOpen, userData}) => {
                 if (data.data.messages.success) {
                     Cookies.remove("Authorization")
                     setIsLoggedIn(false)
+                    if (isProfilePage) {
+                        router.replace('/')
+                    }
                     toast.info(data.data.messages.success[0], {
                         icon: false,
                         closeButton: false
@@ -42,11 +50,14 @@ const HeaderUserMenu = ({isOpen, setIsOpen, userData}) => {
                     <div className="flex gap-2 flex-col items-start mr-3 min-w-[160px]">
                         <span className="font-bold">
                             {
-                                userData.first_name === "" || userData.last_name === "" ? (
-                                    userData.phone_number
-                                ) : (
-                                    userData.first_name + " " + userData.last_name
-                                )
+                                userData !== "loading" ?
+                                    userData.first_name === "" || userData.last_name === "" ? (
+                                        userData.phone_number
+                                    ) : (
+                                        userData.first_name + " " + userData.last_name
+                                    ) : (
+                                        <Skeleton variant="rounded" width={100} height={10}/>
+                                    )
                             }
                         </span>
                         <span className="font-bold text-xs text-[#9B9B9B]">خوش آمدید</span>

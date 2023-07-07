@@ -6,6 +6,7 @@ const AuthContext = React.createContext()
 
 export const AuthProvider = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState("loading")
+    const [userData, setUserData] = useState("loading")
 
     useEffect(() => {
         const verifyUserLogin = () => {
@@ -29,8 +30,28 @@ export const AuthProvider = ({children}) => {
         verifyUserLogin()
     }, [])
 
+    useEffect(() => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.user) {
+                    setUserData(data.data.user)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }, [isLoggedIn])
+
     return (
-        <AuthContext.Provider value={{isLoggedIn, setIsLoggedIn}}>
+        <AuthContext.Provider value={{isLoggedIn, setIsLoggedIn, userData, setUserData}}>
             {children}
         </AuthContext.Provider>
     )

@@ -82,15 +82,16 @@ const Layout = ({children}) => {
     }
 
     const handleLoginClose = () => {
-        window.history.back()
+        if (!isLoggedIn && isProfilePage) {
+            router.replace('/')
+        } else {
+            router.back()
+        }
     }
 
     useEffect(() => {
         if (!isLoggedIn && isProfilePage) {
-            router.replace("/")
-                .then(() => {
-                    handleLoginOpen()
-                })
+            handleLoginOpen()
         }
     }, [isLoggedIn, isProfilePage])
 

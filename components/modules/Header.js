@@ -9,6 +9,7 @@ import DesktopSearchBar from "@/components/modules/DesktopSearchBar";
 import {useRouter} from "next/router";
 import useAuthState from "@/hooks/useAuth";
 import Cookies from "js-cookie";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const Header = ({handleLoginOpen}) => {
     const router = useRouter()
@@ -18,7 +19,8 @@ const Header = ({handleLoginOpen}) => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(router.asPath.split("#")[1] === "search")
-    const {isLoggedIn} = useAuthState()
+    const {width} = useWindowSize()
+    const {isLoggedIn, userData} = useAuthState()
 
     useEffect(() => {
         console.log(isLoggedIn)
@@ -64,28 +66,6 @@ const Header = ({handleLoginOpen}) => {
 
         window.addEventListener("scroll", handleScroll)
     }, [])
-
-    const [userData, setUserData] = useState("")
-
-    useEffect(() => {
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "Application/json",
-                "Authorization": Cookies.get("Authorization")
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.data.user) {
-                    setUserData(data.data.user)
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }, [isLoggedIn])
 
     return (
         <div className="relative">
@@ -152,13 +132,12 @@ const Header = ({handleLoginOpen}) => {
                 <div className="flex gap-2 items-center">
                     {
                         isLoggedIn === "loading" ? (
-                                <Skeleton variant="rounded" width={150} height={60} sx={{
-                                    borderRadius: "50px",
-                                    marginLeft: "8px"
-                                }
-                                }/>
+                                <Skeleton variant="rounded" width={width > 1280 ? 150 : 60} height={60} sx={{
+                                    borderRadius: "10px",
+                                    marginRight: "8px"
+                                }}/>
                             ) :
-                        isLoggedIn ? (
+                        isLoggedIn === true ? (
                             <button className="bg-slate-100 rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center"
                                     onMouseEnter={() => setIsUserMenuOpen(true)}
                                     onMouseLeave={() => setIsUserMenuOpen(false)}>
@@ -166,11 +145,14 @@ const Header = ({handleLoginOpen}) => {
                                 <span
                                     className="hidden xl:inline font-[600] max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
                                     {
+                                        userData !== "loading" ?
                                         userData.first_name === "" || userData.last_name === "" ? (
                                             userData.phone_number
                                         ) : (
                                             userData.first_name + " " + userData.last_name
-                                        )
+                                        ) : (
+                                                <Skeleton variant="rounded" width={100} height={10}/>
+                                            )
                                     }
                                 </span>
                             </button>
@@ -184,7 +166,7 @@ const Header = ({handleLoginOpen}) => {
                             </button>
                         )
                     }
-                    {isLoggedIn && (
+                    {(isLoggedIn !== "loading" && isLoggedIn === true) && (
                         <Tooltip arrow title="اعلانات">
                             <Link href="/profile/notifications" className="relative ">
                             <span

@@ -3,8 +3,11 @@ import {Tooltip} from "@mui/material";
 import Link from "next/link";
 import 'react-toastify/dist/ReactToastify.css';
 import FooterAccordion from "@/components/elements/FooterAccordion";
+import useAuthState from "@/hooks/useAuth";
 
 const Footer = () => {
+    const {isLoggedIn} = useAuthState()
+
     const handleFooterInputClick = () => {
         window.location.hash = "#login"
     }
@@ -129,20 +132,24 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
-                    <span className="text-[#4A4A4A] font-[600]">از تخفیف ها با خبر شوید</span>
-                    <div>
-                        <form className="h-full flex">
-                            <input
-                                onClick={handleFooterInputClick}
-                                className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
-                                placeholder="شماره موبایل خود را وارد کنید"
-                                readOnly
-                            />
-                            <button
-                                className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
-                            </button>
-                        </form>
-                    </div>
+                    {!isLoggedIn && (
+                        <>
+                            <span className="text-[#4A4A4A] font-[600]">از تخفیف ها با خبر شوید</span>
+                            <div>
+                                    <form className="h-full flex" onClick={handleFooterInputClick}>
+                                        <input
+                                            className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
+                                            placeholder="شماره موبایل خود را وارد کنید"
+                                            readOnly
+                                        />
+                                        <button
+                                            disabled
+                                            className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
+                                        </button>
+                                    </form>
+                            </div>
+                        </>
+                    )}
                     <span className="text-[#4A4A4A] font-[600]">ما را در شبکه های اجتماعی دنبال کنید</span>
                     <div className="w-full flex gap-10 text-[#C4C4C4] text-3xl">
                         <Link href="https://twitter.com/share?url=https://bibinabat.com/" target="_blank">

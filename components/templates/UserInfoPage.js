@@ -13,7 +13,7 @@ const UserInfoPage = () => {
     // const [images, setImages] = useState([])
     // const [count, setCount] = useState(0)
     const router = useRouter()
-    const {isLoggedIn} = useAuthState()
+    const {isLoggedIn, userData, setUserData} = useAuthState()
 
     const isUserInfoPage = router.asPath === "/profile/user-info"
 
@@ -28,26 +28,10 @@ const UserInfoPage = () => {
     } = useForm()
 
     useEffect(() => {
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                "Content-Type": "Application/json",
-                "Authorization": Cookies.get("Authorization")
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.data.user) {
-                    setValue('name', data.data.user.first_name)
-                    setValue('lastName', data.data.user.last_name)
-                    setValue('phoneNumber', data.data.user.phone_number)
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }, [isLoggedIn])
+        setValue('name', userData.first_name)
+        setValue('lastName', userData.last_name)
+        setValue('phoneNumber', userData.phone_number)
+    }, [isLoggedIn, userData])
 
     const submitHandler = (data) => {
         fetch("https://backend-bibinabat.iran.liara.run/api/auth/data", {
@@ -65,10 +49,25 @@ const UserInfoPage = () => {
         })
             .then(response => response.json())
             .then(json => {
-                console.log(json)
+                if (json.data.user) {
+                    setUserData(prevData => ({
+                        ...prevData,
+                        first_name: json.data.user.first_name,
+                        last_name: json.data.user.last_name,
+                        phone_number: json.data.user.phone_number
+                    }))
+                    toast.info("اطلاعات با موفقیت ثبت شد", {
+                        icon: false,
+                        closeButton: false
+                    })
+                }
             })
             .catch(error => {
                 console.log(error)
+                toast.error("یک ارور رخ داده است", {
+                    icon: false,
+                    closeButton: false
+                })
             })
     }
 
