@@ -6,7 +6,7 @@ import 'swiper/swiper-bundle.min.css'
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
 import {useRef, useState} from "react";
 
-const SuggestedProducts = ({title}) => {
+const SuggestedProducts = ({title, products}) => {
     const [_, setInit] = useState()
 
     const prevRef = useRef(null)
@@ -58,14 +58,15 @@ const SuggestedProducts = ({title}) => {
                     }}
                     onInit={() => setInit(true)}
                 >
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
-                    <SwiperSlide><ProductCard/></SwiperSlide>
+                    {
+                        products ? products.data.products.map(product => {
+                            if (product.exists) {
+                                return (
+                                    <SwiperSlide key={product.id}><ProductCard data={product}/></SwiperSlide>
+                                )
+                            }
+                        }) : null
+                    }
                 </Swiper>
                 <NavBtnL nextRef={nextRef} classes={"left-5"}/>
             </div>

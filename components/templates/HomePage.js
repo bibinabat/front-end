@@ -4,7 +4,7 @@ import SuggestedProducts from "@/components/modules/SuggestedProducts";
 import MiddleBanners from "@/components/modules/MiddleBanners";
 import HomeArticles from "@/components/modules/HomeArticles";
 
-const HomePage = () => {
+const HomePage = ({popularProducts, mostSaleProducts}) => {
     return (
         <div>
             <div className="w-full h-96 bg-blue-dark overflow-hidden absolute top-0 -z-10">
@@ -36,9 +36,9 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="pt-5 p-5 sm:p-10">
-                <SuggestedProducts title="محبوب ترین ها"/>
+                <SuggestedProducts title="محبوب ترین ها" products={popularProducts}/>
                 <MiddleBanners/>
-                <SuggestedProducts title="پرفروش ترین ها"/>
+                <SuggestedProducts title="پرفروش ترین ها" products={mostSaleProducts}/>
             </div>
             <div>
                 <HomeArticles/>

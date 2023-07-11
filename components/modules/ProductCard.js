@@ -4,7 +4,7 @@ import {Dialog, Rating, Tooltip} from "@mui/material";
 import {useRouter} from "next/router";
 import FastView from "@/components/modules/FastView";
 
-const ProductCard = ({discount}) => {
+const ProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
 
     const router = useRouter()
@@ -27,25 +27,66 @@ const ProductCard = ({discount}) => {
 
     return (
         <div className="flex justify-center">
-            <div className="bg-gray-100 w-max p-4 rounded-2xl text-blue-dark">
+            <div className="group bg-gray-100 w-max p-4 rounded-2xl text-blue-dark">
                 <div className="relative">
-                    {discount &&
+                    {data.price.discount &&
                         <span
-                            className="absolute top-3 right-3 flex items-center text-xs bg-red text-white rounded px-2 py-0.5 font-bold gap-1">
-                            {discount}
+                            className="absolute top-3 right-3 flex items-center text-xs bg-red text-white rounded px-2 py-0.5 font-bold gap-1 z-20">
+                            {data.price.discount.percent}
                             <i className="fa-solid fa-percent"></i>
                         </span>}
-                    <Image src="/testImages/khz3.jpg" alt="نبات" width={230} height={250} className="rounded-2xl"/>
+                    {
+                        data.image ? (
+                            <div className="rounded-2xl w-[230px] h-[230px] overflow-hidden">
+                                <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.image.url}`}
+                                       alt={data.image.alt}
+                                       width={230}
+                                       height={230}
+                                       className="rounded-2xl group-hover:scale-125 transition-transform"/>
+                            </div>
+                        ) : (
+                            <div
+                                className="w-[230px] h-[230px] rounded-2xl flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
+                                <i className="fa-solid fa-image"></i>
+                            </div>
+                        )
+                    }
                 </div>
                 <div className="flex flex-col gap-1 pt-1">
-                    <span className="text">پرده نبات زعفرانی درجه یک</span>
-                    <Rating name="read-only" value={4} readOnly/>
-                    <span>
+                    <span className="text">{data.title}</span>
+                    <div className="flex justify-end items-center">
+                        {
+                            data.price.discount && (
+                                <span className="text-gray-500 text-sm font-bold ml-2 line-through">
+                                    {data.price.real.toLocaleString()}
+                                </span>
+                            )
+                        }
                         <span className="font-bold pl-1 text-lg">
-                            94,000
+                            {
+                                data.price.discount ? (
+                                    data.price.discount.price.toLocaleString()
+                                ) : (
+                                    data.price.real.toLocaleString()
+                                )
+                            }
                         </span>
-                        <span>تومان</span>
-                    </span>
+                        <span className="font-[600] text-sm">تومان</span>
+                    </div>
+                    <div className="flex justify-end gap-1 items-center mb-1">
+                        {
+                            data.rate !== 0 ? (
+                                <>
+                                    <span
+                                        className="text-xs font-[600] text-gray-500">({data.comments_count} نظر)</span>
+                                    <span className="text-xs font-bold text-blue-dark">{data.rate}</span>
+                                    <i className="fa-solid fa-star text-mustard text-sm"></i>
+                                </>
+                            ) : (
+                                <span className="text-sm font-bold text-blue-600">نظر دهید</span>
+                            )
+                        }
+                    </div>
                 </div>
                 <div className="flex justify-between mt-1">
                     <button className="text-white bg-blue-dark flex items-center gap-2 py-2 px-3 rounded-lg">
@@ -71,7 +112,7 @@ const ProductCard = ({discount}) => {
                         }}
                         scroll="body"
                     >
-                        <FastView handleClose={handleFastViewClose}/>
+                        <FastView handleClose={handleFastViewClose} productId={data.slug}/>
                     </Dialog>
                 </div>
             </div>

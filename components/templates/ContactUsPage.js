@@ -1,8 +1,10 @@
 import Link from "next/link";
 import TextInput from "@/components/elements/TextInput";
 import {useForm} from "react-hook-form";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
-const ContactUsPage = () => {
+const ContactUsPage = ({data, error}) => {
     const {
         register,
         formState: {
@@ -11,6 +13,19 @@ const ContactUsPage = () => {
         handleSubmit,
         getValues
     } = useForm()
+
+    const [communicationWays, setCommunicationWays] = useState("loading")
+
+    useEffect(() => {
+        if (data && data.data.communication_ways && !error) {
+            setCommunicationWays(data.data.communication_ways)
+        } else {
+            toast.error("مشکلی در گرفتن اطلاعات رخ داده است", {
+                icon: false,
+                closeButton: false
+            })
+        }
+    }, [communicationWays, data, error])
 
     const submitHandler = () => {
         console.log(getValues())
@@ -25,9 +40,8 @@ const ContactUsPage = () => {
                         <i className="fa-regular fa-location-dot h-10 w-10 flex items-center justify-center bg-[#E6E5EC] rounded-lg text-xl"></i>
                         <span className="font-bold">آدرس</span>
                     </div>
-                    <p className="mt-2 text-sm text-gray-500 font-[500]">
-                        یزد ، بلوار مدرس ، اکرم آباد ، خیابان ولیعصر ، کوچه شکوفه ، نبش بن بست گلها | کد پستی :
-                        8915444619
+                    <p className="mt-2 text-sm text-gray-500 font-[500]"
+                       dangerouslySetInnerHTML={{__html: communicationWays !== "loading" ? communicationWays.find(way => way.title === "آدرس").description : null}}>
                     </p>
                     <div className="my-4">
                         <iframe
@@ -41,7 +55,8 @@ const ContactUsPage = () => {
                                 <i className="fa-regular fa-phone h-10 w-10 flex items-center justify-center bg-[#E6E5EC] rounded-lg text-xl"></i>
                                 <span className="font-bold">شماره تماس</span>
                             </div>
-                            <p dir="ltr" className="mt-2 text-sm text-gray-500 font-[500]">0913 159 8619</p>
+                            <a dir="ltr" className="mt-2 text-sm text-gray-500 font-[500]"
+                               dangerouslySetInnerHTML={{__html: communicationWays !== "loading" ? communicationWays.find(way => way.title === "شماره تماس").value : null}}></a>
                         </div>
                         <div>
                             <div className="flex gap-3 items-center text-blue-dark">
@@ -58,19 +73,20 @@ const ContactUsPage = () => {
                             <p className="mt-2 text-sm text-gray-500 font-[500]">هر روز هفته</p>
                         </div>
                         <div className="w-full flex gap-6 text-[#C4C4C4] text-3xl">
-                            <Link href="https://twitter.com/share?url=https://bibinabat.com/" target="_blank">
-                                <i className="fa-brands fa-twitter hover:text-[#1d9bf0]"></i>
-                            </Link>
-                            <Link href="https://t.me/bibinabat_support" target="_blank">
-                                <i className="fa-brands fa-telegram hover:text-[#4c9ae1]"></i>
-                            </Link>
-                            <Link href="https://www.linkedin.com/shareArticle?mini=true&url=https://bibinabat.com/"
-                                  target="_blank">
-                                <i className="fa-brands fa-linkedin hover:text-[#0864c1]"></i>
-                            </Link>
-                            <Link href="https://www.instagram.com/bibinabat.ir/" target="_blank">
-                                <i className="fa-brands fa-instagram hover:text-[#ee008c]"></i>
-                            </Link>
+                            {
+                                communicationWays !== "loading" ? (
+                                    communicationWays.map(way => {
+                                        if (way.is_social) {
+                                            return (
+                                                <Link key={way.id} href={way.link} target="_blank"
+                                                      className="hover:text-blue-dark">
+                                                    <i className={way.icon_name}></i>
+                                                </Link>
+                                            )
+                                        }
+                                    })
+                                ) : (null)
+                            }
                         </div>
                     </div>
                 </div>

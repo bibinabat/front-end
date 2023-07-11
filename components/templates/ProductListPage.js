@@ -63,17 +63,7 @@ const ProductListPage = () => {
                     {
                         windowSize.width >= 640 && (
                             <div className="flex flex-wrap gap-6 justify-center mt-5">
-                                <ProductCard discount={20}/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
+
                             </div>
                         )
                     }

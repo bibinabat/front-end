@@ -36,11 +36,23 @@ const ProductAlbumSlider = ({setInit, viewSwiperRef, images}) => {
                     ref={viewSwiperRef}
                 >
                     {
-                        images.map((image, index) => (
-                            <SwiperSlide key={index}>
-                                <Image src={`/testImages/${image}`} alt="test" width={300} height={300} priority/>
+                        images ? (
+                            images.map((image) => (
+                                <SwiperSlide key={image.id}>
+                                    <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${image.url}`} alt={image.alt}
+                                           width={300}
+                                           height={300}
+                                           priority/>
+                                </SwiperSlide>
+                            ))
+                        ) : (
+                            <SwiperSlide>
+                                <div
+                                    className="w-[240px] h-[240px] rounded-2xl flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
+                                    <i className="fa-solid fa-image"></i>
+                                </div>
                             </SwiperSlide>
-                        ))
+                        )
                     }
                 </Swiper>
             </div>

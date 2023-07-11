@@ -132,46 +132,48 @@ const Header = ({handleLoginOpen}) => {
                 <div className="flex gap-2 items-center">
                     {
                         isLoggedIn === "loading" ? (
-                                <Skeleton variant="rounded" width={width > 1280 ? 150 : 60} height={60} sx={{
-                                    borderRadius: "10px",
-                                    marginRight: "8px"
-                                }}/>
+                                <div className="lg:mr-2">
+                                    <Skeleton variant="rounded" width={width > 1280 ? 150 : 60} height={60} sx={{
+                                        borderRadius: "10px"
+                                    }}/>
+                                </div>
                             ) :
-                        isLoggedIn === true ? (
-                            <button className="bg-slate-100 rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center"
-                                    onMouseEnter={() => setIsUserMenuOpen(true)}
-                                    onMouseLeave={() => setIsUserMenuOpen(false)}>
-                                <i className="fa-solid fa-user xl:ml-2"></i>
-                                <span
-                                    className="hidden xl:inline font-[600] max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
+                            isLoggedIn === true ? (
+                                <button className="bg-slate-100 rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center"
+                                        onMouseEnter={() => setIsUserMenuOpen(true)}
+                                        onMouseLeave={() => setIsUserMenuOpen(false)}>
+                                    <i className="fa-solid fa-user xl:ml-2"></i>
+                                    <span
+                                        className="hidden xl:inline font-[600] max-w-[150px] whitespace-nowrap overflow-hidden text-ellipsis">
                                     {
                                         userData !== "loading" ?
-                                        userData.first_name === "" || userData.last_name === "" ? (
-                                            userData.phone_number
-                                        ) : (
-                                            userData.first_name + " " + userData.last_name
-                                        ) : (
+                                            userData.first_name === "" || userData.last_name === "" ? (
+                                                userData.phone_number
+                                            ) : (
+                                                userData.first_name + " " + userData.last_name
+                                            ) : (
                                                 <Skeleton variant="rounded" width={100} height={10}/>
                                             )
                                     }
                                 </span>
-                            </button>
-                        ) : (
-                            <button
-                                className="bg-blue-dark text-white rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center hover:bg-[#2D2671]"
-                                onClick={handleLoginOpen}
-                            >
-                                <i className="fa-solid fa-user xl:hidden"></i>
-                                <span className="hidden xl:inline">ورود / ثبت نام</span>
-                            </button>
-                        )
+                                </button>
+                            ) : (
+                                <button
+                                    className="bg-blue-dark text-white rounded-2xl p-5 ml-2 hidden lg:flex lg:items-center hover:bg-[#2D2671]"
+                                    onClick={handleLoginOpen}
+                                >
+                                    <i className="fa-solid fa-user xl:hidden"></i>
+                                    <span className="hidden xl:inline">ورود / ثبت نام</span>
+                                </button>
+                            )
                     }
                     {(isLoggedIn !== "loading" && isLoggedIn === true) && (
                         <Tooltip arrow title="اعلانات">
                             <Link href="/profile/notifications" className="relative ">
                             <span
                                 className="absolute bg-red text-white rounded-full h-5 w-5 flex justify-center items-center text-sm p-3 -top-2 -right-2 border-2 border-white">5</span>
-                                <button className="w-8 h-8 bg-[#D6D5DF] rounded-full flex items-center justify-center p-6">
+                                <button
+                                    className="w-8 h-8 bg-[#D6D5DF] rounded-full flex items-center justify-center p-6">
                                     <i className="fa-regular fa-bell text-lg text-blue-dark"></i>
                                 </button>
                             </Link>

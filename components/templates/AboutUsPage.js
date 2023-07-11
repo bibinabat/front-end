@@ -3,15 +3,28 @@ import Image from "next/image";
 import Script from "next/script";
 import {Suspense, useEffect, useState} from "react";
 import {Skeleton} from "@mui/material";
+import {toast} from "react-toastify";
 
-const AboutUsPage = () => {
+const AboutUsPage = ({data, error}) => {
     const [isLoading, setIsLoading] = useState(true)
     const [componentContent, setComponentContent] = useState(null);
+    const [communicationWays, setCommunicationWays] = useState("loading")
+
+    useEffect(() => {
+        if (data && data.data.communication_ways && !error) {
+            setCommunicationWays(data.data.communication_ways)
+        } else {
+            toast.error("مشکلی در گرفتن اطلاعات رخ داده است", {
+                icon: false,
+                closeButton: false
+            })
+        }
+    }, [communicationWays, data, error])
 
     useEffect(() => {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function (data) {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
                 setIsLoading(false)
                 if (document.querySelectorAll("#ienebox6-container")[0]) {
                     setComponentContent(this.response);
@@ -28,29 +41,32 @@ const AboutUsPage = () => {
                 <h1 className="text-2xl font-bold text-blue-dark text-center md:text-start">درباره بی بی نبات</h1>
                 <div className="flex gap-6 justify-center mt-5">
                     <Link href="https://trustseal.enamad.ir/?id=249865&Code=n7XI910ux5rZG6SjyEa7" target="_blank">
-                        <Image src="/images/footerImages/enamad.png" alt="enamad" width={90} height={150}/>
+                        <Image src="/images/footerImages/enamad.png" className="h-auto" alt="enamad" width={90}
+                               height={150}/>
                     </Link>
                     <Link href="https://gateway.zibal.ir/trustMe/bibinabat.com" target="_blank">
-                        <Image src="/images/footerImages/zibal.png" alt="zibal" width={80} height={150}/>
+                        <Image src="/images/footerImages/zibal.png" className="h-auto" alt="zibal" width={80}
+                               height={150}/>
                     </Link>
                 </div>
                 <div className="flex md:flex-col justify-center gap-5 mb-5 mt-5 flex-wrap">
                     <div className="flex flex-col gap-3 ">
                         <span className="text-[#4A4A4A] font-[600] whitespace-nowrap">ما را در شبکه های اجتماعی دنبال کنید</span>
                         <div className="w-full flex gap-6 text-[#C4C4C4] text-3xl">
-                            <Link href="https://twitter.com/share?url=https://bibinabat.com/" target="_blank">
-                                <i className="fa-brands fa-twitter hover:text-[#1d9bf0]"></i>
-                            </Link>
-                            <Link href="https://t.me/bibinabat_support" target="_blank">
-                                <i className="fa-brands fa-telegram hover:text-[#4c9ae1]"></i>
-                            </Link>
-                            <Link href="https://www.linkedin.com/shareArticle?mini=true&url=https://bibinabat.com/"
-                                  target="_blank">
-                                <i className="fa-brands fa-linkedin hover:text-[#0864c1]"></i>
-                            </Link>
-                            <Link href="https://www.instagram.com/bibinabat.ir/" target="_blank">
-                                <i className="fa-brands fa-instagram hover:text-[#ee008c]"></i>
-                            </Link>
+                            {
+                                communicationWays !== "loading" ? (
+                                    communicationWays.map(way => {
+                                        if (way.is_social) {
+                                            return (
+                                                <Link key={way.id} href={way.link} target="_blank"
+                                                      className="hover:text-blue-dark">
+                                                    <i className={way.icon_name}></i>
+                                                </Link>
+                                            )
+                                        }
+                                    })
+                                ) : (null)
+                            }
                         </div>
                     </div>
                     {/*{*/}
