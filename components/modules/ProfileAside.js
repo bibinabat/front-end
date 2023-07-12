@@ -1,9 +1,13 @@
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {Tooltip} from "@mui/material";
+import Cookies from "js-cookie";
+import {toast} from "react-toastify";
+import useAuthState from "@/hooks/useAuth";
 
 const ProfileAside = () => {
     const router = useRouter()
+    const {setIsLoggedIn} = useAuthState()
 
     const isProfilePage = router.asPath === "/profile"
 
@@ -35,6 +39,33 @@ const ProfileAside = () => {
         }
     ]
 
+    const handleUserLogout = () => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/logout/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.messages.success) {
+                    Cookies.remove("Authorization")
+                    setIsLoggedIn(false)
+                    if (isProfilePage) {
+                        router.replace('/')
+                    }
+                    toast.info(data.data.messages.success[0], {
+                        icon: false,
+                        closeButton: false
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <div
             className={`${isProfilePage ? "" : "hidden md:block"} border-[1.5px] w-full md:w-80 overflow-hidden rounded-3xl`}>
@@ -52,7 +83,8 @@ const ProfileAside = () => {
                         </div>
                     </div>
                     <Tooltip title="خروج" arrow placement="top">
-                        <i className="fa-solid fa-arrow-right-from-bracket text-red text-lg cursor-pointer"></i>
+                        <i className="fa-solid fa-arrow-right-from-bracket text-red text-lg cursor-pointer"
+                           onClick={handleUserLogout}></i>
                     </Tooltip>
                 </div>
                 <Link href="/profile/wallet" className="rounded-lg flex items-center justify-between bg-gray-100 my-3">

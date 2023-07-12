@@ -10,6 +10,19 @@ import {prefixer} from 'stylis';
 import Head from "next/head";
 import axios from "axios";
 import {AuthProvider} from "@/contexts/AuthContext";
+import ProgressBar from "@badrap/bar-of-progress";
+import {Router} from "next/router";
+
+const progress = new ProgressBar({
+    size: 2,
+    color: "#2563EB",
+    className: "bar-of-progress",
+    delay: 100
+})
+
+Router.events.on("routeChangeStart", progress.start)
+Router.events.on("routeChangeComplete", progress.finish)
+Router.events.on("routeChangeError", progress.finish)
 
 const cacheRtl = createCache({
     key: 'muirtl',
@@ -41,7 +54,7 @@ export default function App({Component, pageProps}) {
                         <ToastContainer
                             toastClassName={({type}) => contextClass[type || "default"] +
                                 " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
-                            className="!w-full flex items-center justify-center flex-col !m-2 sm:!m-0"
+                            className="!w-full flex !p-3 items-center justify-center flex-col text-sm"
                         />
                     </ThemeProvider>
                 </CacheProvider>

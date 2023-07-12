@@ -1,12 +1,46 @@
 import Image from "next/image";
-import {Tooltip} from "@mui/material";
+import {Skeleton, Tooltip} from "@mui/material";
 import Link from "next/link";
 import 'react-toastify/dist/ReactToastify.css';
 import FooterAccordion from "@/components/elements/FooterAccordion";
 import useAuthState from "@/hooks/useAuth";
+import {useEffect, useState} from "react";
 
 const Footer = () => {
+    const [communicationWays, setCommunicationWays] = useState("loading")
+    const [categories, setCategories] = useState("loading")
+
     const {isLoggedIn} = useAuthState()
+
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/about_us/communication_ways`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.communication_ways) {
+                    setCommunicationWays(data.data.communication_ways)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data && data.data.main_categories) {
+                    setCategories(data.data.main_categories)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    })
 
     const handleFooterInputClick = () => {
         window.location.hash = "#login"
@@ -32,8 +66,19 @@ const Footer = () => {
                             <span className="text-blue-dark font-[600] mb-10 text-lg">پشتیبانی</span>
                             <span className="mb-5">
                                 <span className="text-[#676767] text-xl font-[500] ml-2">تلفنی:</span>
-                                <span className="text-[#3C3C3C] ml-1">09131598619</span>
-                                <span className="text-[#3C3C3C]">| هر روز هفته</span>
+                                <div className="flex">
+                                    {
+                                        communicationWays !== "loading" ? (
+                                            <a href={communicationWays.find(way => way.title === "شماره تماس").link}
+                                               dir="ltr"
+                                               className="text-[#3C3C3C] ml-1"
+                                               dangerouslySetInnerHTML={{__html: communicationWays.find(way => way.title === "شماره تماس").value}}></a>
+                                        ) : (
+                                            <Skeleton variant="rectangular" animation="wave" width={210} height={20}/>
+                                        )
+                                    }
+                                    <span className="text-[#3C3C3C]">| هر روز هفته</span>
+                                </div>
                             </span>
                             <span>
                                 <span className="text-[#676767] text-xl font-[500] ml-2">ایمیل:</span>
@@ -76,14 +121,24 @@ const Footer = () => {
             <div className="flex lg:hidden flex-col px-5 mt-5">
                 <span className="text-blue-dark font-[600] mb-10 text-lg">پشتیبانی</span>
                 <span className="mb-5">
-                                <span className="text-[#676767] text-xl font-[500] ml-2">تلفنی:</span>
-                                <span className="text-[#3C3C3C] ml-1">09131598619</span>
-                                <span className="text-[#3C3C3C]">| هر روز هفته</span>
-                            </span>
+                    <span className="text-[#676767] text-xl font-[500] ml-2">تلفنی:</span>
+                    <div className="flex">
+                        {
+                            communicationWays !== "loading" ? (
+                                <a href={communicationWays.find(way => way.title === "شماره تماس").link} dir="ltr"
+                                   className="text-[#3C3C3C] ml-1 inline"
+                                   dangerouslySetInnerHTML={{__html: communicationWays.find(way => way.title === "شماره تماس").value}}></a>
+                            ) : (
+                                <Skeleton variant="rectangular" animation="wave" width={210} height={20}/>
+                            )
+                        }
+                        <span className="text-[#3C3C3C]">| هر روز هفته</span>
+                    </div>
+                </span>
                 <span>
-                                <span className="text-[#676767] text-xl font-[500] ml-2">ایمیل:</span>
-                                <span className="text-[#3C3C3C]">bibinabat.ir@gmail.com</span>
-                            </span>
+                    <span className="text-[#676767] text-xl font-[500] ml-2">ایمیل:</span>
+                    <span className="text-[#3C3C3C]">bibinabat.ir@gmail.com</span>
+                </span>
             </div>
             <div
                 className="flex flex-col lg:flex-row gap-10 lg:gap-0 items-center lg:items-start justify-between mt-10 px-5 lg:px-10 xl:px-20">
@@ -91,38 +146,39 @@ const Footer = () => {
                     <div className="flex gap-5 mb-5 md:mb-0">
                         <div className="flex flex-col gap-5 justify-start">
                             <p className="font-bold mb-1 text-lg">دسته بندی محصولات</p>
-                            <Link href="/"
-                                  className="text-[#4A4A4A] hover:text-cyan">خرید نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">پرده نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">کاسه نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرده نبات</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قند</Link>
+                            {
+                                categories !== "loading" ? categories.map(category => (
+                                    <Link key={category.id}
+                                          href={`/product-category/${category.slug}`}>{category.title}</Link>
+                                )) : null
+                            }
                         </div>
                         <div className="flex flex-col gap-5 justify-start">
                             <p className="font-bold mb-1 text-lg">صفحات دیگر</p>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">خرید عمده</Link>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">سوالات متداول</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">تماس با ما</Link>
-                            <Link href="/" className="text-[#4A4A4A] hover:text-cyan">ثبت شکایت</Link>
+                            <Link href="/contact-us" className="text-[#4A4A4A] hover:text-cyan">تماس با ما</Link>
+                            <Link href="/submitting-complaint" className="text-[#4A4A4A] hover:text-cyan">ثبت
+                                شکایت</Link>
                             <Link href="/" className="text-[#4A4A4A] hover:text-cyan">قوانین و مقررات</Link>
                         </div>
                     </div>
                     <div className="flex flex-col justify-start">
-                        <FooterAccordion title="پرفروش ترین محصولات"
+                        <FooterAccordion title="دسته بندی ها"
                                          items={[
                                              {text: "نبات", url: "/"},
                                              {text: "خرده نبات", url: "/"},
                                              {text: "کاسه نبات", url: "/"},
                                              {text: "پرده نبات", url: "/"}
                                          ]}/>
-                        <FooterAccordion title="محبوب ترین محصولات"
+                        <FooterAccordion title="محصولات"
                                          items={[
                                              {text: "نبات", url: "/"},
                                              {text: "خرده نبات", url: "/"},
                                              {text: "کاسه نبات", url: "/"},
                                              {text: "پرده نبات", url: "/"}
                                          ]}/>
-                        <FooterAccordion title="جدیدترین محصولات"
+                        <FooterAccordion title="مقالات"
                                          items={[
                                              {text: "نبات", url: "/"},
                                              {text: "خرده نبات", url: "/"},
@@ -136,35 +192,43 @@ const Footer = () => {
                         <>
                             <span className="text-[#4A4A4A] font-[600]">از تخفیف ها با خبر شوید</span>
                             <div>
-                                    <form className="h-full flex" onClick={handleFooterInputClick}>
-                                        <input
-                                            className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
-                                            placeholder="شماره موبایل خود را وارد کنید"
-                                            readOnly
-                                        />
-                                        <button
-                                            disabled
-                                            className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
-                                        </button>
-                                    </form>
+                                <form className="h-full flex" onClick={handleFooterInputClick}>
+                                    <input
+                                        className="w-64 px-3 py-2 bg-[#EEEEEE] rounded-lg text-sm font-[500] transition border-2 outline-none border-transparent hover:border-2 hover:border-[#BABABA] focus:border-blue-dark"
+                                        placeholder="شماره موبایل خود را وارد کنید"
+                                        readOnly
+                                    />
+                                    <button
+                                        disabled
+                                        className="bg-blue-dark text-white font-bold h-10 px-8 rounded-lg mr-2 hover:bg-[#30287A] transition">ثبت
+                                    </button>
+                                </form>
                             </div>
                         </>
                     )}
                     <span className="text-[#4A4A4A] font-[600]">ما را در شبکه های اجتماعی دنبال کنید</span>
                     <div className="w-full flex gap-10 text-[#C4C4C4] text-3xl">
-                        <Link href="https://twitter.com/share?url=https://bibinabat.com/" target="_blank">
-                            <i className="fa-brands fa-twitter hover:text-[#1d9bf0]"></i>
-                        </Link>
-                        <Link href="https://t.me/bibinabat_support" target="_blank">
-                            <i className="fa-brands fa-telegram hover:text-[#4c9ae1]"></i>
-                        </Link>
-                        <Link href="https://www.linkedin.com/shareArticle?mini=true&url=https://bibinabat.com/"
-                              target="_blank">
-                            <i className="fa-brands fa-linkedin hover:text-[#0864c1]"></i>
-                        </Link>
-                        <Link href="https://www.instagram.com/bibinabat.ir/" target="_blank">
-                            <i className="fa-brands fa-instagram hover:text-[#ee008c]"></i>
-                        </Link>
+                        {
+                            communicationWays !== "loading" ? (
+                                communicationWays.map(way => {
+                                    if (way.is_social) {
+                                        return (
+                                            <Link key={way.id} href={way.link} target="_blank"
+                                                  className="hover:text-blue-dark">
+                                                <i className={way.icon_name}></i>
+                                            </Link>
+                                        )
+                                    }
+                                })
+                            ) : (
+                                <>
+                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
+                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
+                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
+                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             </div>

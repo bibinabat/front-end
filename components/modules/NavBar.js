@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import React from "react";
 import SearchMobile from "@/components/modules/SearchMobile";
 import {useRouter} from "next/router";
+import useAuthState from "@/hooks/useAuth";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -12,6 +13,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const NavBar = ({handleLoginOpen}) => {
     const router = useRouter()
+    const {isLoggedIn} = useAuthState()
 
     const [isCartOpen, setIsCartOpen] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(router.asPath.split("#")[1] === "searchMobile")
@@ -83,10 +85,21 @@ const NavBar = ({handleLoginOpen}) => {
                     <i className="fa-solid fa-cart-shopping text-lg"></i>
                     <span className="text-xs">سبد خرید</span>
                 </div>
-                <div className="flex flex-col items-center cursor-pointer justify-center gap-1" onClick={handleLoginOpen}>
-                    <i className="fa-solid fa-user text-lg"></i>
-                    <span className="text-xs">ورود</span>
-                </div>
+                {
+                    isLoggedIn ? (
+                        <Link href="/profile"
+                              className="flex flex-col items-center cursor-pointer justify-center gap-1">
+                            <i className="fa-solid fa-user text-lg"></i>
+                            <span className="text-xs">پروفایل</span>
+                        </Link>
+                    ) : (
+                        <div className="flex flex-col items-center cursor-pointer justify-center gap-1"
+                             onClick={handleLoginOpen}>
+                            <i className="fa-solid fa-user text-lg"></i>
+                            <span className="text-xs">ورود</span>
+                        </div>
+                    )
+                }
             </div>
         </nav>
     );

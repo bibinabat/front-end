@@ -10,6 +10,7 @@ import ProfileAside from "@/components/modules/ProfileAside";
 import useWindowSize from "@/hooks/useWindowSize";
 import localFont from 'next/font/local'
 import useAuthState from "@/hooks/useAuth";
+import {toast} from "react-toastify";
 
 const myFont = localFont({
     src: [
@@ -84,8 +85,11 @@ const Layout = ({children}) => {
     const handleLoginClose = () => {
         if (!isLoggedIn && isProfilePage) {
             router.replace('/')
+                .then(() => {
+                    setIsLoginOpen(false)
+                })
         } else {
-            router.back()
+            window.location.back()
         }
     }
 

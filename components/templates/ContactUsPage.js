@@ -55,8 +55,13 @@ const ContactUsPage = ({data, error}) => {
                                 <i className="fa-regular fa-phone h-10 w-10 flex items-center justify-center bg-[#E6E5EC] rounded-lg text-xl"></i>
                                 <span className="font-bold">شماره تماس</span>
                             </div>
-                            <a dir="ltr" className="mt-2 text-sm text-gray-500 font-[500]"
-                               dangerouslySetInnerHTML={{__html: communicationWays !== "loading" ? communicationWays.find(way => way.title === "شماره تماس").value : null}}></a>
+                            {
+                                communicationWays !== "loading" ? (
+                                    <a href={communicationWays.find(way => way.title === "شماره تماس").link} dir="ltr"
+                                       className="mt-2 text-sm text-gray-500 font-[500]"
+                                       dangerouslySetInnerHTML={{__html: communicationWays.find(way => way.title === "شماره تماس").value}}></a>
+                                ) : null
+                            }
                         </div>
                         <div>
                             <div className="flex gap-3 items-center text-blue-dark">

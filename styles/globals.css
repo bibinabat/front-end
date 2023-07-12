@@ -29,7 +29,7 @@
     }
 }
 
-.MuiDialog-container, .MuiDrawer-modal {
+.MuiDialog-container, .MuiDrawer-modal, .Toastify {
     font-family: "IRANSansX";
 }
 

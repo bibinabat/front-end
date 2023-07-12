@@ -31,6 +31,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
         })
             .then(response => response.json())
             .then(json => {
+                console.log(json)
                 setIsDataSend(true)
                 if (json.data.messages) {
                     handleClose()
