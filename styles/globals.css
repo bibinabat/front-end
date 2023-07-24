@@ -95,3 +95,14 @@
 .tabs .tabs-item:nth-child(5).active ~ .tab-item-animate {
     transform: translateX(calc(-100% * 4));
 }
+
+.descriptionContent h2 {
+    font-weight: bold;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.descriptionContent p {
+    margin-bottom: 0.75rem;
+}

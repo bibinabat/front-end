@@ -25,7 +25,7 @@ const CommentImage = ({src, name}) => {
     return (
         <>
             <div className="h-16 w-16 relative rounded-lg overflow-hidden cursor-pointer" onClick={handlePreviewOpen}>
-                <Image src={src} alt="product name" fill
+                <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${src}`} alt="product name" fill
                        className="object-center object-cover pointer-events-none"/>
             </div>
             <Dialog
@@ -42,7 +42,7 @@ const CommentImage = ({src, name}) => {
                     <i className="fa-solid fa-circle-xmark text-2xl text-[#D9D9D9] cursor-pointer"
                        onClick={handlePreviewClose}></i>
                 </div>
-                <Image src={src} alt="product name" width={500} height={500}
+                <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${src}`} alt="product name" width={500} height={500}
                        className="rounded-lg"/>
             </Dialog>
         </>

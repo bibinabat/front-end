@@ -3,7 +3,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import {Autoplay, FreeMode, Navigation} from "swiper";
 import 'swiper/swiper-bundle.min.css'
 
-const BuyersComments = () => {
+const BuyersComments = ({surveys}) => {
     return (
         <div className="w-full mx-auto mb-5">
             <div className="font-bold text-blue-dark mb-3">نظرات خریداران</div>
@@ -35,12 +35,11 @@ const BuyersComments = () => {
                     loop={true}
                     autoplay={true}
                 >
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
-                    <SwiperSlide><BuyersComment/></SwiperSlide>
+                    {
+                        surveys.data.surveys.map(survey => (
+                            <SwiperSlide key={survey.id}><BuyersComment survey={survey}/></SwiperSlide>
+                        ))
+                    }
                 </Swiper>
             </div>
         </div>

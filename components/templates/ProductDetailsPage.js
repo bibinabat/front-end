@@ -6,16 +6,22 @@ import Description from "@/components/modules/Description";
 import ProductVideo from "@/components/modules/ProductVideo";
 import MobileAddToCart from "@/components/modules/MobileAddToCart";
 import Comments from "@/components/modules/Comments";
-import BuyersComments from "@/components/modules/BuyersComments";
 import {SwipeableDrawer} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SingleProductType from "@/components/modules/SingleProductType";
 import useWindowSize from "@/hooks/useWindowSize";
 
-const ProductDetailsPage = () => {
+const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
     const windowSize = useWindowSize()
 
     const [isMobileTypesOpen, setIsMobileTypesOpen] = useState(false)
+    const [images, setImages] = useState(null)
+
+    useEffect(() => {
+        if (data.weights) {
+            setImages([].concat(...data.weights.map(weight => (weight.images))))
+        }
+    }, [data])
 
     const toggleTypes = (open) => (event) => {
         if (
@@ -35,38 +41,57 @@ const ProductDetailsPage = () => {
                     className="text-[#abb4bc] font-[700] text-sm flex gap-3 items-center mb-5 whitespace-nowrap overflow-auto">
                     <Link href="/" className="hover:text-blue-dark text-lg"><i className="fa-solid fa-house"></i></Link>
                     <i className="fa-solid fa-chevron-left text-[0.7em]"></i>
-                    <Link href="/product/nabat/پرده-نبات-زعفرانی" className="hover:text-blue-dark">نبات</Link>
+                    <Link href={`/product-category/${data.product.main_category.slug}`}
+                          className="hover:text-blue-dark">
+                        {data.product.main_category.title}
+                    </Link>
                     <i className="fa-solid fa-chevron-left text-[0.7em]"></i>
-                    <Link href="/product/nabat/پرده-نبات-زعفرانی" className="hover:text-blue-dark">پرده نبات</Link>
+                    <Link
+                        href={`/product-category/${data.product.main_category.slug}/${data.product.sub_category.slug}`}
+                        className="hover:text-blue-dark">
+                        {data.product.sub_category.title}
+                    </Link>
                     <i className="fa-solid fa-chevron-left text-[0.7em]"></i>
-                    <Link href="/product/nabat/پرده-نبات-زعفرانی" className="hover:text-blue-dark">پرده نبات ساده درجه
-                        یک</Link>
+                    <span className="hover:text-blue-dark">
+                        {data.product.title}
+                    </span>
                 </div>
                 <div className="flex">
                     <div>
                         <div className="flex flex-col xl:flex-row items-center">
-                            <ProductAlbum images={["pm4.jpg", "pm4.jpg", "pm4.jpg", "pm4.jpg", "pm4.jpg", "pm4.jpg"]}/>
+                            <ProductAlbum images={
+                                images && images.length ? (
+                                    images
+                                ) : null
+                            } categorySlug={data.product.main_category.slug} productSlug={data.product.slug}/>
                             <div className="md:mr-5">
-                                <h1 className="font-bold text-blue-dark text-2xl">پرده نبات ساده درجه یک</h1>
+                                <h1 className="font-bold text-blue-dark text-2xl">{data.product.title}</h1>
                                 <hr className="my-5 border-[1.5px]"/>
-                                <p className="text-[#909090] font-[500]">
-                                    <span className="font-bold">نبات پرده </span>
-                                    را می توان یکی از انواع نبات به شمار آورد که در قطب تولید نبات یعنی یزد تولید شده و
-                                    از
-                                    کیفیت
-                                    بی نظیری برخوردار می باشد. لازم به ذکر است این محصول، تحت عناوین دیگر مثل پرده نبات
-                                    نیز
-                                    شناخته شده و از القابی مانند الماس نبات هم برخوردار می باشد.
-                                </p>
+                                <div className="text-[#909090] font-[500]"
+                                     dangerouslySetInnerHTML={{__html: data.product.short_description}}></div>
                                 <hr className="my-5 border-[1.5px]"/>
                                 <div className="flex gap-10 mr-5 text-sm mb-8">
                                     <div>
                                         <span className="ml-2 font-[600] text-[#909090]">وزن:</span>
-                                        <span className="font-bold text-blue-dark">هر بسته 1 کیلوگرم</span>
+                                        <div className="font-bold inline-flex gap-1 text-blue-dark">
+                                            <span>بسته های</span>
+                                            {
+                                                data.weights.length === 1 ? (
+                                                    data.weights[0].size
+                                                ) : (
+                                                    data.weights.map((weight, index) => (
+                                                        <>
+                                                            <span>{weight.size}</span>
+                                                            {index !== data.weights.length - 1 && <span>و</span>}
+                                                        </>
+                                                    ))
+                                                )
+                                            }
+                                        </div>
                                     </div>
                                     <div>
                                         <span className="ml-2 font-[600] text-[#909090]">برند:</span>
-                                        <span className="font-bold text-blue-dark">بی بی نبات</span>
+                                        <span className="font-bold text-blue-dark">{data.product.brand.title}</span>
                                     </div>
                                 </div>
                                 <div className="p-4 bg-[#EEF9EB] inline-block text-sm text-[#63C94A] rounded-xl mb-3">
@@ -77,26 +102,40 @@ const ProductDetailsPage = () => {
                                 </div>
                             </div>
                             <div className="md:hidden w-full">
-                                <ProductVideo/>
+                                {
+                                    data.videos.length ? (
+                                        <ProductVideo/>
+                                    ) : null
+                                }
                                 {
                                     windowSize.width < 768 &&
-                                    <ProductInfo toggleTypes={toggleTypes}/>
+                                    <ProductInfo toggleTypes={toggleTypes} brand={data.product.brand.title}
+                                                 rate={data.product.rate} exists={data.product.exists}
+                                                 weights={data.weights} commentsCount={data.product.comments_count}/>
                                 }
                             </div>
                         </div>
-                        <div className="hidden md:block">
-                            <ProductVideo/>
-                        </div>
-                        <Description/>
-                        <Comments/>
+                        {
+                            data.videos.length ? (
+                                <div className="hidden md:block">
+                                    <ProductVideo video={data.videos[0]}/>
+                                </div>
+                            ) : null
+                        }
+                        <Description content={data.product.description} productTitle={data.product.title}
+                                     faqs={data.product.faqs}/>
+                        <Comments surveys={surveys} rate={data.product.rate}
+                                  commentsCount={data.product.comments_count} comments={comments}/>
                     </div>
                     {windowSize.width >= 768 &&
                         <div className="hidden md:block">
-                            <ProductInfo toggleTypes={toggleTypes}/>
+                            <ProductInfo toggleTypes={toggleTypes} brand={data.product.brand.title}
+                                         rate={data.product.rate} exists={data.product.exists}
+                                         weights={data.weights} commentsCount={data.product.comments_count}/>
                         </div>
                     }
                 </div>
-                <SuggestedProducts title="محصولات مشابه"/>
+                <SuggestedProducts title="محصولات مشابه" products={sameProducts} productId={data.product.id}/>
             </div>
             <MobileAddToCart toggleTypes={toggleTypes}/>
             <SwipeableDrawer

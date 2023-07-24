@@ -45,10 +45,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
                     setVerCode("")
                     const errors = json.data.errors
                     for (const error in errors) {
-                        toast.error(errors[error], {
-                            icon: false,
-                            closeButton: false
-                        })
+                        toast.error(errors[error])
                     }
                 }
             })

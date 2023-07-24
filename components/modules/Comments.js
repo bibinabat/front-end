@@ -4,7 +4,7 @@ import CommentsAside from "@/components/modules/CommentsAside";
 import BuyersComments from "@/components/modules/BuyersComments";
 import SingleComment from "@/components/modules/SingleComment";
 
-const Comments = () => {
+const Comments = ({surveys, commentsCount, rate, comments}) => {
     return (
         <div className="mb-5">
             <div
@@ -16,22 +16,25 @@ const Comments = () => {
                        sizes="(max-width: 768px) 100vw,
                             (max-width: 1200px) 70vw"/>
             </div>
-            <BuyersComments/>
+            {surveys.data.surveys.length ? (
+                <BuyersComments surveys={surveys}/>
+            ) : null}
             <div className="flex gap-5 flex-col 2xl:flex-row">
                 <div>
-                    <CommentsAside/>
+                    <CommentsAside surveys={surveys} rate={rate} commentsCount={commentsCount}/>
                 </div>
                 <div className="w-full">
-                    <SingleComment media={true} text="پرده نبات بی بی نبات بسیار با کیفیته" user="کاربر بی بی نبات"
-                                   commentId="1"/>
-                    <SingleComment
-                        text="ممنون از شما آقای خلیلی
-                        <br>
-                        بی بی نبات محصولات با کیفیت رو خدمت شما ارسال میکنه
-                        "
-                        user="مدیر بی بی نبات"
-                        replyText="پرده نبات بی بی نبات بسیار با کیفیته"
-                        commentId="2"/>
+                    {
+                        comments.data.comments.length ? (
+                            comments.data.comments.map(comment => (
+                                <SingleComment key={comment.id} data={comment}/>
+                            ))
+                        ) : (
+                            <div className="h-60 text-lg font-bold flex items-center justify-center text-blue-dark">
+                                هنوز نظری روی این کالا ثبت نشده است.
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ import {useRef, useState} from "react";
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
 import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 
-const ProductAlbum = ({images}) => {
+const ProductAlbum = ({images, productSlug, categorySlug}) => {
     const [_, setInit] = useState()
 
     const AlPrevRef = useRef(null)
@@ -16,7 +16,8 @@ const ProductAlbum = ({images}) => {
 
     return (
         <div className="w-[350px] h-[350px] mb-8 md:mb-28 xl:mb-20">
-            <ProductAlbumSlider images={images} setInit={setInit} viewSwiperRef={viewSwiperRef}/>
+            <ProductAlbumSlider images={images} setInit={setInit} viewSwiperRef={viewSwiperRef}
+                                productSlug={productSlug} categorySlug={categorySlug}/>
             <div className="mt-3 w-[325px] mx-auto relative hidden md:block">
                 <NavBtnR prevRef={AlPrevRef} classes="scale-50 active:!scale-50 -right-6 !top-4"/>
                 <div className="">
@@ -31,14 +32,22 @@ const ProductAlbum = ({images}) => {
                         onInit={() => setInit(true)}
                     >
                         {
-                            images.map((image, index) => (
-                                <SwiperSlide key={index} onClick={() => viewSwiperRef.current.swiper.slideTo(index)}>
-                                    <div className="p-2 bg-[#EFEDED] rounded-xl cursor-pointer">
-                                        <Image src={`/testImages/${image}`} alt="test" width={90} height={90}
-                                               className="rounded-lg"/>
-                                    </div>
+                            images ? (
+                                images.map((image, index) => (
+                                    <SwiperSlide key={image.id}
+                                                 onClick={() => viewSwiperRef.current.swiper.slideTo(index)}>
+                                        <div className="p-2 bg-[#EFEDED] rounded-xl cursor-pointer">
+                                            <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${image.url}`}
+                                                   alt={image.alt}
+                                                   width={90} height={90}
+                                                   className="rounded-lg"/>
+                                        </div>
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <SwiperSlide>
                                 </SwiperSlide>
-                            ))
+                            )
                         }
                     </Swiper>
                 </div>

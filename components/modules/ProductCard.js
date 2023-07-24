@@ -3,6 +3,7 @@ import Image from "next/image";
 import {Dialog, Rating, Tooltip} from "@mui/material";
 import {useRouter} from "next/router";
 import FastView from "@/components/modules/FastView";
+import Link from "next/link";
 
 const ProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
@@ -28,10 +29,10 @@ const ProductCard = ({data}) => {
     return (
         <div className="flex justify-center">
             <div className="group bg-gray-100 w-max p-4 rounded-2xl text-blue-dark">
-                <div className="relative">
+                <Link href={`/product/${data.main_category.slug}/${data.slug}`} className="relative">
                     {data.price.discount &&
                         <span
-                            className="absolute top-3 right-3 flex items-center text-xs bg-red text-white rounded px-2 py-0.5 font-bold gap-1 z-20">
+                            className="absolute top-3 right-10 flex items-center text-xs bg-red text-white rounded px-2 py-0.5 font-bold gap-1 z-20">
                             {data.price.discount.percent}
                             <i className="fa-solid fa-percent"></i>
                         </span>}
@@ -51,8 +52,8 @@ const ProductCard = ({data}) => {
                             </div>
                         )
                     }
-                </div>
-                <div className="flex flex-col gap-1 pt-1">
+                </Link>
+                <Link href={`/product/${data.main_category.slug}/${data.slug}`} className="flex flex-col gap-1 pt-1">
                     <span className="text">{data.title}</span>
                     <div className="flex justify-end items-center">
                         {
@@ -73,20 +74,21 @@ const ProductCard = ({data}) => {
                         </span>
                         <span className="font-[600] text-sm">تومان</span>
                     </div>
-                    <div className="flex justify-end gap-1 items-center mb-1">
-                        {
-                            data.rate !== 0 ? (
-                                <>
-                                    <span
-                                        className="text-xs font-[600] text-gray-500">({data.comments_count} نظر)</span>
-                                    <span className="text-xs font-bold text-blue-dark">{data.rate}</span>
-                                    <i className="fa-solid fa-star text-mustard text-sm"></i>
-                                </>
-                            ) : (
-                                <span className="text-sm font-bold text-blue-600">نظر دهید</span>
-                            )
-                        }
-                    </div>
+                </Link>
+                <div className="flex justify-end gap-1 items-center my-1">
+                    {
+                        data.rate !== 0 ? (
+                            <>
+                                <span
+                                    className="text-xs font-[600] text-gray-500">({data.comments_count} نظر)</span>
+                                <span className="text-xs font-bold text-blue-dark">{data.rate}</span>
+                                <i className="fa-solid fa-star text-mustard text-sm"></i>
+                            </>
+                        ) : (
+                            <Link href={`/product/${data.main_category.slug}/${data.slug}#comment_form`}
+                                  className="text-sm font-bold text-blue-600">نظر دهید</Link>
+                        )
+                    }
                 </div>
                 <div className="flex justify-between mt-1">
                     <button className="text-white bg-blue-dark flex items-center gap-2 py-2 px-3 rounded-lg">

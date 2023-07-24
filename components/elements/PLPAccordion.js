@@ -2,8 +2,8 @@ import {useSpring, animated} from "@react-spring/web";
 import {useState} from "react";
 import Link from "next/link";
 
-const PlpAccordion = (props) => {
-    const [open, setOpen] = useState(props.isOpen)
+const PlpAccordion = ({items, title, isOpen, url, closeHandler}) => {
+    const [open, setOpen] = useState(isOpen)
 
     const toggleHandler = (e) => {
         setOpen(!open)
@@ -28,13 +28,18 @@ const PlpAccordion = (props) => {
     return (
         <animated.div style={openAnimation} className="bg-white w-full overflow-hidden rounded-lg p-2 text-blue-dark">
             <div onClick={toggleHandler} className="flex justify-between items-center gap-48 cursor-pointer">
-                <p className="font-[600]">{props.title}</p>
-                <animated.i style={iconAnimation} className="fa-solid fa-chevron-right text-xs text-gray-400"></animated.i>
+                <p className="font-[600] whitespace-nowrap">{title}</p>
+                <animated.i style={iconAnimation}
+                            className="fa-solid fa-chevron-right text-xs text-gray-400"></animated.i>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col font-[500]">
+                <Link onClick={closeHandler} href={url}
+                      className="bg-white text-sm mt-2 px-2 py-1 rounded-md border-b-2 text-gray-400">
+                    مشاهده این دسته بندی
+                </Link>
                 {
-                    props.items.map((item, index) => (
-                        <Link key={index} href={item.url}
+                    items.map((item, index) => (
+                        <Link onClick={closeHandler} key={index} href={item.url}
                               className="bg-white text-sm mt-2 px-2 py-1 rounded-md border-b-2">{item.text}</Link>
                     ))
                 }

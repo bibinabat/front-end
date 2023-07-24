@@ -19,6 +19,8 @@ export async function getStaticProps() {
     })
     const mostSaleProducts = await mostSaleProductsRes.json()
 
+    console.log(mostSaleProducts, popularProducts)
+
     return {
         props: {
             popularProducts,

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const ProductVideo = () => {
+const ProductVideo = ({video}) => {
     return (
         <div className="mb-5 xl:mt-5">
             <div
@@ -13,9 +13,13 @@ const ProductVideo = () => {
                             (max-width: 1200px) 70vw"/>
             </div>
             <div className="bg-[#f5f5f5] px-5 lg:px-20 xl:px-44 py-5 rounded-3xl overflow-hidden">
-                <video controls className="rounded-3xl">
-                    <source src="/testImages/test-video.mp4" type="video/mp4"/>
-                </video>
+                {
+                    video && (
+                        <video controls className="rounded-3xl">
+                            <source src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${video.url}`} type="video/mp4"/>
+                        </video>
+                    )
+                }
             </div>
         </div>
     );

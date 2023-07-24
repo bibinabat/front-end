@@ -37,10 +37,12 @@ const FooterAccordion = (props) => {
             </div>
             <div className="flex flex-col">
                 {
-                    props.items.map((item, index) => (
-                        <Link key={index} href={item.url}
-                              className="bg-white text-sm mt-2 px-2 py-1 rounded-md">{item.text}</Link>
-                    ))
+                    props.items ? (
+                        props.items.map((item, index) => (
+                            <Link key={index} href={item.url}
+                                  className="bg-white text-sm mt-2 px-2 py-1 rounded-md">{item.text}</Link>
+                        ))
+                    ) : null
                 }
             </div>
         </animated.div>

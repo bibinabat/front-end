@@ -1,16 +1,16 @@
 import ProductListPage from "@/components/templates/ProductListPage";
 
-const CategoryName = ({products, categories, category}) => {
+const SubCategory = ({products, categories, category}) => {
     return (
         <ProductListPage products={products} categories={categories}
-                         pageHeading={category.data.main_category.title}
-                         description={category.data.main_category.description}
-                         faqs={category.data.main_category.faqs}
+                         pageHeading={category.data.sub_category.title}
+                         faqs={category.data.sub_category.faqs}
+                         description={category.data.sub_category.description}
         />
     );
 };
 
-export default CategoryName;
+export default SubCategory;
 
 export async function getServerSideProps(context) {
     const {params, query} = context
@@ -37,7 +37,7 @@ export async function getServerSideProps(context) {
             orderBy = 1
     }
 
-    const productsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/?main_category=${params.categoryName}&order_by=${orderBy}&paginate=false`)
+    const productsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/?sub_category=${params.subCategory}&order_by=${orderBy}&paginate=false`)
     const products = await productsRes.json()
 
     if (!products.data.products.length) {
@@ -46,10 +46,18 @@ export async function getServerSideProps(context) {
         }
     }
 
+    for (let i = 0; i < products.data.products.length; i++) {
+        if (products.data.products[i].main_category.slug !== params.categoryName) {
+            return {
+                notFound: true
+            }
+        }
+    }
+
     const categoriesRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/`)
     const categories = await categoriesRes.json()
 
-    const categoryRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/${params.categoryName}`)
+    const categoryRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/sub_categories/${params.subCategory}`)
     const category = await categoryRes.json()
 
     return {

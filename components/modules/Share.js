@@ -2,13 +2,11 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
 
-const Share = ({handleClose}) => {
-    const {asPath} = useRouter()
-
-    const correctPath = asPath.split("#")[0]
+const Share = ({handleClose, categorySlug, productSlug}) => {
+    const productPath = `/product/${categorySlug}/${productSlug}`
 
     const handleLinkCopy = () => {
-        navigator.clipboard.writeText(`https://bibinabat.com${correctPath}`)
+        navigator.clipboard.writeText(`https://bibinabat.com${productPath}`)
             .then(() => {
                 toast.info("با موفقیت کپی شد!", {
                     position: "top-center",
@@ -32,21 +30,21 @@ const Share = ({handleClose}) => {
             </div>
             <div className="grid grid-rows-2 grid-cols-2 gap-3">
                 <Link
-                    href={`https://telegram.me/share/url?url=https://bibinabat.com${correctPath}`}
+                    href={`https://telegram.me/share/url?url=https://bibinabat.com${productPath}`}
                     target="_blank"
                     className="flex items-center justify-center gap-2 text-[#4c9ae1] bg-[#D2E6F8] rounded-xl py-5 cursor-pointer">
                     <i className="fa-brands fa-telegram text-lg"></i>
                     <span>تلگرام</span>
                 </Link>
                 <Link
-                    href={`https://api.whatsapp.com/send/?text=https://bibinabat.com${correctPath}&type=custom_url&app_absent=0`}
+                    href={`https://api.whatsapp.com/send/?text=https://bibinabat.com${productPath}&type=custom_url&app_absent=0`}
                     target="_blank"
                     className="flex items-center justify-center gap-2 text-[#25d366] bg-[#D3F6E0] rounded-xl py-5 cursor-pointer">
                     <i className="fa-brands fa-whatsapp text-lg"></i>
                     <span>واتس اپ</span>
                 </Link>
                 <Link
-                    href={`https://twitter.com/intent/tweet?url=https://bibinabat.com${correctPath}`}
+                    href={`https://twitter.com/intent/tweet?url=https://bibinabat.com${productPath}`}
                     target="_blank"
                     className="flex items-center justify-center gap-2 text-[#1d9bf0] bg-[#CDE9FC] rounded-xl py-5 cursor-pointer">
                     <i className="fa-brands fa-twitter text-lg"></i>

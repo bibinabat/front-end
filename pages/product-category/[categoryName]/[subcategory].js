@@ -1,9 +1,0 @@
-import ProductListPage from "@/components/templates/ProductListPage";
-
-const SubCategory = () => {
-    return (
-        <ProductListPage/>
-    );
-};
-
-export default SubCategory;

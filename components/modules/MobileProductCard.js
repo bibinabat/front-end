@@ -3,8 +3,9 @@ import {Dialog, Tooltip} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import FastView from "@/components/modules/FastView";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
-const MobileProductCard = ({discount}) => {
+const MobileProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
 
     const router = useRouter()
@@ -27,31 +28,60 @@ const MobileProductCard = ({discount}) => {
 
     return (
         <div className="flex p-3 bg-[#f5f5f5] rounded-xl w-full">
-            <Image src="/testImages/khz3.jpg" alt="text" width={125} height={125}
-                   className="rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto"/>
+            <Link href={`/product/${data.main_category.slug}/${data.slug}`}>
+                {
+                    data.image ? (
+                        <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.image.url}`} alt={data.image.alt}
+                               width={125}
+                               height={125}
+                               className="rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto"/>
+                    ) : (
+                        <div
+                            className="w-[125px] h-[125px] rounded-lg flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
+                            <i className="fa-solid fa-image"></i>
+                        </div>
+                    )
+                }
+            </Link>
             <div className="w-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                    <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
-                    <div className="flex items-center gap-1">
-                        <span className="text-sm font-bold text-blue-dark">4</span>
-                        <i className="fa-solid fa-star text-mustard"></i>
-                    </div>
+                    <span className="text-blue-dark font-[600]">{data.title}</span>
+                    {
+                        data.rate !== 0 ? (
+                            <div className="flex items-center gap-1">
+                                <span className="text-sm font-bold text-blue-dark">{data.rate}</span>
+                                <i className="fa-solid fa-star text-mustard"></i>
+                            </div>
+                        ) : (
+                            <Link href={`/product/${data.main_category.slug}/${data.slug}#comment_form`}
+                                  className="text-sm font-bold text-blue-600">نظر دهید</Link>
+                        )
+                    }
                 </div>
                 <div>
                     <div className="flex flex-col items-end">
                         {
-                            discount &&
+                            data.price.discount &&
                             <div className="flex items-center">
-                                <span className="font-bold line-through text-[#7C7C7C]">77,000</span>
+                                <span
+                                    className="font-bold line-through text-[#7C7C7C]">{data.price.real.toLocaleString()}</span>
                                 <span
                                     className="bg-red text-white rounded px-2 text-xs py-0.5 mr-1 font-bold flex items-center gap-1">
-                            {discount}
+                                    {data.price.discount.percent}
                                     <i className="fa-solid fa-percent"></i>
-                            </span>
+                                </span>
                             </div>
                         }
                         <div className="mb-2">
-                            <span className="text-blue-dark font-bold text-xl ml-1">61,600</span>
+                            <span className="text-blue-dark font-bold text-xl ml-1">
+                                {
+                                    data.price.discount ? (
+                                        data.price.discount.price.toLocaleString()
+                                    ) : (
+                                        data.price.real.toLocaleString()
+                                    )
+                                }
+                            </span>
                             <span>تومان</span>
                         </div>
                     </div>
@@ -79,7 +109,7 @@ const MobileProductCard = ({discount}) => {
                             }}
                             scroll="body"
                         >
-                            <FastView handleClose={handleFastViewClose}/>
+                            <FastView handleClose={handleFastViewClose} productId={data.slug}/>
                         </Dialog>
                     </div>
                 </div>

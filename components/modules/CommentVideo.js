@@ -28,7 +28,7 @@ const CommentVideo = ({src, name}) => {
             className="w-16 h-16 rounded-lg overflow-hidden relative before:content-[''] before:bg-black before:opacity-50 before:w-full before:h-full before:block before:absolute cursor-pointer">
             <i className="fa-solid fa-play absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 text-white"></i>
             <video controls={false} className="w-full h-full object-cover object-center">
-                <source src={src} type="video/mp4"/>
+                <source src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${src}`} type="video/mp4"/>
             </video>
             <Dialog
                 open={isPreviewOpen}
@@ -45,7 +45,7 @@ const CommentVideo = ({src, name}) => {
                        onClick={handlePreviewClose}></i>
                 </div>
                 <video controls width="500px" height="500px" className="rounded-xl">
-                    <source src={src} type="video/mp4"/>
+                    <source src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${src}`} type="video/mp4"/>
                 </video>
             </Dialog>
         </div>

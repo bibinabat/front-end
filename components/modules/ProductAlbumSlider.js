@@ -6,7 +6,7 @@ import {Dialog, Tooltip} from "@mui/material";
 import Share from "@/components/modules/Share";
 import {useRef, useState} from "react";
 
-const ProductAlbumSlider = ({setInit, viewSwiperRef, images}) => {
+const ProductAlbumSlider = ({setInit, viewSwiperRef, images, productSlug, categorySlug}) => {
     const [isShareOpen, setIsShareOpen] = useState(false)
 
     const handleShareOpen = () => {
@@ -21,9 +21,9 @@ const ProductAlbumSlider = ({setInit, viewSwiperRef, images}) => {
     const nextRef = useRef(null)
 
     return (
-        <div className="bg-[#EFEDED] p-6 rounded-3xl relative">
+        <div className="bg-[#EFEDED] p-6 rounded-3xl relative h-full">
             <NavBtnR prevRef={prevRef} classes="right-0"/>
-            <div className="rounded-2xl overflow-hidden">
+            <div className="rounded-2xl overflow-hidden h-full">
                 <Swiper
                     modules={[Navigation]}
                     spaceBetween={0}
@@ -48,7 +48,7 @@ const ProductAlbumSlider = ({setInit, viewSwiperRef, images}) => {
                         ) : (
                             <SwiperSlide>
                                 <div
-                                    className="w-[240px] h-[240px] rounded-2xl flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
+                                    className="w-full h-full min-w-[240px] min-h-[300px] rounded-2xl flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
                                     <i className="fa-solid fa-image"></i>
                                 </div>
                             </SwiperSlide>
@@ -83,7 +83,7 @@ const ProductAlbumSlider = ({setInit, viewSwiperRef, images}) => {
                         }
                     }}
                 >
-                    <Share handleClose={handleShareClose}/>
+                    <Share handleClose={handleShareClose} productSlug={productSlug} categorySlug={categorySlug}/>
                 </Dialog>
             </div>
         </div>

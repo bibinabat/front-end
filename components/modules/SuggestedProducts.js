@@ -6,7 +6,7 @@ import 'swiper/swiper-bundle.min.css'
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
 import {useRef, useState} from "react";
 
-const SuggestedProducts = ({title, products}) => {
+const SuggestedProducts = ({title, products, productId}) => {
     const [_, setInit] = useState()
 
     const prevRef = useRef(null)
@@ -60,7 +60,7 @@ const SuggestedProducts = ({title, products}) => {
                 >
                     {
                         products ? products.data.products.map(product => {
-                            if (product.exists) {
+                            if (product.exists && productId !== product.id) {
                                 return (
                                     <SwiperSlide key={product.id}><ProductCard data={product}/></SwiperSlide>
                                 )

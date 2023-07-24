@@ -55,7 +55,9 @@ const FastView = ({handleClose, productId}) => {
                                 images
                             ) : null
                         }
-                        setInit={setInit} viewSwiperRef={viewSwiperRef}/>
+                        setInit={setInit} viewSwiperRef={viewSwiperRef}
+                        categorySlug={data !== "loading" ? data.product.main_category.slug : ""}
+                        productSlug={data !== "loading" ? data.product.slug : ""}/>
                 </div>
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-3">
@@ -114,9 +116,7 @@ const FastView = ({handleClose, productId}) => {
                         </div>
                     </div>
                     {
-                        data === "loading" ? (
-                            null
-                        ) : (
+                        data === "loading" ? null : (
                             <div className="flex flex-col items-end">
                                 {
                                     data.weights[0].prices.discount ? (

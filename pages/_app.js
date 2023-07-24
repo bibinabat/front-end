@@ -17,7 +17,7 @@ const progress = new ProgressBar({
     size: 2,
     color: "#2563EB",
     className: "bar-of-progress",
-    delay: 100
+    delay: 100,
 })
 
 Router.events.on("routeChangeStart", progress.start)
@@ -54,7 +54,10 @@ export default function App({Component, pageProps}) {
                         <ToastContainer
                             toastClassName={({type}) => contextClass[type || "default"] +
                                 " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
-                            className="!w-full flex !p-3 items-center justify-center flex-col text-sm"
+                            className="!w-full flex flex-col items-center justify-center !p-3 sm:!p-0"
+                            position="top-center"
+                            icon={false}
+                            closeButton={false}
                         />
                     </ThemeProvider>
                 </CacheProvider>

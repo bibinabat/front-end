@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 const Footer = () => {
     const [communicationWays, setCommunicationWays] = useState("loading")
     const [categories, setCategories] = useState("loading")
+    const [products, setProducts] = useState("loading")
 
     const {isLoggedIn} = useAuthState()
 
@@ -25,9 +26,7 @@ const Footer = () => {
             .catch(err => {
                 console.log(err)
             })
-    }, [])
 
-    useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/`, {
             method: "GET"
         })
@@ -40,7 +39,20 @@ const Footer = () => {
             .catch(err => {
                 console.log(err)
             })
-    })
+
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products?paginate=false`, {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data && data.data.products) {
+                    setProducts(data.data.products)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     const handleFooterInputClick = () => {
         window.location.hash = "#login"
@@ -165,19 +177,31 @@ const Footer = () => {
                     </div>
                     <div className="flex flex-col justify-start">
                         <FooterAccordion title="دسته بندی ها"
-                                         items={[
-                                             {text: "نبات", url: "/"},
-                                             {text: "خرده نبات", url: "/"},
-                                             {text: "کاسه نبات", url: "/"},
-                                             {text: "پرده نبات", url: "/"}
-                                         ]}/>
+                                         items={
+                                             categories !== "loading" ? (
+                                                 [].concat(...categories.map(category => (
+                                                     category.sub_categories.map(subCategory => {
+                                                         const sub = subCategory
+                                                         sub["main_category"] = category.title
+                                                         return ({
+                                                             text: sub.title,
+                                                             url: `/product-category/${category.slug}/${sub.slug}`
+                                                         })
+                                                     })
+                                                 )))
+                                             ) : null
+                                         }/>
                         <FooterAccordion title="محصولات"
-                                         items={[
-                                             {text: "نبات", url: "/"},
-                                             {text: "خرده نبات", url: "/"},
-                                             {text: "کاسه نبات", url: "/"},
-                                             {text: "پرده نبات", url: "/"}
-                                         ]}/>
+                                         items={
+                                             products !== "loading" ? (
+                                                 products.map(product => {
+                                                     return ({
+                                                         text: product.title,
+                                                         url: `/product/${product.main_category.slug}/${product.slug}`
+                                                     })
+                                                 })
+                                             ) : null
+                                         }/>
                         <FooterAccordion title="مقالات"
                                          items={[
                                              {text: "نبات", url: "/"},

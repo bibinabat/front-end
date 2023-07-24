@@ -1,6 +1,6 @@
 import SingleProductType from "@/components/modules/SingleProductType";
 
-const ProductTypes = ({handleClose}) => {
+const ProductTypes = ({handleClose, weights}) => {
     return (
         <div className="p-3">
             <div className="w-full mb-3">
@@ -8,8 +8,11 @@ const ProductTypes = ({handleClose}) => {
                    onClick={handleClose}></i>
             </div>
             <div className="flex flex-col gap-3">
-                <SingleProductType weight="1"/>
-                <SingleProductType weight="3"/>
+                {
+                    weights.map(weight => (
+                        <SingleProductType key={weight.id} weight={weight}/>
+                    ))
+                }
             </div>
         </div>
     );

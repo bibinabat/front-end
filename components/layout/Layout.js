@@ -89,7 +89,7 @@ const Layout = ({children}) => {
                     setIsLoginOpen(false)
                 })
         } else {
-            window.location.back()
+            window.history.back()
         }
     }
 

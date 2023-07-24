@@ -1,8 +1,10 @@
 import React from 'react';
+import {months} from "@/public/months";
+import Link from "next/link";
 
-const BuyersComment = () => {
-    const poQNumber = 4
-    const paQNumber = 3
+const BuyersComment = ({survey}) => {
+    const poQNumber = survey.products_quality
+    const paQNumber = survey.pack_quality
 
     const colors = {
         1: "red",
@@ -21,19 +23,17 @@ const BuyersComment = () => {
             <div className="flex items-center justify-between whitespace-nowrap text-blue-dark mb-2">
                 <div className="flex items-center gap-1">
                     <i className="fa-solid fa-user text-lg"></i>
-                    <span className="font-[600]">امیرمحمد خلیلی</span>
+                    <span className="font-[600]">{survey.user}</span>
                 </div>
-                <span className="text-[#8A8A8A] text-sm font-[500]">14 اسفند 1401</span>
+                <span className="text-[#8A8A8A] text-sm font-[500] flex gap-1">
+                    <span>{survey.created_date.split(" ")[0].split("/")[2]}</span>
+                    <span>{months[+survey.created_date.split(" ")[0].split("/")[1]]}</span>
+                    <span>{survey.created_date.split(" ")[0].split("/")[0]}</span>
+                </span>
             </div>
-            <p className="max-h-32 overflow-hidden line-clamp-5 font-[500] text-[#2D2D2D] text-sm leading-6 text-justify grow">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و
-                متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و
-                کاربردهای متنوع با هدف ب ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده،
-                شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی
-                الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و
-                دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای
-                اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-            </p>
+            <div
+                className="h-[124px] overflow-hidden line-clamp-5 font-[500] text-[#2D2D2D] text-sm leading-6 text-justify grow"
+                dangerouslySetInnerHTML={{__html: survey.text}}></div>
             <div className="flex my-1 gap-5">
                 <div className="flex items-start gap-1">
                     <span className="text-sm text-[#B5B5B8] font-bold">کیفیت محصول</span>
@@ -48,11 +48,19 @@ const BuyersComment = () => {
             <div className="bg-white rounded-lg p-1 flex flex-col items-center grow">
                 <div className="text-sm font-bold text-[#555555]">لیست محصولات خریداری شده</div>
                 <div className="text-xs font-[600] text-blue-dark flex flex-col items-center gap-1 mt-1">
-                    <span>پرده نبات ساده درجه یک</span>
-                    <span>نبات دو آتیشه ممتاز</span>
-                    <span>پرده نبات زعفرانی درجه یک</span>
+                    {
+                        survey.orders.slice(0, 3).map(order => (
+                            <Link href={`/product/${order.main_category.slug}/${order.slug}`}
+                                  key={order.id}>{order.title}</Link>
+                        ))
+                    }
                 </div>
-                <div className="text-cyan text-xs font-extrabold mt-1">و 3 محصول دیگر</div>
+                {
+                    survey.orders.length > 3 ? (
+                        <div className="text-cyan text-xs font-extrabold mt-1">و {survey.orders.length - 3} محصول
+                            دیگر</div>
+                    ) : null
+                }
             </div>
         </div>
     );

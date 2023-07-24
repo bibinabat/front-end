@@ -1,16 +1,17 @@
 import PlpCategory from "@/components/modules/PLPCategory";
 import Sorting from "@/components/modules/Sorting";
 import {SwipeableDrawer} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProductCard from "@/components/modules/ProductCard";
 import useWindowSize from "@/hooks/useWindowSize";
 import MobileProductCard from "@/components/modules/MobileProductCard";
 import Description from "@/components/modules/Description";
 
-const ProductListPage = () => {
+const ProductListPage = ({products, categories, pageHeading, faqs, description}) => {
     const windowSize = useWindowSize()
 
     const [isCategoryOpen, setIsCategoryOpen] = useState(false)
+
     const toggleCategory = (open) => (event) => {
         if (
             event &&
@@ -27,11 +28,11 @@ const ProductListPage = () => {
             <div className="flex flex-col lg:flex-row gap-4">
                 <div className="">
                     <div className="flex items-center justify-center gap-3 lg:mb-5">
-                        <h1 className="text-2xl font-bold text-blue-dark">خرید نبات</h1>
-                        <span className="text-sm font-[600]">(25 محصول)</span>
+                        <h1 className="text-2xl font-bold text-blue-dark">خرید {pageHeading}</h1>
+                        <span className="text-sm font-[600]">({products.data.products.length} محصول)</span>
                     </div>
                     <div className="hidden lg:block sticky top-40">
-                        <PlpCategory/>
+                        <PlpCategory categories={categories}/>
                     </div>
                 </div>
                 <div className="w-full">
@@ -56,34 +57,39 @@ const ProductListPage = () => {
                             <div className="my-2 flex items-center justify-center flex-col">
                                 <hr className="border-[3px] border-[#939393] w-8 rounded-full"/>
                             </div>
-                            <PlpCategory/>
+                            <PlpCategory categories={categories} closeHandler={toggleCategory(false)}/>
                         </SwipeableDrawer>
                         <Sorting/>
                     </div>
                     {
                         windowSize.width >= 640 && (
                             <div className="flex flex-wrap gap-6 justify-center mt-5">
-
+                                {
+                                    products.data.products.map(product => (
+                                        <ProductCard key={product.id} data={product}/>
+                                    ))
+                                }
                             </div>
                         )
                     }
                     {
                         windowSize.width < 640 && (
                             <div className="flex flex-wrap gap-3 justify-center mt-5">
-                                <MobileProductCard discount={20}/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
-                                <MobileProductCard/>
+                                {
+                                    products.data.products.map(product => (
+                                        <MobileProductCard key={product.id} data={product}/>
+                                    ))
+                                }
                             </div>
                         )
                     }
                 </div>
             </div>
-            <Description/>
+            {
+                description !== "" || faqs.length ? (
+                    <Description content={description} faqs={faqs} productTitle={pageHeading}/>
+                ) : null
+            }
         </div>
     );
 };

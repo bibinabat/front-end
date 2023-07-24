@@ -37,10 +37,7 @@ const Login = ({handleClose}) => {
                 if (json.data.messages) {
                     setPhoneNum(data.phoneNumber)
                     setEnterCode(true)
-                    toast.info(json.data.messages.success[0], {
-                        icon: false,
-                        closeButton: false
-                    })
+                    toast.info(json.data.messages.success[0])
                 } else if (json.data.errors) {
                     const errors = json.data.errors
                     for (const error in errors) {
