@@ -34,7 +34,7 @@ const MobileProductCard = ({data}) => {
                         <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.image.url}`} alt={data.image.alt}
                                width={125}
                                height={125}
-                               className="rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto"/>
+                               className={`rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto ${data.exists ? "" : "opacity-50"}`}/>
                     ) : (
                         <div
                             className="w-[125px] h-[125px] rounded-lg flex items-center justify-center bg-gray-200 text-gray-400 text-3xl">
@@ -45,7 +45,8 @@ const MobileProductCard = ({data}) => {
             </Link>
             <div className="w-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                    <span className="text-blue-dark font-[600]">{data.title}</span>
+                    <Link href={`/product/${data.main_category.slug}/${data.slug}`}
+                          className="text-blue-dark font-[600]">{data.title}</Link>
                     {
                         data.rate !== 0 ? (
                             <div className="flex items-center gap-1">
@@ -59,7 +60,7 @@ const MobileProductCard = ({data}) => {
                     }
                 </div>
                 <div>
-                    <div className="flex flex-col items-end">
+                    <Link href={`/product/${data.main_category.slug}/${data.slug}`} className="flex flex-col items-end">
                         {
                             data.price.discount &&
                             <div className="flex items-center">
@@ -84,12 +85,22 @@ const MobileProductCard = ({data}) => {
                             </span>
                             <span>تومان</span>
                         </div>
-                    </div>
+                    </Link>
                     <div className="flex gap-2">
-                        <button
-                            className="text-white bg-blue-dark flex items-center gap-2  px-3 rounded-lg w-full justify-center text-sm">
-                            افزودن به سبد خرید
-                        </button>
+                        {
+                            data.exists ? (
+                                <button
+                                    className="text-white bg-blue-dark flex items-center gap-2  px-3 rounded-lg w-full justify-center text-sm">
+                                    افزودن به سبد خرید
+                                </button>
+                            ) : (
+                                <button
+                                    disabled
+                                    className="text-white bg-gray-400 flex items-center gap-2  px-3 rounded-lg w-full justify-center text-sm">
+                                    ناموجود
+                                </button>
+                            )
+                        }
                         <Tooltip arrow title="نمایش سریع">
                             <button
                                 onClick={handleFastViewOpen}

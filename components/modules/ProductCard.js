@@ -43,7 +43,7 @@ const ProductCard = ({data}) => {
                                        alt={data.image.alt}
                                        width={230}
                                        height={230}
-                                       className="rounded-2xl group-hover:scale-125 transition-transform"/>
+                                       className={`rounded-2xl group-hover:scale-125 transition-transform ${data.exists ? "" : "opacity-50"}`}/>
                             </div>
                         ) : (
                             <div
@@ -54,7 +54,7 @@ const ProductCard = ({data}) => {
                     }
                 </Link>
                 <Link href={`/product/${data.main_category.slug}/${data.slug}`} className="flex flex-col gap-1 pt-1">
-                    <span className="text">{data.title}</span>
+                    <span className="text-[0.9rem] mt-1 font-[600] text-blue-dark">{data.title}</span>
                     <div className="flex justify-end items-center">
                         {
                             data.price.discount && (
@@ -90,11 +90,23 @@ const ProductCard = ({data}) => {
                         )
                     }
                 </div>
-                <div className="flex justify-between mt-1">
-                    <button className="text-white bg-blue-dark flex items-center gap-2 py-2 px-3 rounded-lg">
-                        <i className="fa-regular fa-cart-shopping"></i>
-                        افزودن به سبد خرید
-                    </button>
+                <div className="flex justify-between gap-2 mt-1">
+                    {
+                        data.exists ? (
+                            <button
+                                className="text-white bg-blue-dark flex items-center justify-center gap-2 rounded-lg w-full text-sm font-[500]">
+                                {/*<i className="fa-regular fa-cart-shopping"></i>*/}
+                                افزودن به سبد خرید
+                            </button>
+                        ) : (
+                            <button
+                                className="text-white bg-gray-400 flex items-center justify-center gap-2 rounded-lg w-full text-sm font-bold"
+                                disabled>
+                                {/*<i className="fa-regular fa-cart-shopping"></i>*/}
+                                ناموجود
+                            </button>
+                        )
+                    }
                     <Tooltip arrow title="نمایش سریع">
                         <button
                             onClick={handleFastViewOpen}

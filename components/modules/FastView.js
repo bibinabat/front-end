@@ -2,6 +2,7 @@ import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 import {useEffect, useRef, useState} from "react";
 import {Rating, Skeleton} from "@mui/material";
 import {toast} from "react-toastify";
+import Link from "next/link";
 
 const FastView = ({handleClose, productId}) => {
     const [_, setInit] = useState()
@@ -65,7 +66,8 @@ const FastView = ({handleClose, productId}) => {
                             data === "loading" ? (
                                 <Skeleton animation="wave" variant="rectangular" width={210} height={20}/>
                             ) : (
-                                <p className="text-blue-dark font-bold text-base sm:text-xl">{data.product.title}</p>
+                                <Link href={`/product/${data.product.main_category.slug}/${data.product.slug}`}
+                                      className="text-blue-dark font-bold text-base sm:text-xl">{data.product.title}</Link>
                             )
                         }
                         {
@@ -73,7 +75,9 @@ const FastView = ({handleClose, productId}) => {
                                 <Skeleton animation="wave" variant="rectangular" width={150} height={20}/>
                             ) : (
                                 data.product.rate === 0 ? (
-                                    <span className="text-blue-600 font-bold">نظر دهید</span>
+                                    <Link
+                                        href={`/product/${data.product.main_category.slug}/${data.product.slug}#comment_form`}
+                                        className="text-blue-600 font-bold">نظر دهید</Link>
                                 ) : (
                                     <div className="flex items-center">
                                         <div className="items-center hidden min-[835px]:flex">
@@ -148,9 +152,17 @@ const FastView = ({handleClose, productId}) => {
                             </div>
                         )
                     }
-                    <button className="bg-blue-dark w-full text-white rounded-lg py-2 mt-2">
-                        افزودن به سبد خرید
-                    </button>
+                    {
+                        data === "loading" ? null : data.product.exists ? (
+                            <button className="bg-blue-dark w-full text-white rounded-lg py-2 mt-2">
+                                افزودن به سبد خرید
+                            </button>
+                        ) : (
+                            <button className="bg-gray-400 w-full text-white rounded-lg py-2 mt-2" disabled>
+                                ناموجود
+                            </button>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 import ProductDetailsPage from "@/components/templates/ProductDetailsPage";
+import {parse} from 'cookie'
 
 const ProductDetails = ({data, surveys, comments, sameProducts}) => {
     return (
@@ -25,7 +26,13 @@ export default ProductDetails;
 export async function getServerSideProps(context) {
     const {params} = context
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/${params.productName}`)
+    const cookies = parse(context.req.headers.cookie || '')
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/${params.productName}`, {
+        headers: {
+            "Authorization": cookies.Authorization
+        }
+    })
     const data = await res.json()
 
     if (data.data && data.data.product) {

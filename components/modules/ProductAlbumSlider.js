@@ -5,9 +5,80 @@ import Image from "next/image";
 import {Dialog, Tooltip} from "@mui/material";
 import Share from "@/components/modules/Share";
 import {useRef, useState} from "react";
+import useAuthState from "@/hooks/useAuth";
+import {toast} from "react-toastify";
+import Cookies from "js-cookie";
 
-const ProductAlbumSlider = ({setInit, viewSwiperRef, images, productSlug, categorySlug}) => {
+const ProductAlbumSlider = ({setInit, viewSwiperRef, images, productSlug, categorySlug, inWatchlist}) => {
+    const {isLoggedIn} = useAuthState()
+
     const [isShareOpen, setIsShareOpen] = useState(false)
+    const [isInWatchlist, setIsInWatchlist] = useState(inWatchlist)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleWatchlistToggle = () => {
+        if (isLoggedIn) {
+            setIsLoading(true)
+            if (isInWatchlist) {
+                fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/`, {
+                    method: "DELETE",
+                    body: JSON.stringify({
+                        "product_slug": productSlug
+                    }),
+                    headers: {
+                        "Authorization": Cookies.get("Authorization"),
+                        "Content-Type": "Application/json"
+                    },
+                    credentials: "include"
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setIsLoading(false)
+                        if (data.data.messages && data.data.messages.success) {
+                            setIsInWatchlist(false)
+                            toast.info(data.data.messages.success[0])
+                        } else {
+                            toast.error("مشکلی در انجام عملیات رخ داده است")
+                        }
+                    })
+                    .catch(err => {
+                        setIsLoading(false)
+                        console.log(err)
+                        toast.error("مشکلی در انجام عملیات رخ داده است")
+                    })
+            } else {
+                fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/`, {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        "product_slug": productSlug
+                    }),
+                    headers: {
+                        "Authorization": Cookies.get("Authorization"),
+                        "Content-Type": "Application/json"
+                    },
+                    credentials: "include"
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setIsLoading(false)
+                        if (data.data.messages && data.data.messages.success) {
+                            setIsInWatchlist(true)
+                            toast.info(data.data.messages.success[0])
+                        } else {
+                            toast.error("مشکلی در انجام عملیات رخ داده است")
+                        }
+                    })
+                    .catch(err => {
+                        setIsLoading(false)
+                        console.log(err)
+                        toast.error("مشکلی در انجام عملیات رخ داده است")
+                    })
+            }
+        } else {
+            toast.info("لطفا ابتدا وارد حساب کاربری خود شوید")
+            window.location.hash = "#login"
+        }
+    }
 
     const handleShareOpen = () => {
         setIsShareOpen(true)
@@ -59,10 +130,18 @@ const ProductAlbumSlider = ({setInit, viewSwiperRef, images, productSlug, catego
             <NavBtnL nextRef={nextRef} classes="left-0"/>
             <div
                 className="text-[#9E9E9E] flex justify-center gap-2 absolute left-1/2 -translate-x-1/2 -bottom-3 z-10">
-                <Tooltip title="اضافه به علاقه مندی ها" arrow>
+                <Tooltip title={isInWatchlist ? "حذف از علاقه مندی ها" : "اضافه به علاقه مندی ها"} arrow>
                     <button
+                        onClick={handleWatchlistToggle}
+                        disabled={isLoading}
                         className="h-11 w-11 bg-white rounded-xl flex items-center justify-center shadow-[0px_5px_43px_-6px_rgba(0,0,0,0.3)] transition hover:text-red">
-                        <i className="fa-regular fa-heart"></i>
+                        {
+                            isLoading ? (
+                                <i className="fa-duotone fa-spinner-third fa-spin text-xl text-blue-500"></i>
+                            ) : (
+                                <i className={`${isInWatchlist ? "fa-solid fa-heart text-red" : "fa-regular fa-heart"}`}></i>
+                            )
+                        }
                     </button>
                 </Tooltip>
                 <Tooltip arrow title="اشتراک گذاری">

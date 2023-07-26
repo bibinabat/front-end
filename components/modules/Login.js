@@ -23,7 +23,7 @@ const Login = ({handleClose}) => {
             "phone_number": data.phoneNumber
         }
 
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/login/", {
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/auth/login/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

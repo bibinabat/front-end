@@ -4,6 +4,7 @@ import {toast} from "react-toastify";
 import Cookies from 'js-cookie'
 import {useRouter} from "next/router";
 import useAuthState from "@/hooks/useAuth";
+import ResendCode from "@/components/modules/ResendCode";
 
 const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
     const router = useRouter()
@@ -20,7 +21,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
             "user_verification_code": verCode
         }
 
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/login/", {
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/auth/login/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +32,6 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
         })
             .then(response => response.json())
             .then(json => {
-                console.log(json)
                 setIsDataSend(true)
                 if (json.data.messages) {
                     handleClose()
@@ -84,7 +84,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
                                             onChange={setVerCode}/>
             </div>
             <div className="flex flex-col w-full items-center mt-3">
-                <button className="text-sm bg-[#E6E3FF] text-blue-dark px-2 py-1 rounded">ارسال مجدد</button>
+                <ResendCode phoneNum={phoneNum}/>
                 {
                     isDataSend ? (
                         <button

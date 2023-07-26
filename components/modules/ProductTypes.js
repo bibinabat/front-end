@@ -9,9 +9,11 @@ const ProductTypes = ({handleClose, weights}) => {
             </div>
             <div className="flex flex-col gap-3">
                 {
-                    weights.map(weight => (
-                        <SingleProductType key={weight.id} weight={weight}/>
-                    ))
+                    weights.map(weight => {
+                        if (weight.exists) {
+                            return (<SingleProductType key={weight.id} weight={weight}/>)
+                        }
+                    })
                 }
             </div>
         </div>

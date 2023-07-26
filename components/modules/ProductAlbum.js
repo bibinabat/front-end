@@ -6,7 +6,7 @@ import {useRef, useState} from "react";
 import {NavBtnL, NavBtnR} from "@/components/elements/NavBtn";
 import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 
-const ProductAlbum = ({images, productSlug, categorySlug}) => {
+const ProductAlbum = ({images, productSlug, categorySlug, inWatchlist}) => {
     const [_, setInit] = useState()
 
     const AlPrevRef = useRef(null)
@@ -17,7 +17,7 @@ const ProductAlbum = ({images, productSlug, categorySlug}) => {
     return (
         <div className="w-[350px] h-[350px] mb-8 md:mb-28 xl:mb-20">
             <ProductAlbumSlider images={images} setInit={setInit} viewSwiperRef={viewSwiperRef}
-                                productSlug={productSlug} categorySlug={categorySlug}/>
+                                productSlug={productSlug} categorySlug={categorySlug} inWatchlist={inWatchlist}/>
             <div className="mt-3 w-[325px] mx-auto relative hidden md:block">
                 <NavBtnR prevRef={AlPrevRef} classes="scale-50 active:!scale-50 -right-6 !top-4"/>
                 <div className="">

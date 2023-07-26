@@ -21,7 +21,7 @@ const SingleComment = ({data}) => {
                                         ادمین بی بی نبات
                                     </span>
                                 ) : (
-                                    <span>
+                                    <span dir="ltr">
                                         {
                                             data.reply.author.display_name ? (
                                                 data.reply.author.display_name
@@ -55,7 +55,7 @@ const SingleComment = ({data}) => {
                                     }}
                             />
                         </div>
-                        <div className="items-center gap-3 hidden lg:flex">
+                        <div className="items-center hidden lg:flex">
                             {
                                 data.author_offer === "0" ? (
                                     <div
@@ -79,7 +79,7 @@ const SingleComment = ({data}) => {
                             }
                             {data.author.is_customer && (
                                 <div className="flex items-center text-cyan font-[600] gap-1 text-sm border-r-2">
-                                    <i className="fa-solid fa-cart-shopping"></i>
+                                    <i className="fa-solid fa-cart-shopping pr-2"></i>
                                     <span>خریدار محصول هستم</span>
                                 </div>
                             )}
@@ -112,7 +112,7 @@ const SingleComment = ({data}) => {
                                 ادمین بی بی نبات
                             </span>
                         ) : (
-                            <span>
+                            <span dir="ltr">
                                 {
                                     data.author.display_name ? (
                                         data.author.display_name

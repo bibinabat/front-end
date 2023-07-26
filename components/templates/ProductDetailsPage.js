@@ -63,7 +63,8 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                                 images && images.length ? (
                                     images
                                 ) : null
-                            } categorySlug={data.product.main_category.slug} productSlug={data.product.slug}/>
+                            } categorySlug={data.product.main_category.slug} productSlug={data.product.slug}
+                                          inWatchlist={data.product.in_watchlist}/>
                             <div className="md:mr-5">
                                 <h1 className="font-bold text-blue-dark text-2xl">{data.product.title}</h1>
                                 <hr className="my-5 border-[1.5px]"/>
@@ -104,7 +105,7 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                             <div className="md:hidden w-full">
                                 {
                                     data.videos.length ? (
-                                        <ProductVideo/>
+                                        <ProductVideo video={data.videos[0]}/>
                                     ) : null
                                 }
                                 {
@@ -137,7 +138,8 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                 </div>
                 <SuggestedProducts title="محصولات مشابه" products={sameProducts} productId={data.product.id}/>
             </div>
-            <MobileAddToCart toggleTypes={toggleTypes}/>
+            <MobileAddToCart toggleTypes={toggleTypes} exists={data.product.exists}
+                             weights={data.weights}/>
             <SwipeableDrawer
                 anchor="bottom"
                 open={isMobileTypesOpen}
@@ -154,8 +156,13 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                     <hr className="border-[3px] border-[#939393] w-8 rounded-full "/>
                 </div>
                 <div className="flex flex-col gap-3 p-3">
-                    <SingleProductType weight="1"/>
-                    <SingleProductType weight="3"/>
+                    {
+                        data.weights.map(weight => {
+                            if (weight.exists) {
+                                return (<SingleProductType key={weight.id} weight={weight}/>)
+                            }
+                        })
+                    }
                 </div>
             </SwipeableDrawer>
         </>

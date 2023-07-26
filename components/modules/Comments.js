@@ -25,7 +25,7 @@ const Comments = ({surveys, commentsCount, rate, comments}) => {
                 </div>
                 <div className="w-full">
                     {
-                        comments.data.comments.length ? (
+                        comments.data && comments.data.comments.length ? (
                             comments.data.comments.map(comment => (
                                 <SingleComment key={comment.id} data={comment}/>
                             ))
