@@ -4,7 +4,7 @@ import CommentsAside from "@/components/modules/CommentsAside";
 import BuyersComments from "@/components/modules/BuyersComments";
 import SingleComment from "@/components/modules/SingleComment";
 
-const Comments = ({surveys, commentsCount, rate, comments}) => {
+const Comments = ({surveys, commentsCount, rate, comments, productSlug}) => {
     return (
         <div className="mb-5">
             <div
@@ -21,13 +21,14 @@ const Comments = ({surveys, commentsCount, rate, comments}) => {
             ) : null}
             <div className="flex gap-5 flex-col 2xl:flex-row">
                 <div>
-                    <CommentsAside surveys={surveys} rate={rate} commentsCount={commentsCount}/>
+                    <CommentsAside surveys={surveys} rate={rate} commentsCount={commentsCount}
+                                   productSlug={productSlug}/>
                 </div>
                 <div className="w-full">
                     {
                         comments.data && comments.data.comments.length ? (
                             comments.data.comments.map(comment => (
-                                <SingleComment key={comment.id} data={comment}/>
+                                <SingleComment key={comment.id} data={comment} productSlug={productSlug}/>
                             ))
                         ) : (
                             <div className="h-60 text-lg font-bold flex items-center justify-center text-blue-dark">

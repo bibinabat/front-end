@@ -12,6 +12,7 @@ import axios from "axios";
 import {AuthProvider} from "@/contexts/AuthContext";
 import ProgressBar from "@badrap/bar-of-progress";
 import {Router} from "next/router";
+import {CartProvider} from "@/contexts/CartContext";
 
 const progress = new ProgressBar({
     size: 2,
@@ -41,27 +42,29 @@ axios.defaults.baseURL = "https://backend-bibinabat.iran.liara.run/api"
 export default function App({Component, pageProps}) {
     return (
         <>
-            <AuthProvider>
-                <Head>
-                    <link rel="icon" href="/favicon.jpg"/>
-                    <link rel="shortcut icon"/>
-                </Head>
-                <CacheProvider value={cacheRtl}>
-                    <ThemeProvider theme={theme}>
-                        <Layout>
-                            <Component {...pageProps} />
-                        </Layout>
-                        <ToastContainer
-                            toastClassName={({type}) => contextClass[type || "default"] +
-                                " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
-                            className="!w-full flex flex-col items-center justify-center !p-3 sm:!p-0"
-                            position="top-center"
-                            icon={false}
-                            closeButton={false}
-                        />
-                    </ThemeProvider>
-                </CacheProvider>
-            </AuthProvider>
+            <CartProvider>
+                <AuthProvider>
+                    <Head>
+                        <link rel="icon" href="/favicon.jpg"/>
+                        <link rel="shortcut icon"/>
+                    </Head>
+                    <CacheProvider value={cacheRtl}>
+                        <ThemeProvider theme={theme}>
+                            <Layout>
+                                <Component {...pageProps} />
+                            </Layout>
+                            <ToastContainer
+                                toastClassName={({type}) => contextClass[type || "default"] +
+                                    " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
+                                className="!w-full flex flex-col items-center justify-center !p-3 sm:!p-0"
+                                position="top-center"
+                                icon={false}
+                                closeButton={false}
+                            />
+                        </ThemeProvider>
+                    </CacheProvider>
+                </AuthProvider>
+            </CartProvider>
         </>
     )
 }

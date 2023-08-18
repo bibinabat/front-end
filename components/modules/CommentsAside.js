@@ -4,14 +4,16 @@ import {useEffect, useState} from "react";
 import CommentForm from "@/components/modules/CommentForm";
 import {useRouter} from "next/router";
 import useAuthState from "@/hooks/useAuth";
+import {toast} from "react-toastify";
 
-const CommentsAside = ({commentsCount, rate, surveys}) => {
+const CommentsAside = ({commentsCount, rate, surveys, productSlug}) => {
     const router = useRouter()
     const {isLoggedIn} = useAuthState()
 
     const [isCommentFormOpen, setIsCommentFormOpen] = useState(router.asPath.split("#")[1] === "comment_form")
     const [productQuality, setProductQuality] = useState(0)
     const [packQuality, setPackQuality] = useState(0)
+    const [isSending, setIsSending] = useState(false)
 
     useEffect(() => {
         let totalProduct = 0
@@ -33,12 +35,20 @@ const CommentsAside = ({commentsCount, rate, surveys}) => {
     }, [])
 
     const handleCommentFormOpen = () => {
-        window.location.hash = "#comment_form"
+        if (isLoggedIn) {
+            window.location.hash = "#comment_form"
+        } else {
+            window.location.hash = "#login"
+        }
     }
 
     const handleCommentFormClose = () => {
-        setIsCommentFormOpen(false)
-        window.history.replaceState({}, document.title, router.asPath.split('#')[0]);
+        if (isSending) {
+            toast.info("لطفا تا زمان تکمیل ارسال نظر صبر کنید")
+        } else {
+            setIsCommentFormOpen(false)
+            window.history.replaceState({}, document.title, router.asPath.split('#')[0]);
+        }
     }
 
     return (
@@ -103,7 +113,8 @@ const CommentsAside = ({commentsCount, rate, surveys}) => {
                     }
                 }}
             >
-                <CommentForm handleClose={handleCommentFormClose}/>
+                <CommentForm handleClose={handleCommentFormClose} productSlug={productSlug} isSending={isSending}
+                             setIsSending={setIsSending}/>
             </Dialog>
         </div>
     );

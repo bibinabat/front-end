@@ -8,15 +8,6 @@ import useWindowSize from "@/hooks/useWindowSize";
 const ProductInfo = ({toggleTypes, rate, brand, exists, weights, commentsCount}) => {
     const windowSize = useWindowSize()
 
-    // const [isLg, setIsLg] = useState(false)
-    //
-    // useEffect(() => {
-    //     console.log(typeof toggleTypes)
-    //     if (window.innerWidth <= 1024) {
-    //         setIsLg(true)
-    //     } else setIsLg(false)
-    // }, [])
-
     const router = useRouter()
 
     const [isTypesOpen, setIsTypesOpen] = useState(router.asPath.split("#")[1] === "product_types")

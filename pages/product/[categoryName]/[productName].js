@@ -50,7 +50,11 @@ export async function getServerSideProps(context) {
     const surveysRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/carts/survey/product/${params.productName}`)
     const surveys = await surveysRes.json()
 
-    const commentsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/?product_slug=${params.productName}`)
+    const commentsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/?product_slug=${params.productName}`, {
+        headers: {
+            "Authorization": cookies.Authorization
+        }
+    })
     const comments = await commentsRes.json()
 
     const sameProductsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/?main_category=1&paginate=false`)

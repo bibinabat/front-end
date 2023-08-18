@@ -1,13 +1,74 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
-import Image from "next/image";
+import Cookies from "js-cookie";
 
-const VideoUploader = () => {
+const VideoUploader = ({setIsVideosComplete, isCommentSend, isImagesComplete, newCommentId}) => {
     const fileInput = useRef(null)
 
     const [videos, setVideos] = useState([])
     const [count, setCount] = useState(0)
     const [dragActive, setDragActive] = useState(false)
+    const [currentFileIndex, setCurrentFileIndex] = useState(0)
+
+    const handleUploadSuccess = (index) => {
+        setVideos(prevVideos =>
+            prevVideos.map((video, i) => i === index ? {...video, status: "uploaded"} : video)
+        )
+        setCurrentFileIndex((prevIndex) => prevIndex + 1)
+    }
+
+    const handleUploadError = (index) => {
+        setVideos(prevVideos =>
+            prevVideos.map((video, i) => i === index ? {...video, status: "error"} : video)
+        )
+        setCurrentFileIndex((prevIndex) => prevIndex + 1)
+    }
+
+    const uploadVideo = (index) => {
+        const formData = new FormData()
+        formData.append("video", videos[index].video)
+        formData.append("product_comment_id", newCommentId)
+
+        videos[index].status = "uploading"
+
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/video/`, {
+            method: "PUT",
+            headers: {
+                "Authorization": Cookies.get("Authorization")
+            },
+            body: formData,
+            credentials: "include"
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data && data.data.messages && data.data.messages.success) {
+                    handleUploadSuccess(index)
+                } else {
+                    handleUploadError(index)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                handleUploadError(index)
+            })
+    }
+
+    useEffect(() => {
+        if (!isCommentSend) return;
+
+        const isAllVideosUploaded = videos.every(video => video.status === "uploaded");
+
+        if (videos.length) {
+            if (currentFileIndex < videos.length) {
+                setIsVideosComplete(false);
+                uploadVideo(currentFileIndex);
+            } else if (isAllVideosUploaded) {
+                setIsVideosComplete(true);
+            }
+        } else {
+            setIsVideosComplete(true);
+        }
+    }, [isCommentSend, currentFileIndex, videos]);
 
     const handleDrag = function (e) {
         e.preventDefault();
@@ -54,7 +115,7 @@ const VideoUploader = () => {
             render.onload = () => {
                 setVideos((prevState) => [
                     ...prevState,
-                    {id: count + i, src: render.result}
+                    {id: count + i, src: render.result, status: "pending", video: file}
                 ])
             }
             render.readAsDataURL(file)
@@ -92,7 +153,7 @@ const VideoUploader = () => {
             reader.onload = () => {
                 setVideos((prevState) => [
                     ...prevState,
-                    {id: count + i, src: reader.result},
+                    {id: count + i, src: reader.result, status: "pending", video: file},
                 ]);
             };
             reader.readAsDataURL(file);
@@ -126,7 +187,8 @@ const VideoUploader = () => {
                             <span>انتخاب ویدئو</span>
                             <i className="fa-solid fa-video"></i>
                         </div>
-                        <p className="text-[#8A8A8A] text-center hidden md:block">کلیک کنید یا ویدئو های خود را به اینجا
+                        <p className="text-[#8A8A8A] text-center hidden md:block text-sm font-[600] ">کلیک کنید یا ویدئو
+                            های خود را به اینجا
                             بکشید و
                             رها
                             کنید.</p>
@@ -144,15 +206,38 @@ const VideoUploader = () => {
                                     </div>
                                     <div className="mt-2">
                                         <div className="text-xs font-bold flex items-center gap-1">
-                                            <i className="fa-solid fa-circle-check text-[#46B715]"></i>
-                                            <span className="text-gray-500">بارگذاری شده</span>
+                                            {
+                                                video.status === "pending" ? (
+                                                    <>
+                                                        <i className="fa-duotone fa-spinner-third fa-spin text-gray-500"></i>
+                                                        <span className="text-gray-500">در انتظار</span>
+                                                    </>
+                                                ) : video.status === "uploading" ? (
+                                                    <>
+                                                        <i className="fa-duotone fa-spinner-third fa-spin text-blue-500"></i>
+                                                        <span className="text-gray-500">در حال بارگزاری</span>
+                                                    </>
+                                                ) : video.status === "uploaded" ? (
+                                                    <>
+                                                        <i className="fa-solid fa-circle-check text-[#46B715]"></i>
+                                                        <span className="text-gray-500">بارگذاری شده</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa-solid fa-circle-xmark text-red"></i>
+                                                        <span className="text-gray-500">خطا</span>
+                                                    </>
+                                                )
+                                            }
                                         </div>
-                                        <button
-                                            onClick={() => handleDelete(video.id)}
-                                            className="text-gray-400 text-xs font-bold flex items-center gap-1 w-full justify-center mt-2 rounded">
-                                            <i className="fa-solid fa-trash"></i>
-                                            <span>حذف</span>
-                                        </button>
+                                        {video.status === "pending" && (
+                                            <button
+                                                onClick={() => handleDelete(video.id)}
+                                                className="text-gray-400 text-xs font-bold flex items-center gap-1 w-full justify-center mt-2 rounded">
+                                                <i className="fa-solid fa-trash"></i>
+                                                <span>حذف</span>
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             ))

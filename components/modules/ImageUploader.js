@@ -1,13 +1,75 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
-const ImageUploader = () => {
+const ImageUploader = ({setIsImagesComplete, isCommentSend, newCommentId}) => {
     const fileInput = useRef(null)
 
     const [images, setImages] = useState([])
     const [count, setCount] = useState(0)
     const [dragActive, setDragActive] = useState(false)
+    const [currentFileIndex, setCurrentFileIndex] = useState(0)
+
+    const handleUploadSuccess = (index) => {
+        setImages(prevImages =>
+            prevImages.map((image, i) => i === index ? {...image, status: "uploaded"} : image)
+        )
+        setCurrentFileIndex((prevIndex) => prevIndex + 1)
+    }
+
+    const handleUploadError = (index) => {
+        setImages(prevImages =>
+            prevImages.map((image, i) => i === index ? {...image, status: "error"} : image)
+        )
+        setCurrentFileIndex((prevIndex) => prevIndex + 1)
+    }
+
+    const uploadImage = (index) => {
+        const formData = new FormData()
+        formData.append("image", images[index].image)
+        formData.append("product_comment_id", newCommentId)
+
+        images[index].status = "uploading"
+
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/image/`, {
+            method: "PUT",
+            headers: {
+                "Authorization": Cookies.get("Authorization")
+            },
+            body: formData,
+            credentials: "include"
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data && data.data.messages && data.data.messages.success) {
+                    handleUploadSuccess(index)
+                } else {
+                    handleUploadError(index)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                handleUploadError(index)
+            })
+    }
+
+    useEffect(() => {
+        if (!isCommentSend) return;
+
+        const isAllImagesUploaded = images.every(image => image.status === "uploaded");
+
+        if (images.length) {
+            if (currentFileIndex < images.length) {
+                setIsImagesComplete(false);
+                uploadImage(currentFileIndex);
+            } else if (isAllImagesUploaded) {
+                setIsImagesComplete(true);
+            }
+        } else {
+            setIsImagesComplete(true);
+        }
+    }, [isCommentSend, currentFileIndex, images]);
 
     const handleDrag = function (e) {
         e.preventDefault();
@@ -53,7 +115,7 @@ const ImageUploader = () => {
             render.onload = () => {
                 setImages((prevState) => [
                     ...prevState,
-                    {id: count + i, src: render.result}
+                    {id: count + i, src: render.result, status: "pending", image: file}
                 ])
             }
             render.readAsDataURL(file)
@@ -90,7 +152,7 @@ const ImageUploader = () => {
             reader.onload = () => {
                 setImages((prevState) => [
                     ...prevState,
-                    {id: count + i, src: reader.result},
+                    {id: count + i, src: reader.result, status: "pending", image: file},
                 ]);
             };
             reader.readAsDataURL(file);
@@ -105,7 +167,7 @@ const ImageUploader = () => {
     return (
         <>
             {
-                !images.length ? (
+                images.length === 0 ? (
                     <div
                         onDrop={handleFileDrop}
                         onDragEnter={handleDrag}
@@ -121,7 +183,8 @@ const ImageUploader = () => {
                             <span>انتخاب عکس</span>
                             <i className="fa-solid fa-image"></i>
                         </div>
-                        <p className="text-[#8A8A8A] text-center hidden md:block">کلیک کنید یا عکس های خود را به اینجا
+                        <p className="text-[#8A8A8A] text-center hidden md:block text-sm font-[600]">کلیک کنید یا عکس
+                            های خود را به اینجا
                             بکشید و رها
                             کنید.</p>
                     </div>
@@ -136,15 +199,38 @@ const ImageUploader = () => {
                                     </div>
                                     <div className="mt-2">
                                         <div className="text-xs font-bold flex items-center gap-1">
-                                            <i className="fa-solid fa-circle-check text-[#46B715]"></i>
-                                            <span className="text-gray-500">بارگذاری شده</span>
+                                            {
+                                                image.status === "pending" ? (
+                                                    <>
+                                                        <i className="fa-duotone fa-spinner-third fa-spin text-gray-500"></i>
+                                                        <span className="text-gray-500">در انتظار</span>
+                                                    </>
+                                                ) : image.status === "uploading" ? (
+                                                    <>
+                                                        <i className="fa-duotone fa-spinner-third fa-spin text-blue-500"></i>
+                                                        <span className="text-gray-500">در حال بارگزاری</span>
+                                                    </>
+                                                ) : image.status === "uploaded" ? (
+                                                    <>
+                                                        <i className="fa-solid fa-circle-check text-[#46B715]"></i>
+                                                        <span className="text-gray-500">بارگذاری شده</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <i className="fa-solid fa-circle-xmark text-red"></i>
+                                                        <span className="text-gray-500">خطا</span>
+                                                    </>
+                                                )
+                                            }
                                         </div>
-                                        <button
-                                            onClick={() => handleDelete(image.id)}
-                                            className="text-gray-400 text-xs font-bold flex items-center gap-1 w-full justify-center mt-2 rounded">
-                                            <i className="fa-solid fa-trash"></i>
-                                            <span>حذف</span>
-                                        </button>
+                                        {image.status === "pending" && (
+                                            <button
+                                                onClick={() => handleDelete(image.id)}
+                                                className="text-gray-400 text-xs font-bold flex items-center gap-1 w-full justify-center mt-2 rounded">
+                                                <i className="fa-solid fa-trash"></i>
+                                                <span>حذف</span>
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             ))

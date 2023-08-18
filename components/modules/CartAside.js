@@ -1,36 +1,39 @@
-const CartAside = () => {
+const CartAside = ({data}) => {
     return (
-        <div className="bg-[#f5f5f5] rounded-xl p-3 sticky top-40">
+        <div className="bg-[#f5f5f5] rounded-xl p-3 sticky top-40 min-w-[265px]">
             <p className="text-center text-gray-500 font-bold text-sm mb-4">اطلاعات پرداخت</p>
             <div className="flex flex-col gap-5 text-sm">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1">
                         <span className="text-blue-dark font-[600]">مبلغ کالاها</span>
                         <span
-                            className="bg-blue-dark text-xs text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">2</span>
+                            className="bg-blue-dark text-xs text-white rounded-full font-bold h-4 min-w-[16px] flex justify-center px-1 pt-[1px]">{data.cartInfo.orders.length}</span>
                     </div>
                     <div className="flex items-center gap-1 font-bold text-blue-dark">
-                        <span>118,000</span>
+                        <span>{data.cartInfo.balances.real.toLocaleString()}</span>
                         <span className="text-xs">تومان</span>
                     </div>
                 </div>
                 <div className="flex text-red items-center justify-between">
                     <span className="font-[600]">تخفیف</span>
                     <div className="flex items-center gap-1 font-bold">
-                        <span>37,600</span>
+                        <span>{(data.cartInfo.balances.real - data.cartInfo.balances.discount_tax_code_wallet_order_return).toLocaleString()}</span>
                         <span className="text-xs">تومان</span>
                     </div>
                 </div>
                 <div className="flex justify-between items-center gap-14">
                     <span className="font-[600] text-blue-dark">هزینه ارسال</span>
-                    <span className="text-xs font-bold text-gray-400">در مرحله بعد مشخص میشود</span>
+                    <div className="text-blue-dark flex items-center gap-1 font-bold">
+                        <span>{(data.cartInfo.balances.included_costs.shipping + data.cartInfo.balances.included_costs.weight).toLocaleString()}</span>
+                        <span className="text-xs">تومان</span>
+                    </div>
                 </div>
             </div>
             <hr className="border-[1px] border-gray-400 my-4"/>
             <div className='text-sm flex items-center justify-between'>
                 <span className="font-[600] text-blue-dark">مبلغ قابل پرداخت</span>
                 <div className="font-bold flex items-center gap-1">
-                    <span>150,400</span>
+                    <span>{data.cartInfo.balances.final.toLocaleString()}</span>
                     <span className="text-xs">تومان</span>
                 </div>
             </div>

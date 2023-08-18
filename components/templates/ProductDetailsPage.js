@@ -123,10 +123,15 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                                 </div>
                             ) : null
                         }
-                        <Description content={data.product.description} productTitle={data.product.title}
-                                     faqs={data.product.faqs}/>
+                        {
+                            data.product.description.length || data.product.faqs.length ? (
+                                <Description content={data.product.description} productTitle={data.product.title}
+                                             faqs={data.product.faqs}/>
+                            ) : null
+                        }
                         <Comments surveys={surveys} rate={data.product.rate}
-                                  commentsCount={data.product.comments_count} comments={comments}/>
+                                  commentsCount={data.product.comments_count} comments={comments}
+                                  productSlug={data.product.slug}/>
                     </div>
                     {windowSize.width >= 768 &&
                         <div className="hidden md:block">

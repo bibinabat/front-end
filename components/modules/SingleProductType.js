@@ -1,6 +1,40 @@
 import Image from "next/image";
+import {useCart} from "@/contexts/CartContext";
+import {useEffect, useState} from "react";
+import Link from "next/link";
 
 const SingleProductType = ({weight}) => {
+    const {addToCart, cart, removeFromCart} = useCart()
+
+    const [isLoading, setIsLoading] = useState(false)
+    const [inCart, setInCart] = useState(null)
+
+    useEffect(() => {
+        setInCart(cart.cartInfo.orders?.find(order => order.product_weight.id === weight.id))
+    }, [cart]);
+
+    const handleAddToCart = async () => {
+        try {
+            setIsLoading(true)
+            await addToCart(weight.id, 1)
+            setIsLoading(false)
+        } catch (err) {
+            console.log(err)
+            setIsLoading(false)
+        }
+    }
+
+    const handleRemoveFromCart = async () => {
+        try {
+            setIsLoading(true)
+            await removeFromCart(inCart.id)
+            setIsLoading(false)
+        } catch (err) {
+            console.log(err)
+            setIsLoading(false)
+        }
+    }
+
     return (
         <div className="flex p-3 bg-[#f5f5f5] rounded-xl">
             {
@@ -17,8 +51,8 @@ const SingleProductType = ({weight}) => {
             }
             <div className="w-full flex flex-col justify-between">
                 <div>
-                    <span className="text-blue-dark font-[600] text-lg">{weight.size}</span>
-                    <div className="flex">
+                    <span className="text-blue-dark font-[600]">{weight.size}</span>
+                    <div className="flex text-sm mt-1">
                         <div>
                             <span className="ml-2 font-[600] text-[#909090]">وزن:</span>
                             <span className="font-bold text-blue-dark">{weight.weight} گرم</span>
@@ -43,7 +77,7 @@ const SingleProductType = ({weight}) => {
                                     )
                                 }
                                 <div className="mb-2">
-                                <span className="text-blue-dark font-bold text-xl ml-1">
+                                <span className="text-blue-dark font-bold ml-1">
                                     {
                                         weight.prices.discount ? (
                                             weight.prices.discount.price.toLocaleString()
@@ -57,11 +91,46 @@ const SingleProductType = ({weight}) => {
                             </div>
                         )
                     }
-                    <button
-                        className="text-white bg-blue-dark flex items-center gap-2 py-2 px-3 rounded-lg w-full justify-center">
-                        <i className="fa-regular fa-cart-shopping hidden min-[388px]:block"></i>
-                        افزودن به سبد خرید
-                    </button>
+                    {
+                        inCart ? (
+                            <div className="flex items-center justify-between">
+                                <div
+                                    className="flex items-center gap-4 border-[2px] border-gray-300 rounded-lg py-1 px-2">
+                                    <i className="fa-solid fa-plus text-sm cursor-pointer text-blue-600"></i>
+                                    <span className="font-bold text-blue-dark">
+                                        {
+                                            isLoading ? (
+                                                <i className="fa-duotone fa-spinner-third fa-spin"></i>
+                                            ) : (
+                                                inCart.count
+                                            )
+                                        }
+                                    </span>
+                                    <i className="fa-solid fa-trash text-sm text-red cursor-pointer"
+                                       onClick={handleRemoveFromCart}></i>
+                                </div>
+                                <Link href="/cart" className="text-xs font-[600] flex items-center gap-1 text-blue-500">
+                                    <i className="fa-solid fa-cart-shopping"></i>
+                                    مشاهده سبد خرید
+                                </Link>
+                            </div>
+                        ) : (
+                            isLoading ? (
+                                <button
+                                    disabled
+                                    className="text-white bg-blue-dark flex items-center gap-2 h-9 rounded-lg w-full text-sm justify-center">
+                                    <img src="/loading.svg" width={40}/>
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleAddToCart}
+                                    className="text-white bg-blue-dark flex items-center gap-2 h-9 rounded-lg w-full text-sm justify-center">
+                                    <i className="fa-regular fa-cart-shopping hidden min-[388px]:block"></i>
+                                    افزودن به سبد خرید
+                                </button>
+                            )
+                        )
+                    }
                 </div>
             </div>
         </div>

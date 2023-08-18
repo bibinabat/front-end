@@ -3,12 +3,17 @@ import {useEffect, useRef, useState} from "react";
 import ImageUploader from "@/components/modules/ImageUploader";
 import VideoUploader from "@/components/modules/VideoUploader";
 import {useForm} from "react-hook-form";
+import Cookies from "js-cookie";
+import {toast} from "react-toastify";
 
-const CommentForm = ({handleClose}) => {
+const CommentForm = ({handleClose, productSlug, isSending, setIsSending}) => {
     const [rate, setRate] = useState(1)
     const [rateHover, setRateHover] = useState(-1)
-    const [commentText, setCommentText] = useState("")
-    const [selectedValue, setSelectedValue] = useState('suggested');
+    const [selectedValue, setSelectedValue] = useState("1");
+    const [isCommentSend, setIsCommentSend] = useState(false)
+    const [isImagesComplete, setIsImagesComplete] = useState(false)
+    const [isVideosComplete, setIsVideosComplete] = useState(false)
+    const [newCommentId, setNewCommentId] = useState(null)
 
     const {
         register,
@@ -18,18 +23,15 @@ const CommentForm = ({handleClose}) => {
         }
     } = useForm()
 
-    // const textAreaRef = useRef(null)
-    //
-    // const resizeTextArea = () => {
-    //     textAreaRef.current.style.height = "auto"
-    //     textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px"
-    // }
-    //
-    // useEffect(resizeTextArea, [commentText])
-    //
-    // const onChange = e => {
-    //     setCommentText(e.target.value)
-    // }
+    useEffect(() => {
+        if (isVideosComplete && isImagesComplete && isCommentSend) {
+            setIsSending(false)
+            if (!isSending) {
+                handleClose()
+                toast.info("کاربر گرامی نظر شما با موفقیت ثبت شد و پس از تایید توسط ادمین به نمایش در خواهد آمد")
+            }
+        }
+    }, [isImagesComplete, isVideosComplete, isCommentSend, isSending])
 
     const handleSuggestion = (e) => {
         setSelectedValue(e.target.value)
@@ -42,8 +44,46 @@ const CommentForm = ({handleClose}) => {
         inputProps: {'aria-label': item}
     })
 
-    const handleFormSubmit = () => {
-        handleClose()
+    const handleFormSubmit = (data) => {
+        setIsSending(true)
+
+        const formData = {
+            "product_slug": productSlug,
+            "text": data.commentText,
+            "rate": rate,
+            "author_offer": +selectedValue
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/`, {
+            method: "PUT",
+            body: JSON.stringify(formData),
+            credentials: "include",
+            headers: {
+                "Authorization": Cookies.get("Authorization"),
+                "Content-Type": "application/json",
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.data && json.data.messages && json.data.messages.success) {
+                    setNewCommentId(json.data.comment.id)
+                    setIsCommentSend(true)
+                } else if (json.data && json.data.errors) {
+                    setIsSending(false)
+                    if (json.data.errors.database) {
+                        toast.info("شما 5 نظر ثبت کرده اید ولی هنوز توسط ادمین بررسی نشده اند. لطفا تا بررسی شدن حداقل یکی از نظرات قبلی خود منتظر بمانید")
+                    } else if (json.data.errors.text) {
+                        toast.info(json.data.errors.text[0])
+                    } else {
+                        toast.error("مشکلی در انجام عملیات رخ داده است")
+                    }
+                }
+            })
+            .catch(err => {
+                setIsSending(false)
+                console.log(err)
+                toast.error("مشکلی در انجام عملیات رخ داده است")
+            })
     }
 
     return (
@@ -88,6 +128,10 @@ const CommentForm = ({handleClose}) => {
                               maxLength: {
                                   value: 200,
                                   message: 'متن نظر باید حداکثر 200 حرف باشد'
+                              },
+                              minLength: {
+                                  value: 3,
+                                  message: "متن نظر باید بیش از 2 حرف باشد"
                               }
                           })}
                 ></textarea>
@@ -104,7 +148,7 @@ const CommentForm = ({handleClose}) => {
                             <label htmlFor="suggested" className="cursor-pointer text-[#46B715] font-bold">
                                 پیشنهاد می‌کنم
                             </label>
-                            <Radio {...controlProps("suggested")} id="suggested"
+                            <Radio {...controlProps("1")} id="suggested"
                                    sx={{
                                        color: '#46B715',
                                        '&.Mui-checked': {
@@ -116,7 +160,7 @@ const CommentForm = ({handleClose}) => {
                         <div>
                             <label htmlFor="notSure" className="cursor-pointer text-[#FFA200] font-bold">مطمئن
                                 نیستم</label>
-                            <Radio {...controlProps("notSure")} id="notSure"
+                            <Radio {...controlProps("2")} id="notSure"
                                    sx={{
                                        color: '#FFA200',
                                        '&.Mui-checked': {
@@ -128,7 +172,7 @@ const CommentForm = ({handleClose}) => {
                         <div>
                             <label htmlFor="notSuggested" className="cursor-pointer text-red font-bold">پیشنهاد
                                 نمی‌کنم</label>
-                            <Radio {...controlProps("notSuggested")} id="notSuggested"
+                            <Radio {...controlProps("0")} id="notSuggested"
                                    sx={{
                                        color: '#FF5050',
                                        '&.Mui-checked': {
@@ -157,15 +201,28 @@ const CommentForm = ({handleClose}) => {
                             <i className="fa-regular fa-circle-info text-lg cursor-pointer"></i>
                         </Tooltip>
                     </div>
-                    <ImageUploader/>
-                    <VideoUploader/>
+                    <ImageUploader isCommentSend={isCommentSend} setIsImagesComplete={setIsImagesComplete}
+                                   newCommentId={newCommentId}/>
+                    <VideoUploader isCommentSend={isCommentSend} setIsVideosComplete={setIsVideosComplete}
+                                   newCommentId={newCommentId} isImagesComplete={isImagesComplete}/>
                 </div>
             </DialogContent>
             <DialogActions>
-                <button className="w-full bg-blue-dark text-white font bold py-2 rounded-xl"
-                        onClick={handleSubmit(handleFormSubmit)}>
-                    ثبت نظر
-                </button>
+                {
+                    isSending ? (
+                        <button
+                            className="w-full bg-blue-dark text-white font bold flex items-center justify-center rounded-lg h-10"
+                            disabled>
+                            <img src="/loading.svg" width={40}/>
+                        </button>
+                    ) : (
+                        <button
+                            className="w-full bg-blue-dark text-white font bold flex items-center justify-center rounded-lg h-10"
+                            onClick={handleSubmit(handleFormSubmit)}>
+                            ثبت نظر
+                        </button>
+                    )
+                }
             </DialogActions>
         </>
     );

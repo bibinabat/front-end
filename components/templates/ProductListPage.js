@@ -6,11 +6,22 @@ import ProductCard from "@/components/modules/ProductCard";
 import useWindowSize from "@/hooks/useWindowSize";
 import MobileProductCard from "@/components/modules/MobileProductCard";
 import Description from "@/components/modules/Description";
+import {Router} from "next/router";
 
 const ProductListPage = ({products, categories, pageHeading, faqs, description}) => {
     const windowSize = useWindowSize()
 
     const [isCategoryOpen, setIsCategoryOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    Router.events.on("routeChangeStart", (url) => {
+        if (!url.includes("/product/")) {
+            setIsLoading(true)
+        }
+    })
+    Router.events.on("routeChangeComplete", () => setIsLoading(false))
+    Router.events.on("routeChangeError", () => setIsLoading(false))
+
 
     const toggleCategory = (open) => (event) => {
         if (
@@ -63,7 +74,8 @@ const ProductListPage = ({products, categories, pageHeading, faqs, description})
                     </div>
                     {
                         windowSize.width >= 640 && (
-                            <div className="flex flex-wrap gap-6 justify-center mt-5">
+                            <div
+                                className={`flex flex-wrap gap-6 justify-center mt-5 transition-opacity duration-700 ${isLoading ? "opacity-50" : ""}`}>
                                 {
                                     products.data.products.map(product => (
                                         <ProductCard key={product.id} data={product}/>
@@ -74,7 +86,7 @@ const ProductListPage = ({products, categories, pageHeading, faqs, description})
                     }
                     {
                         windowSize.width < 640 && (
-                            <div className="flex flex-wrap gap-3 justify-center mt-5">
+                            <div className={`flex flex-wrap gap-3 justify-center mt-5 ${isLoading ? "opacity-50" : ""}`}>
                                 {
                                     products.data.products.map(product => (
                                         <MobileProductCard key={product.id} data={product}/>

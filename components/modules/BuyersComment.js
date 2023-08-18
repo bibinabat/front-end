@@ -48,19 +48,19 @@ const BuyersComment = ({survey}) => {
             <div className="bg-white rounded-lg p-1 flex flex-col items-center grow">
                 <div className="text-sm font-bold text-[#555555]">لیست محصولات خریداری شده</div>
                 <div className="text-xs font-[600] text-blue-dark flex flex-col items-center gap-1 mt-1">
-                    {
-                        survey.orders.slice(0, 3).map(order => (
-                            <Link href={`/product/${order.main_category.slug}/${order.slug}`}
-                                  key={order.id}>{order.title}</Link>
-                        ))
-                    }
+                    {/*{*/}
+                    {/*    survey.orders.slice(0, 3).map(order => (*/}
+                    {/*        <Link href={`/product/${order.main_category.slug}/${order.slug}`}*/}
+                    {/*              key={order.id}>{order.title}</Link>*/}
+                    {/*    ))*/}
+                    {/*}*/}
                 </div>
-                {
-                    survey.orders.length > 3 ? (
-                        <div className="text-cyan text-xs font-extrabold mt-1">و {survey.orders.length - 3} محصول
-                            دیگر</div>
-                    ) : null
-                }
+                {/*{*/}
+                {/*    survey.orders.length > 3 ? (*/}
+                {/*        <div className="text-cyan text-xs font-extrabold mt-1">و {survey.orders.length - 3} محصول*/}
+                {/*            دیگر</div>*/}
+                {/*    ) : null*/}
+                {/*}*/}
             </div>
         </div>
     );

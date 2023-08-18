@@ -4,9 +4,77 @@ import CommentImage from "@/components/modules/CommentImage";
 import CommentVideo from "@/components/modules/CommentVideo";
 import ReplyCommentForm from "@/components/modules/ReplyCommentForm";
 import {months} from "@/public/months";
-import React from "react";
+import React, {useState} from "react";
+import Cookies from "js-cookie";
+import {toast} from "react-toastify";
+import useAuthState from "@/hooks/useAuth";
 
-const SingleComment = ({data}) => {
+const SingleComment = ({data, productSlug}) => {
+    const {isLoggedIn} = useAuthState()
+
+    const [isLiked, setIsLiked] = useState(data.liked)
+    const [likesCount, setLikesCount] = useState(data.like)
+
+    const handleLikeToggle = () => {
+        if (!isLoggedIn) {
+            toast.info("لطفا ابتدا وارد حساب کاربری خود شوید")
+            window.location.hash = "#login"
+            return
+        }
+
+        setIsLiked("loading")
+
+        if (isLiked) {
+            fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/interest/product/${data.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": Cookies.get("Authorization")
+                }
+            })
+                .then(response => response.json())
+                .then(json => {
+                    if (json.data && json.data.messages && json.data.messages.success) {
+                        setIsLiked(false)
+                        setLikesCount(json.data.comment.like)
+                    } else {
+                        setIsLiked(true)
+                        toast.error("مشکلی در انجام عملیات رخ داده است")
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    setIsLiked(true)
+                    toast.error("مشکلی در انجام عملیات رخ داده است")
+                })
+        } else {
+            fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/interest/product/${data.id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    "interest": 1
+                }),
+                headers: {
+                    "Authorization": Cookies.get("Authorization"),
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(json => {
+                    if (json.data && json.data.messages && json.data.messages.success) {
+                        setIsLiked(true)
+                        setLikesCount(json.data.comment.like)
+                    } else {
+                        setIsLiked(false)
+                        toast.error("مشکلی در انجام عملیات رخ داده است")
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    setIsLiked(false)
+                    toast.error("مشکلی در انجام عملیات رخ داده است")
+                })
+        }
+    }
+
     return (
         <div className="bg-[#f5f5f5] px-5 py-4 rounded-xl mb-3">
             {
@@ -59,7 +127,7 @@ const SingleComment = ({data}) => {
                             {
                                 data.author_offer === "0" ? (
                                     <div
-                                        className="flex items-center text-redx font-[600] gap-1 pl-2 text-sm">
+                                        className="flex items-center text-red font-[600] gap-1 pl-2 text-sm">
                                         <i className="fa-solid fa-circle-xmark"></i>
                                         <span>پیشنهاد نمیکنم</span>
                                     </div>
@@ -93,12 +161,12 @@ const SingleComment = ({data}) => {
                     <div className="flex items-center gap-2 mt-3">
                         {data.images && (
                             data.images.map((image, index) => (
-                                <CommentImage key={index} src={image} name={index}/>
+                                <CommentImage key={index} src={image} name={`${data.id}${index}`}/>
                             ))
                         )}
                         {data.videos && (
                             data.videos.map((video, index) => (
-                                <CommentVideo key={index} src={video} name={index}/>
+                                <CommentVideo key={index} src={video} name={`${data.id}${index}`}/>
                             ))
                         )}
                     </div>
@@ -131,11 +199,12 @@ const SingleComment = ({data}) => {
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <ReplyCommentForm text={data.text} commentId={data.id}/>
+                    <ReplyCommentForm commentData={data} commentId={data.id} productSlug={productSlug}/>
                     <button
-                        className="px-3 py-1 bg-[#F8C3C3] text-red rounded-full flex items-center gap-1 font-bold">
-                        <span>{data.like}</span>
-                        <i className="fa-regular fa-heart"></i>
+                        className="px-3 py-1 bg-[#F8C3C3] text-red rounded-full flex items-center gap-1 font-bold"
+                        onClick={handleLikeToggle}>
+                        <span>{likesCount}</span>
+                        <i className={`${isLiked === "loading" ? "fa-duotone fa-spinner-third fa-spin text-blue-500" : isLiked === true ? "fa-solid fa-heart" : "fa-regular fa-heart"}`}></i>
                     </button>
                 </div>
             </div>
