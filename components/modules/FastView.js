@@ -1,14 +1,26 @@
 import ProductAlbumSlider from "@/components/modules/ProductAlbumSlider";
 import {useEffect, useRef, useState} from "react";
-import {Rating, Skeleton} from "@mui/material";
+import {Dialog, Rating, Skeleton} from "@mui/material";
 import {toast} from "react-toastify";
 import Link from "next/link";
+import ProductTypes from "@/components/modules/ProductTypes";
+import {useRouter} from "next/router";
 
 const FastView = ({handleClose, productId}) => {
     const [_, setInit] = useState()
     const [data, setData] = useState("loading")
 
     const viewSwiperRef = useRef(null)
+
+    const [isTypesOpen, setIsTypesOpen] = useState(false)
+
+    const handleTypesOpen = () => {
+        setIsTypesOpen(true)
+    }
+
+    const handleTypesClose = () => {
+        setIsTypesOpen(false)
+    }
 
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/${productId}`, {
@@ -154,9 +166,25 @@ const FastView = ({handleClose, productId}) => {
                     }
                     {
                         data === "loading" ? null : data.product.exists ? (
-                            <button className="bg-blue-dark w-full text-white rounded-lg py-2 mt-2">
-                                افزودن به سبد خرید
-                            </button>
+                            <>
+                                <button className="bg-blue-dark w-full text-white rounded-lg py-2 mt-2"
+                                        onClick={handleTypesOpen}>
+                                    افزودن به سبد خرید
+                                </button>
+                                <Dialog
+                                    open={isTypesOpen}
+                                    onClose={handleTypesClose}
+                                    fullWidth={true}
+                                    maxWidth="xs"
+                                    PaperProps={{
+                                        sx: {
+                                            borderRadius: "15px"
+                                        }
+                                    }}
+                                >
+                                    <ProductTypes handleClose={handleTypesClose} weights={data.weights}/>
+                                </Dialog>
+                            </>
                         ) : (
                             <button className="bg-gray-400 w-full text-white rounded-lg py-2 mt-2" disabled>
                                 ناموجود

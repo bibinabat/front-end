@@ -1,7 +1,38 @@
 import Link from "next/link";
 import FavoriteProductCard from "@/components/modules/FavoriteProductCard";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import Cookies from "js-cookie";
 
 const FavoritesPage = () => {
+    const [products, setProducts] = useState("loading")
+
+    const getData = () => {
+        setProducts("loading")
+
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/?watch_list=true&paginate=false`, {
+            headers: {
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.data && data.data.products) {
+                    setProducts(data.data.products)
+                } else {
+                    toast.error("مشکلی در گرفتن اطلاعات رخ داده است.")
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error("مشکلی در گرفتن اطلاعات رخ داده است.")
+            })
+    }
+
+    useEffect(() => {
+        getData()
+    }, []);
+
     return (
         <div className="overflow-hidden rounded-3xl border-[1.5px] flex-1">
             <div className={`p-5 sm:p-10 rounded-3xl h-full overflow-auto`}>
@@ -22,12 +53,25 @@ const FavoritesPage = () => {
                         {/*</span>*/}
                     </div>
                 </div>
-                <div className="grid min-[1420px]:grid-cols-2 gap-3">
-                    <FavoriteProductCard discount={2}/>
-                    <FavoriteProductCard/>
-                    <FavoriteProductCard/>
-                    <FavoriteProductCard/>
-                </div>
+                {
+                    products === "loading" ? (
+                        <div className="pt-16 text-blue-500 text-2xl flex items-center justify-center">
+                            <i className="fa-duotone fa-spinner-third fa-spin"></i>
+                        </div>
+                    ) : products.length === 0 ? (
+                        <div className="text-center mt-16 text-gray-600 font-[600] text-sm">
+                            لیست علاقمندی های شما خالی است.
+                        </div>
+                    ) : (
+                        <div className="grid min-[1420px]:grid-cols-2 gap-3">
+                            {
+                                products.map(product => (
+                                    <FavoriteProductCard key={product.id} data={product} getData={getData}/>
+                                ))
+                            }
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

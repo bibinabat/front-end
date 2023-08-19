@@ -7,7 +7,7 @@ import useAuthState from "@/hooks/useAuth";
 
 const ProfileAside = () => {
     const router = useRouter()
-    const {setIsLoggedIn} = useAuthState()
+    const {setIsLoggedIn, userData} = useAuthState()
 
     const isProfilePage = router.asPath === "/profile"
 
@@ -78,7 +78,7 @@ const ProfileAside = () => {
                         </div>
                         <div className="flex flex-col text-sm gap-1">
                         <span
-                            className="font-[600] text-blue-dark whitespace-nowrap w-36 sm:w-full md:w-36 overflow-hidden text-ellipsis">امیرحسین منصوری زاده گاوافشادی</span>
+                            className="font-[600] text-blue-dark whitespace-nowrap w-36 sm:w-full md:w-36 overflow-hidden text-ellipsis">{userData.first_name} {userData.last_name}</span>
                             <span className="text-gray-400 text-xs font-bold">خوش آمدید</span>
                         </div>
                     </div>

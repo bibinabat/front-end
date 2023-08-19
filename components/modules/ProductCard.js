@@ -95,14 +95,12 @@ const ProductCard = ({data}) => {
                         data.exists ? (
                             <button
                                 className="text-white bg-blue-dark flex items-center justify-center gap-2 rounded-lg w-full text-sm font-[500]">
-                                {/*<i className="fa-regular fa-cart-shopping"></i>*/}
                                 افزودن به سبد خرید
                             </button>
                         ) : (
                             <button
                                 className="text-white bg-gray-400 flex items-center justify-center gap-2 rounded-lg w-full text-sm font-bold"
                                 disabled>
-                                {/*<i className="fa-regular fa-cart-shopping"></i>*/}
                                 ناموجود
                             </button>
                         )

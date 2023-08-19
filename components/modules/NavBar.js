@@ -57,7 +57,7 @@ const NavBar = ({handleLoginOpen}) => {
                     }
                 }}
             >
-                <NavBarCart/>
+                <NavBarCart handleClose={toggleCart(false)}/>
             </SwipeableDrawer>
             <div
                 className="grid items-center justify-around grid-cols-4 bottom-0 right-0 fixed z-[999] bg-white w-full text-[#ABB4BC] py-3 shadow-[0px_-20px_62px_9px_rgba(0,0,0,0.1)] lg:hidden">

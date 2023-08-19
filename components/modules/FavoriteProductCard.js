@@ -3,9 +3,13 @@ import {Dialog, Tooltip} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import FastView from "@/components/modules/FastView";
 import {useRouter} from "next/router";
+import Link from "next/link";
+import {toast} from "react-toastify";
+import Cookies from "js-cookie";
 
-const FavoriteProductCard = ({discount}) => {
+const FavoriteProductCard = ({data, getData}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
+    const [isLoading, setIsLoading] = useState(false)
 
     const router = useRouter()
 
@@ -25,45 +29,79 @@ const FavoriteProductCard = ({discount}) => {
         window.history.back()
     }
 
+    const removeFromFavorites = () => {
+        setIsLoading(true)
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                "product_slug": data.slug
+            }),
+            headers: {
+                "Authorization": Cookies.get("Authorization"),
+                "Content-Type": "Application/json"
+            },
+            credentials: "include"
+        })
+            .then(response => response.json())
+            .then(data => {
+                setIsLoading(false)
+                if (data.data.messages && data.data.messages.success) {
+                    getData()
+                    toast.info(data.data.messages.success[0])
+                } else {
+                    toast.error("مشکلی در انجام عملیات رخ داده است")
+                }
+            })
+            .catch(err => {
+                setIsLoading(false)
+                console.log(err)
+                toast.error("مشکلی در انجام عملیات رخ داده است")
+            })
+    }
+
     return (
         <div className="flex p-3 bg-[#f5f5f5] rounded-xl w-full">
-            <Image src="/testImages/khz3.jpg" alt="text" width={100} height={100}
-                   className="rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto"/>
+            <Link href={`/product/${data.main_category.slug}/${data.slug}`}>
+                <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.image.url}`} alt={data.image.alt} width={100}
+                       height={100}
+                       className="rounded-lg ml-3 block max-w-[125px] max-h-[125px] w-auto h-auto"/>
+            </Link>
             <div className="w-full flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                    <span className="text-blue-dark font-[600]">پرده نبات ساده درجه یک</span>
+                    <Link href={`/product/${data.main_category.slug}/${data.slug}`}
+                          className="text-blue-dark font-[600]">{data.title}</Link>
                 </div>
                 <div className="self-end">
                     <div className="flex flex-col items-end">
                         {
-                            discount &&
+                            data.price.discount &&
                             <div className="flex items-center">
-                                <span className="font-bold line-through text-[#7C7C7C]">77,000</span>
+                                <span
+                                    className="font-bold line-through text-[#7C7C7C]">{data.price.real.toLocaleString()}</span>
                                 <span
                                     className="bg-red text-white rounded px-2 text-xs py-0.5 mr-1 font-bold flex items-center gap-1">
-                            {discount}
+                            {data.price.discount.percent}
                                     <i className="fa-solid fa-percent"></i>
                             </span>
                             </div>
                         }
                         <div className="mb-2">
-                            <span className="text-blue-dark font-bold ml-1">61,600</span>
+                            <span className="text-blue-dark font-bold ml-1">
+                                {data.price.discount ? data.price.discount.price.toLocaleString() : data.price.real.toLocaleString()}
+                            </span>
                             <span>تومان</span>
                         </div>
                     </div>
                     <div className="flex gap-2">
                         <Tooltip arrow title="حذف">
-                            <button className="text-red flex items-center justify-center w-10 bg-[#FFDFDF] rounded-lg">
-                                <i className="fa-solid fa-trash"></i>
+                            <button className="text-red flex items-center justify-center w-10 bg-[#FFDFDF] rounded-lg"
+                                    onClick={removeFromFavorites}>
+                                {
+                                    isLoading ? <i className="fa-duotone fa-spinner-third fa-spin text-blue-500"></i> :
+                                        <i className="fa-solid fa-heart"></i>
+                                }
                             </button>
                         </Tooltip>
-                        <button
-                            className="text-white bg-blue-dark flex items-center gap-2 px-3 rounded-lg justify-center text-sm">
-                            <span className="hidden min-[895px]:block">
-                                افزودن به سبد خرید
-                            </span>
-                            <i className="fa-regular fa-cart-shopping min-[895px]:hidden"></i>
-                        </button>
                         <Tooltip arrow title="نمایش سریع">
                             <button
                                 onClick={handleFastViewOpen}
@@ -83,7 +121,7 @@ const FavoriteProductCard = ({discount}) => {
                             }}
                             scroll="body"
                         >
-                            <FastView handleClose={handleFastViewClose}/>
+                            <FastView handleClose={handleFastViewClose} productId={data.slug}/>
                         </Dialog>
                     </div>
                 </div>
