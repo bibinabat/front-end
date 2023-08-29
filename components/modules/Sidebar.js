@@ -1,8 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import SidebarAccordion from "@/components/elements/SidebarAccordion";
+import {useEffect, useState} from "react";
 
 const Sidebar = ({toggleSidebar}) => {
+    const [categories, setCategories] = useState("loading")
+
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.data && data.data.main_categories) {
+                    setCategories(data.data.main_categories)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, []);
+
     return (
         <div className="">
             <div className="px-14 py-7 bg-white rounded-b-2xl">
@@ -16,25 +32,33 @@ const Sidebar = ({toggleSidebar}) => {
                 <Link href="/" className="block bg-white px-3 py-2 rounded-lg mb-2" onClick={toggleSidebar(false)}>
                     صفحه اصلی
                 </Link>
-                <SidebarAccordion title="خرید نبات"
-                                  items={[
-                                      {text: "نبات", url: "/"},
-                                      {text: "خرده نبات", url: "/"},
-                                      {text: "کاسه نبات", url: "/"},
-                                      {text: "پرده نبات", url: "/test"}
-                                  ]}
-                                  toggleSidebar={toggleSidebar}
-                />
-                <SidebarAccordion title="قند" items={[]}/>
-                <div className="bg-white px-3 py-2 rounded-lg mb-2">
+                {
+                    categories === "loading" ? (
+                        <span>loading</span>
+                    ) : (
+                        categories.map(category => (
+                            <SidebarAccordion key={category.id} title={category.title} slug={category.slug}
+                                              items={category.sub_categories.map(subCategory => (
+                                                  {
+                                                      text: subCategory.title,
+                                                      url: `/product-category/${category.slug}/${subCategory.slug}`
+                                                  }
+                                              ))}
+                                              toggleSidebar={toggleSidebar}
+                            />
+                        ))
+                    )
+                }
+                <Link href="https://bibinabat.com/blog/" target="_blank"
+                      className="block bg-white px-3 py-2 rounded-lg mb-2">
                     وبلاگ
-                </div>
-                <div className="bg-white px-3 py-2 rounded-lg mb-2">
+                </Link>
+                <Link href="/contact-us" className="block bg-white px-3 py-2 rounded-lg mb-2">
                     تماس با ما
-                </div>
-                <div className="bg-white px-3 py-2 rounded-lg mb-2">
+                </Link>
+                <Link href="/about-us" className="block bg-white px-3 py-2 rounded-lg mb-2">
                     درباره ما
-                </div>
+                </Link>
             </div>
         </div>
     );

@@ -12,7 +12,7 @@ const SidebarAccordion = (props) => {
 
     const openAnimation = useSpring({
         from: {opacity: "0", maxHeight: "40px"},
-        to: {opacity: "1", maxHeight: open ? "1000px" : "40px"},
+        to: {opacity: "1", maxHeight: open ? "500px" : "40px"},
         config: {duration: "300"}
     })
 
@@ -27,7 +27,7 @@ const SidebarAccordion = (props) => {
     })
 
     return (
-        <animated.div style={openAnimation} className="w-full overflow-hidden mb-2">
+        <animated.div style={openAnimation} className="cursor-pointer w-full overflow-hidden mb-2">
             <div onClick={toggleHandler} className="flex items-center justify-between bg-white px-3 py-2 rounded-lg">
                 <p>{props.title}</p>
                 <animated.i style={iconAnimation}>
@@ -35,10 +35,13 @@ const SidebarAccordion = (props) => {
                 </animated.i>
             </div>
             <div className="mr-7 flex flex-col">
+                <Link href={`/product-category/${props.slug}`}
+                      className="bg-white mt-2 px-2 py-1 rounded-md text-gray-400 text-sm">مشاهده
+                    این دسته بندی</Link>
                 {
                     props.items.map((item, index) => (
                         <Link href={item.url} key={index}
-                              className="bg-white mt-2 px-2 py-1 rounded-md"
+                              className="bg-white mt-2 px-2 py-1 rounded-md text-sm"
                               onClick={props.toggleSidebar(false)}>{item.text}</Link>
                     ))
                 }

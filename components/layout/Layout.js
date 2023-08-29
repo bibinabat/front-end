@@ -10,7 +10,6 @@ import ProfileAside from "@/components/modules/ProfileAside";
 import useWindowSize from "@/hooks/useWindowSize";
 import localFont from 'next/font/local'
 import useAuthState from "@/hooks/useAuth";
-import {toast} from "react-toastify";
 
 const myFont = localFont({
     src: [
