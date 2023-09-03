@@ -1,10 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CheckoutForm from "@/components/modules/CheckoutForm";
 import CheckoutAside from "@/components/modules/CheckoutAside";
 import {useForm} from "react-hook-form";
 import CustomerInfo from "@/components/modules/CustomerInfo";
+import useAuthState from "@/hooks/useAuth";
+import {useRouter} from "next/router";
+import {useCart} from "@/contexts/CartContext";
 
 const CheckoutPage = () => {
+    const {userData, isLoggedIn} = useAuthState()
+    const router = useRouter()
+    const {cart} = useCart()
+
     const {
         register,
         handleSubmit,
@@ -18,6 +25,23 @@ const CheckoutPage = () => {
     } = useForm()
 
     const [isInfoRecorded, setIsInfoRecorded] = useState()
+    const [infos, setInfos] = useState({})
+
+    useEffect(() => {
+        setInfos({
+            "name": userData.first_name,
+            "lastName": userData.last_name,
+            "phoneNumber": userData.phone_number,
+        })
+    }, [userData]);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            router.replace("/")
+        } else if (cart.cartInfo.orders && !cart.cartInfo.orders.length) {
+            router.replace("/cart")
+        }
+    }, [isLoggedIn, cart]);
 
     const submitHandler = () => {
         console.log(getValues())
@@ -28,7 +52,8 @@ const CheckoutPage = () => {
             <div className="flex flex-col lg:flex-row gap-5 w-full">
                 <div className="flex-1">
                     {/*<CheckoutForm submitHandler={submitHandler} control={control} register={register} errors={errors}*/}
-                    {/*              setFocus={setFocus} getValues={getValues} setValue={setValue}/>*/}
+                    {/*              setFocus={setFocus} getValues={getValues} setValue={setValue}*/}
+                    {/*              infos={infos}/>*/}
                     <CustomerInfo/>
                     <div className="text-sm mt-3 px-5 xl:px-20">
                         <label htmlFor="description" className="font-bold text-blue-dark">توضیحات</label>
@@ -48,7 +73,16 @@ const CheckoutPage = () => {
                     </div>
                 </div>
                 <div>
-                    <CheckoutAside handleSubmit={handleSubmit} submitHandler={submitHandler}/>
+                    {
+                        cart.cartInfo.orders ? (
+                            <CheckoutAside handleSubmit={handleSubmit} submitHandler={submitHandler} data={cart}/>
+                        ) : (
+                            <div
+                                className="h-[400px] w-[265px] text-3xl text-blue-500 flex items-center justify-center">
+                                <i className="fa-duotone fa-spinner-third fa-spin"></i>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {useState} from "react";
 import {trim} from "stylis";
 
-const PurchaseSurveyPage = () => {
+const PurchaseSurveyPage = ({cart}) => {
     const {
         register,
         formState: {
@@ -46,29 +46,23 @@ const PurchaseSurveyPage = () => {
                 <div className="bg-[#EEEEEE] rounded-3xl pt-7 px-5 pb-5">
                     <h2 className="text-center font-bold text-gray-500 text-lg mb-5">لیست محصولات خریداری شده</h2>
                     <ul className="bg-white rounded-2xl p-5 flex flex-col gap-2">
-                        <li className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <span
-                                    className="font-[600] text-blue-dark text-sm sm:text-base">پرده نبات ساده درجه یک</span>
-                                <span
-                                    className="text-[12px] font-bold text-white bg-blue-dark rounded-full h-4 min-w-[16px] flex justify-center px-1">1</span>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                                <span className="font-[600] text-gray-600">83,000</span>
-                                <span className="text-xs font-bold text-blue-dark">تومان</span>
-                            </div>
-                        </li>
-                        <li className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                                <span className="font-[600] text-blue-dark text-sm sm:text-base">پرده نبات زعفرانی درجه یک</span>
-                                <span
-                                    className="text-[12px] font-bold text-white bg-blue-dark rounded-full h-4 min-w-[16px] flex justify-center px-1">2</span>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                                <span className="font-[600] text-gray-600">188,000</span>
-                                <span className="text-xs font-bold text-blue-dark">تومان</span>
-                            </div>
-                        </li>
+                        {
+                            cart.orders.map(order => (
+                                <li className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className="font-[600] text-blue-dark text-sm">{order.product_weight.product.title}</span>
+                                        <span
+                                            className="text-[12px] font-bold text-white bg-blue-dark rounded-full h-4 min-w-[16px] flex justify-center px-1">{order.count}</span>
+                                    </div>
+                                    <div className="flex gap-1 items-center">
+                                        <span
+                                            className="font-[600] text-gray-600">{order.prices.price_after_discount?.toLocaleString() ?? order.prices.real.toLocaleString()}</span>
+                                        <span className="text-xs font-bold text-blue-dark">تومان</span>
+                                    </div>
+                                </li>
+                            ))
+                        }
                     </ul>
                 </div>
                 <form onSubmit={handleSubmit(submitHandler)}>

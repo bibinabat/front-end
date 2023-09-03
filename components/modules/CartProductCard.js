@@ -25,9 +25,18 @@ const CartProductCard = ({data}) => {
             <div className="flex gap-5">
                 <Link href={`/product/${data.product_weight.main_category.slug}/${data.product_weight.product.slug}`}
                       className="block">
-                    <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.product_weight.image.url}`}
-                           alt={data.product_weight.image.alt} width={120} height={120}
-                           className="rounded-lg min-h-[120px]"/>
+                    {
+                        data.product_weight.image ? (
+                            <Image src={`${process.env.NEXT_PUBLIC_API_DOMAIN}${data.product_weight.image.url}`}
+                                   alt={data.product_weight.image.alt} width={120} height={120}
+                                   className="rounded-lg min-h-[120px]"/>
+                        ) : (
+                            <div
+                                className="h-[120px] w-[120px] aspect-square bg-gray-200 text-gray-300 flex items-center justify-center text-xl rounded-lg">
+                                <i className="fa-solid fa-image"></i>
+                            </div>
+                        )
+                    }
                 </Link>
                 <div>
                     <Link

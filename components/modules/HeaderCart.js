@@ -9,7 +9,7 @@ const HeaderCart = ({isOpen, setIsOpen, cart}) => {
              onMouseLeave={() => setIsOpen(false)}
              className={`w-[350px] p-5 absolute z-[9999] bg-white shadow-[0px_20px_58px_0px_rgba(0,0,0,0.2)] left-14 top-[86px] transition rounded-2xl ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
             {
-                cart.cartInfo.orders.length ? (
+                cart.cartInfo.orders?.length ? (
                     <>
                         <div className="font-bold text-blue-dark text-center">سبد خرید</div>
                         <div className="mt-2 flex flex-col gap-2 max-h-[250px] overflow-y-auto scrollbar-hidden">

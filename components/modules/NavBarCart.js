@@ -17,7 +17,7 @@ const NavBarCart = ({handleClose}) => {
                             <i className="fa-duotone fa-spinner-third fa-spin"></i>
                         </div>
                     ) :
-                    cart.cartInfo.orders.length ? (
+                    cart.cartInfo.orders?.length ? (
                         <div className="p-3">
                             <div className="mt-2 flex flex-col gap-2 max-h-[250px] overflow-y-auto scrollbar-hidden">
                                 {

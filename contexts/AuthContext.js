@@ -1,10 +1,16 @@
 import {useContext, useEffect, useState} from "react";
 import React from "react";
 import Cookies from "js-cookie";
+import {toast} from "react-toastify";
+import {useRouter} from "next/router";
+import {useCart} from "@/contexts/CartContext";
 
 const AuthContext = React.createContext()
 
 export const AuthProvider = ({children}) => {
+    const router = useRouter()
+    const {getCart} = useCart()
+
     const [isLoggedIn, setIsLoggedIn] = useState("loading")
     const [userData, setUserData] = useState("loading")
 
@@ -50,8 +56,34 @@ export const AuthProvider = ({children}) => {
             })
     }, [isLoggedIn])
 
+    const handleUserLogout = () => {
+        fetch("https://backend-bibinabat.iran.liara.run/api/auth/logout/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/json",
+                "Authorization": Cookies.get("Authorization")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.data.messages.success) {
+                    Cookies.remove("Authorization")
+                    setIsLoggedIn(false)
+                    router.replace('/')
+                        .then(getCart())
+                    toast.info(data.data.messages.success[0], {
+                        icon: false,
+                        closeButton: false
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
-        <AuthContext.Provider value={{isLoggedIn, setIsLoggedIn, userData, setUserData}}>
+        <AuthContext.Provider value={{isLoggedIn, setIsLoggedIn, userData, setUserData, handleUserLogout}}>
             {children}
         </AuthContext.Provider>
     )

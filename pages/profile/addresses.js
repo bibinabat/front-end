@@ -1,8 +1,16 @@
 import AddressesPage from "@/components/templates/AddressesPage";
+import {NextSeo} from "next-seo";
 
 const Addresses = () => {
     return (
-        <AddressesPage/>
+        <>
+            <NextSeo
+                title="آدرس ها"
+                noindex={true}
+                nofollow={true}
+            />
+            <AddressesPage/>
+        </>
     );
 };
 

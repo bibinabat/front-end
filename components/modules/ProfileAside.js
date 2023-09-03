@@ -7,7 +7,7 @@ import useAuthState from "@/hooks/useAuth";
 
 const ProfileAside = () => {
     const router = useRouter()
-    const {setIsLoggedIn, userData} = useAuthState()
+    const {handleUserLogout, userData} = useAuthState()
 
     const isProfilePage = router.asPath === "/profile"
 
@@ -38,33 +38,6 @@ const ProfileAside = () => {
             link: "/profile/notifications"
         }
     ]
-
-    const handleUserLogout = () => {
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/logout/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "Application/json",
-                "Authorization": Cookies.get("Authorization")
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.data.messages.success) {
-                    Cookies.remove("Authorization")
-                    setIsLoggedIn(false)
-                    if (isProfilePage) {
-                        router.replace('/')
-                    }
-                    toast.info(data.data.messages.success[0], {
-                        icon: false,
-                        closeButton: false
-                    })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
 
     return (
         <div

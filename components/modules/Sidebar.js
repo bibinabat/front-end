@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SidebarAccordion from "@/components/elements/SidebarAccordion";
 import {useEffect, useState} from "react";
+import {Skeleton} from "@mui/material";
 
 const Sidebar = ({toggleSidebar}) => {
     const [categories, setCategories] = useState("loading")
@@ -34,7 +35,7 @@ const Sidebar = ({toggleSidebar}) => {
                 </Link>
                 {
                     categories === "loading" ? (
-                        <span>loading</span>
+                        <Skeleton height={50} animation="wave"/>
                     ) : (
                         categories.map(category => (
                             <SidebarAccordion key={category.id} title={category.title} slug={category.slug}

@@ -202,7 +202,7 @@ const Header = ({handleLoginOpen}) => {
                             <div className="relative hidden lg:flex" onMouseEnter={() => setIsCartOpen(true)}
                                  onMouseLeave={() => setIsCartOpen(false)}>
                                 <span
-                                    className="absolute bg-black text-mustard rounded-full h-5 w-5 flex justify-center items-center text-sm p-3 -top-2 -right-2 border-2 border-white">{cart.cartInfo.orders.length}</span>
+                                    className="absolute bg-black text-mustard rounded-full h-5 w-5 flex justify-center items-center text-sm p-3 -top-2 -right-2 border-2 border-white">{cart.cartInfo.orders?.length ? cart.cartInfo.orders?.length : 0}</span>
                                 <button
                                     className="w-8 h-8 bg-[#F2E6CC] rounded-full flex items-center justify-center p-6">
                                     <i className="fa-solid fa-cart-shopping text-mustard"></i>

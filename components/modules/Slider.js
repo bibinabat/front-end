@@ -28,11 +28,15 @@ const Slider = () => {
                     onInit={() => setInit(true)}
                 >
                     <SwiperSlide>
-                        <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
+                        <Image src="/images/banner.jpg" alt="banner" width={1000} height={1000}
                                className="object-cover" priority/>
                     </SwiperSlide>
                     <SwiperSlide>
                         <Image src="/testImages/category-ghand.jpg" alt="banner" width={1000} height={1000}
+                               className="object-cover"/>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <Image src="/testImages/category-nabat-1.jpg" alt="banner" width={1000} height={1000}
                                className="object-cover"/>
                     </SwiperSlide>
                 </Swiper>

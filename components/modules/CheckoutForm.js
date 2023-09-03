@@ -23,7 +23,7 @@ const CheckoutForm = ({errors, register, control, setFocus, getValues, setValue,
                 setSelfReceiver(false)
             }
         }
-    }, [])
+    }, [infos])
 
     const handleProvinceSelect = (optionName) => {
         setValue('province', optionName)

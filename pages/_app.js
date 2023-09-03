@@ -13,6 +13,7 @@ import {AuthProvider} from "@/contexts/AuthContext";
 import ProgressBar from "@badrap/bar-of-progress";
 import {Router} from "next/router";
 import {CartProvider} from "@/contexts/CartContext";
+import {DefaultSeo} from "next-seo";
 
 const progress = new ProgressBar({
     size: 2,
@@ -51,6 +52,18 @@ export default function App({Component, pageProps}) {
                     <CacheProvider value={cacheRtl}>
                         <ThemeProvider theme={theme}>
                             <Layout>
+                                <DefaultSeo
+                                    openGraph={{
+                                        type: "website",
+                                        locale: "fa_IR",
+                                        siteName: "بی بی نبات",
+                                    }}
+                                    twitter={{
+                                        cardType: "summary_large_image",
+                                        site: "@https://twitter.com/bibinabat_ir",
+                                        handle: "@https://twitter.com/bibinabat_ir"
+                                    }}
+                                />
                                 <Component {...pageProps} />
                             </Layout>
                             <ToastContainer

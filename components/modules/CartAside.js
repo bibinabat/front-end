@@ -1,4 +1,19 @@
+import Link from "next/link";
+import useAuthState from "@/hooks/useAuth";
+import {useRouter} from "next/router";
+
 const CartAside = ({data}) => {
+    const {isLoggedIn} = useAuthState()
+    const router = useRouter()
+
+    const handleContinue = () => {
+        if (isLoggedIn) {
+            router.push("/checkout")
+        } else {
+            window.location.hash = "#login"
+        }
+    }
+
     return (
         <div className="bg-[#f5f5f5] rounded-xl p-3 sticky top-40 min-w-[265px]">
             <p className="text-center text-gray-500 font-bold text-sm mb-4">اطلاعات پرداخت</p>
@@ -37,7 +52,9 @@ const CartAside = ({data}) => {
                     <span className="text-xs">تومان</span>
                 </div>
             </div>
-            <button className="text-center bg-blue-dark rounded-lg text-white w-full mt-3 font-bold py-1.5">ادامه
+            <button onClick={handleContinue}
+                    className="block text-center bg-blue-dark rounded-lg text-white w-full mt-3 font-bold py-1.5">
+                ادامه
             </button>
         </div>
     );

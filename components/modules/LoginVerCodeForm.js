@@ -5,15 +5,17 @@ import Cookies from 'js-cookie'
 import {useRouter} from "next/router";
 import useAuthState from "@/hooks/useAuth";
 import ResendCode from "@/components/modules/ResendCode";
+import {useCart} from "@/contexts/CartContext";
 
 const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
     const router = useRouter()
+    const {getCart} = useCart()
 
     const [verCode, setVerCode] = useState("")
     const [isDataSend, setIsDataSend] = useState(true)
     const {setIsLoggedIn} = useAuthState()
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         setIsDataSend(false)
 
         const formData = {
@@ -37,6 +39,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
                     handleClose()
                     Cookies.set('Authorization', `Token ${json.data.user.token}`)
                     setIsLoggedIn(true)
+                    getCart()
                     toast.info(json.data.messages.success[0], {
                         icon: false,
                         closeButton: false

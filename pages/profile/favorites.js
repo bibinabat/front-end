@@ -1,8 +1,16 @@
 import FavoritesPage from "@/components/templates/FavoritesPage";
+import {NextSeo} from "next-seo";
 
 const Favorites = () => {
     return (
-        <FavoritesPage/>
+        <>
+            <NextSeo
+                title="لیست علاقمندی ها"
+                noindex={true}
+                nofollow={true}
+            />
+            <FavoritesPage/>
+        </>
     );
 };
 

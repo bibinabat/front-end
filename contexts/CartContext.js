@@ -19,6 +19,7 @@ export const CartProvider = ({children}) => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data.data && data.data.cart) {
                     setCart({
                         cartInfo: data.data.cart,
@@ -103,7 +104,7 @@ export const CartProvider = ({children}) => {
     }
 
     return (
-        <CartContext.Provider value={{cart, addToCart, removeFromCart}}>
+        <CartContext.Provider value={{cart, addToCart, removeFromCart, getCart}}>
             {children}
         </CartContext.Provider>
     )

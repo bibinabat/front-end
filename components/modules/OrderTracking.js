@@ -45,26 +45,26 @@ const OrderTracking = ({handleClose, orderSituation}) => {
                 betweenLineStyle: betweenLineStyles.inactive
             },
             preparation: {
-                isActive: orderSituation >= 2,
-                style: orderSituation >= 2 ? situationStyles.active : situationStyles.inactive,
-                betweenLineStyle: orderSituation >= 2 ? betweenLineStyles.active : betweenLineStyles.inactive
-            },
-            packing: {
-                isActive: orderSituation >= 3,
-                style: orderSituation >= 3 ? situationStyles.active : situationStyles.inactive,
-                betweenLineStyle: orderSituation >= 3 ? betweenLineStyles.active : betweenLineStyles.inactive
-            },
-            sendOrder: {
                 isActive: orderSituation >= 4,
                 style: orderSituation >= 4 ? situationStyles.active : situationStyles.inactive,
                 betweenLineStyle: orderSituation >= 4 ? betweenLineStyles.active : betweenLineStyles.inactive
+            },
+            packing: {
+                isActive: orderSituation >= 5,
+                style: orderSituation >= 5 ? situationStyles.active : situationStyles.inactive,
+                betweenLineStyle: orderSituation >= 5 ? betweenLineStyles.active : betweenLineStyles.inactive
+            },
+            sendOrder: {
+                isActive: orderSituation >= 6,
+                style: orderSituation >= 6 ? situationStyles.active : situationStyles.inactive,
+                betweenLineStyle: orderSituation >= 6 ? betweenLineStyles.active : betweenLineStyles.inactive
             }
         };
 
         setSituations(updatedSituations);
 
         switch (orderSituation) {
-            case "1":
+            case 3:
                 setHelperText("سفارش شما با موفقیت ثبت شد");
                 setTimeout(() => {
                     document.getElementById("sit1").scrollIntoView({
@@ -73,7 +73,7 @@ const OrderTracking = ({handleClose, orderSituation}) => {
                     });
                 }, 0);
                 break;
-            case "2":
+            case 4:
                 setHelperText("سفارش شما در حال آماده سازی می‌باشد");
                 setTimeout(() => {
                     document.getElementById("sit2").scrollIntoView({
@@ -82,7 +82,7 @@ const OrderTracking = ({handleClose, orderSituation}) => {
                     });
                 }, 0);
                 break;
-            case "3":
+            case 5:
                 setHelperText("سفارش شما بسته بندی شده و تحویل واحد ارسال گردیده است");
                 setTimeout(() => {
                     document.getElementById("sit3").scrollIntoView({
@@ -91,7 +91,8 @@ const OrderTracking = ({handleClose, orderSituation}) => {
                     });
                 }, 0);
                 break;
-            case "4":
+            case 6:
+            case 7:
                 setHelperText("سفارش شما با موفقیت ارسال شد و میتوانید آن را از طریق پست رهگیری کنید");
                 setTimeout(() => {
                     document.getElementById("sit4").scrollIntoView({

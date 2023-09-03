@@ -6,37 +6,10 @@ import {Skeleton} from "@mui/material";
 import {useRouter} from "next/router";
 
 const HeaderUserMenu = ({isOpen, setIsOpen, userData}) => {
-    const {setIsLoggedIn} = useAuthState()
+    const {handleUserLogout} = useAuthState()
     const router = useRouter()
 
-    const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
-
-    const handleUserLogout = () => {
-        fetch("https://backend-bibinabat.iran.liara.run/api/auth/logout/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "Application/json",
-                "Authorization": Cookies.get("Authorization")
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.data.messages.success) {
-                    Cookies.remove("Authorization")
-                    setIsLoggedIn(false)
-                    if (isProfilePage) {
-                        router.replace('/')
-                    }
-                    toast.info(data.data.messages.success[0], {
-                        icon: false,
-                        closeButton: false
-                    })
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }
+    // const isProfilePage = router.asPath.includes("profile") && router.route !== "/404"
 
     return (
         <div onMouseEnter={() => setIsOpen(true)}
