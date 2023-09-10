@@ -13,7 +13,7 @@ import {AuthProvider} from "@/contexts/AuthContext";
 import ProgressBar from "@badrap/bar-of-progress";
 import {Router} from "next/router";
 import {CartProvider} from "@/contexts/CartContext";
-import {DefaultSeo} from "next-seo";
+import {DefaultSeo, SiteLinksSearchBoxJsonLd} from "next-seo";
 
 const progress = new ProgressBar({
     size: 2,
@@ -64,6 +64,12 @@ export default function App({Component, pageProps}) {
                                         handle: "@https://twitter.com/bibinabat_ir"
                                     }}
                                 />
+                                <SiteLinksSearchBoxJsonLd url="https://bibinabat.com" potentialActions={[
+                                    {
+                                        queryInput: "required name=search_term_string",
+                                        target: "https://bibinabat.com/?s={search_term_string}"
+                                    }
+                                ]}/>
                                 <Component {...pageProps} />
                             </Layout>
                             <ToastContainer
