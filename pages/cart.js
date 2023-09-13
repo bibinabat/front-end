@@ -1,8 +1,16 @@
 import CartPage from "@/components/templates/CartPage";
+import {NextSeo} from "next-seo";
 
 const Cart = () => {
     return (
-        <CartPage/>
+        <>
+            <NextSeo
+                title="سبد خرید - بی بی نبات"
+                noindex={true}
+                nofollow={true}
+            />
+            <CartPage/>
+        </>
     );
 };
 

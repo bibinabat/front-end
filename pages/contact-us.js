@@ -1,5 +1,5 @@
 import ContactUsPage from "@/components/templates/ContactUsPage";
-import {NextSeo} from "next-seo";
+import {NextSeo, BreadcrumbJsonLd, CorporateContactJsonLd, WebPageJsonLd} from "next-seo";
 
 const ContactUs = ({data, error}) => {
     return (
@@ -22,6 +22,23 @@ const ContactUs = ({data, error}) => {
                         type: 'image/jpeg'
                     }],
                 }}
+            />
+            <BreadcrumbJsonLd itemListElements={[
+                {
+                    position: 1,
+                    name: "بی بی نبات",
+                    item: "https://bibinabat.com/"
+                },
+                {
+                    position: 2,
+                    name: "contact-us",
+                    item: "https://bibinabat.com/contact-us"
+                }
+            ]}/>
+            <WebPageJsonLd
+                id="https://bibinabat.com/contact-us"
+                type="ContactPage"
+                description="تماس با بی بی نبات - ما اینجا میتونیم به شما کمک کنیم - آدرس: یزد، بلوار مدرس، اکرم آباد، خیابان ولیعصر، کوچه شکوفه، نبش بن بست گلها - کدپستی: 8915444619 - شماره تماس: 09131598619 - ساعت کار هرزور هفته پیامی ارسال کنید."
             />
             <ContactUsPage data={data} error={error}/>
         </>
