@@ -33,7 +33,7 @@ const BuyersComment = ({survey}) => {
             </div>
             <div
                 className="h-[124px] overflow-hidden line-clamp-5 font-[500] text-[#2D2D2D] text-sm leading-6 text-justify grow"
-                dangerouslySetInnerHTML={{__html: survey.text}}></div>
+                dangero uslySetInnerHTML={{__html: survey.text}}></div>
             <div className="flex my-1 gap-5">
                 <div className="flex items-start gap-1">
                     <span className="text-sm text-[#B5B5B8] font-bold">کیفیت محصول</span>

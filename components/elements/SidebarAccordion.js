@@ -35,7 +35,7 @@ const SidebarAccordion = (props) => {
                 </animated.i>
             </div>
             <div className="mr-7 flex flex-col">
-                <Link href={`/product-category/${props.slug}`}
+                <Link href={`/product-category/${props.slug}`} onClick={props.toggleSidebar(false)}
                       className="bg-white mt-2 px-2 py-1 rounded-md text-gray-400 text-sm">مشاهده
                     این دسته بندی</Link>
                 {

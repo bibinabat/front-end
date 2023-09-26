@@ -3,6 +3,7 @@ import LoginPhoneForm from "@/components/modules/LoginPhoneForm";
 import LoginVerCodeForm from "@/components/modules/LoginVerCodeForm";
 import {toast} from "react-toastify";
 import useAuthState from "@/hooks/useAuth";
+import {p2e} from "@/utils/replaceNumber";
 
 const Login = ({handleClose}) => {
     const [enterCode, setEnterCode] = useState(false)
@@ -20,7 +21,7 @@ const Login = ({handleClose}) => {
         setIsDataSend(false)
 
         const formData = {
-            "phone_number": data.phoneNumber
+            "phone_number": p2e(data.phoneNumber)
         }
 
         fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/auth/login/`, {

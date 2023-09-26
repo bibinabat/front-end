@@ -48,7 +48,7 @@ const PurchaseSurveyPage = ({cart}) => {
                     <ul className="bg-white rounded-2xl p-5 flex flex-col gap-2">
                         {
                             cart.orders.map(order => (
-                                <li className="flex items-center justify-between">
+                                <li key={order.id} className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <span
                                             className="font-[600] text-blue-dark text-sm">{order.product_weight.product.title}</span>

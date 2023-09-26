@@ -30,8 +30,6 @@ export async function getServerSideProps(context) {
     })
     const data = await res.json()
 
-    console.log(data)
-
     if (data.data?.cart && +data.data.cart.status >= 6 && !data.data.cart.survey) {
         return {
             props: {

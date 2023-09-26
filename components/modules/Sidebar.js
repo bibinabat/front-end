@@ -50,14 +50,16 @@ const Sidebar = ({toggleSidebar}) => {
                         ))
                     )
                 }
-                <Link href="https://bibinabat.com/blog/" target="_blank"
+                <Link href="https://bibinabat.com/blog/" target="_blank" onClick={toggleSidebar(false)}
                       className="block bg-white px-3 py-2 rounded-lg mb-2">
                     وبلاگ
                 </Link>
-                <Link href="/contact-us" className="block bg-white px-3 py-2 rounded-lg mb-2">
+                <Link href="/contact-us" className="block bg-white px-3 py-2 rounded-lg mb-2"
+                      onClick={toggleSidebar(false)}>
                     تماس با ما
                 </Link>
-                <Link href="/about-us" className="block bg-white px-3 py-2 rounded-lg mb-2">
+                <Link href="/about-us" className="block bg-white px-3 py-2 rounded-lg mb-2"
+                      onClick={toggleSidebar(false)}>
                     درباره ما
                 </Link>
             </div>

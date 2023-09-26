@@ -274,7 +274,7 @@ const Footer = () => {
                                className="w-32 h-auto"/>
                     </Link>
                     <Link href="https://gateway.zibal.ir/trustMe/bibinabat.com" target="_blank">
-                        <Image src="/images/footerImages/zibal.png" alt="enamad" width={183} height={255}
+                        <Image src="/images/footerImages/zibal.png" alt="zibal" width={183} height={255}
                                className="w-32 h-auto"/>
                     </Link>
                 </div>

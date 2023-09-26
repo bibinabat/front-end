@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import useAuthState from "@/hooks/useAuth";
 import ResendCode from "@/components/modules/ResendCode";
 import {useCart} from "@/contexts/CartContext";
+import {p2e} from "@/utils/replaceNumber";
 
 const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
     const router = useRouter()
@@ -19,7 +20,7 @@ const LoginVerCodeForm = ({phoneNum, handleEditNum, handleClose}) => {
         setIsDataSend(false)
 
         const formData = {
-            "phone_number": phoneNum,
+            "phone_number": p2e(phoneNum),
             "user_verification_code": verCode
         }
 
