@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /profile
+Disallow: /cart
+Disallow: /checkout
+Allow: /
+
+Sitemap: https://bibinabat.com/sitemap_index.xml

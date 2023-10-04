@@ -19,13 +19,13 @@ const CommentsAside = ({commentsCount, rate, surveys, productSlug}) => {
         let totalProduct = 0
         let totalPack = 0
 
-        surveys.data.surveys.forEach((item) => {
+        surveys?.data.surveys.forEach((item) => {
             totalProduct += +item.products_quality
             totalPack += +item.pack_quality
         })
 
-        setProductQuality(totalProduct / surveys.data.surveys.length)
-        setPackQuality(totalPack / surveys.data.surveys.length)
+        setProductQuality(totalProduct / surveys?.data.surveys.length)
+        setPackQuality(totalPack / surveys?.data.surveys.length)
     }, [surveys])
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const CommentsAside = ({commentsCount, rate, surveys, productSlug}) => {
                 ) : null
             }
             {
-                surveys.data.surveys.length ? (
+                surveys && surveys.data.surveys.length ? (
                     <>
                         <div>
                             <span className="text-blue-dark font-bold">کیفیت محصول</span>

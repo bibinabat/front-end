@@ -16,7 +16,7 @@ const Comments = ({surveys, commentsCount, rate, comments, productSlug}) => {
                        sizes="(max-width: 768px) 100vw,
                             (max-width: 1200px) 70vw"/>
             </div>
-            {surveys.data.surveys.length ? (
+            {surveys && surveys.data.surveys.length ? (
                 <BuyersComments surveys={surveys}/>
             ) : null}
             <div className="flex gap-5 flex-col 2xl:flex-row">

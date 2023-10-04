@@ -97,9 +97,9 @@ const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {
                                 </div>
                                 <div className="p-4 bg-[#EEF9EB] inline-block text-sm text-[#63C94A] rounded-xl mb-3">
                                     <span className="font-bold">توجه!</span>
-                                    <p className="font-[500]">کلیه محصولات ارائه شده توسط بی بی نبات کاملا با کیفیت و
-                                        اصیل
-                                        میباشد.</p>
+                                    <p className="font-[500]">
+                                        کلیه محصولات ارائه شده توسط بی بی نبات کاملا با کیفیت و اصیل میباشد.
+                                    </p>
                                 </div>
                             </div>
                             <div className="md:hidden w-full">

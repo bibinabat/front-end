@@ -1,8 +1,16 @@
 import SubmittingComplaintPage from "@/components/templates/SubmittingComplaintPage";
+import {NextSeo} from "next-seo";
 
 const SubmittingComplaint = () => {
     return (
-        <SubmittingComplaintPage/>
+        <>
+            <NextSeo
+                title="ثبت شکایت - بی بی نبات"
+                nofollow={true}
+                noindex={true}
+            />
+            <SubmittingComplaintPage/>
+        </>
     );
 };
 

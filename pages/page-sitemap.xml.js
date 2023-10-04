@@ -1,3 +1,6 @@
+import {NextSeo} from "next-seo";
+import {retry} from "@reduxjs/toolkit/query";
+
 const URL = "https://bibinabat.com"
 
 function generateSiteMap() {
