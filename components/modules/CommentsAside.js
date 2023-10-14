@@ -24,8 +24,8 @@ const CommentsAside = ({commentsCount, rate, surveys, productSlug}) => {
             totalPack += +item.pack_quality
         })
 
-        setProductQuality(totalProduct / surveys?.data.surveys.length)
-        setPackQuality(totalPack / surveys?.data.surveys.length)
+        setProductQuality(Math.ceil(totalProduct / surveys?.data.surveys.length))
+        setPackQuality(Math.ceil(totalPack / surveys?.data.surveys.length))
     }, [surveys])
 
     useEffect(() => {

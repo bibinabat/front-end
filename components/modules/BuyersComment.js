@@ -19,7 +19,7 @@ const BuyersComment = ({survey}) => {
     const paQColor = colors[paQNumber] || ""
 
     return (
-        <div className="bg-[#f5f5f5] h-[22rem] rounded-xl p-5 relative h-96 flex flex-col">
+        <div className="bg-[#f5f5f5] h-[22rem] rounded-xl p-5 relative flex flex-col">
             <div className="flex items-center justify-between whitespace-nowrap text-blue-dark mb-2">
                 <div className="flex items-center gap-1">
                     <i className="fa-solid fa-user text-lg"></i>
@@ -33,7 +33,7 @@ const BuyersComment = ({survey}) => {
             </div>
             <div
                 className="h-[124px] overflow-hidden line-clamp-5 font-[500] text-[#2D2D2D] text-sm leading-6 text-justify grow"
-                dangero uslySetInnerHTML={{__html: survey.text}}></div>
+                dangerouslySetInnerHTML={{__html: survey.text}}></div>
             <div className="flex my-1 gap-5">
                 <div className="flex items-start gap-1">
                     <span className="text-sm text-[#B5B5B8] font-bold">کیفیت محصول</span>
@@ -48,19 +48,19 @@ const BuyersComment = ({survey}) => {
             <div className="bg-white rounded-lg p-1 flex flex-col items-center grow">
                 <div className="text-sm font-bold text-[#555555]">لیست محصولات خریداری شده</div>
                 <div className="text-xs font-[600] text-blue-dark flex flex-col items-center gap-1 mt-1">
-                    {/*{*/}
-                    {/*    survey.orders.slice(0, 3).map(order => (*/}
-                    {/*        <Link href={`/product/${order.main_category.slug}/${order.slug}`}*/}
-                    {/*              key={order.id}>{order.title}</Link>*/}
-                    {/*    ))*/}
-                    {/*}*/}
+                    {
+                        survey.orders.slice(0, 3).map(order => (
+                            <Link href={`/product/${order.main_category.slug}/${order.slug}`}
+                                  key={order.id}>{order.title}</Link>
+                        ))
+                    }
                 </div>
-                {/*{*/}
-                {/*    survey.orders.length > 3 ? (*/}
-                {/*        <div className="text-cyan text-xs font-extrabold mt-1">و {survey.orders.length - 3} محصول*/}
-                {/*            دیگر</div>*/}
-                {/*    ) : null*/}
-                {/*}*/}
+                {
+                    survey.orders.length > 3 ? (
+                        <div className="text-cyan text-xs font-extrabold mt-1">و {survey.orders.length - 3} محصول
+                            دیگر</div>
+                    ) : null
+                }
             </div>
         </div>
     );

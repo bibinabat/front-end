@@ -1,19 +1,33 @@
 import ProductDetailsPage from "@/components/templates/ProductDetailsPage";
 import {parse} from 'cookie'
-import {NextSeo} from "next-seo";
+import {NextSeo, ProductJsonLd} from "next-seo";
 import {useEffect, useState} from "react";
+import Head from "next/head";
+import {j2g} from "@/utils/dateConversion";
 
 const ProductDetails = ({data, surveys, comments, sameProducts}) => {
     const [images, setImages] = useState(null)
+    const [productPrice, setProductPrice] = useState(null)
 
     useEffect(() => {
         if (data.weights) {
             setImages([].concat(...data.weights.map(weight => (weight.images))))
+            setProductPrice(data.weights[0].prices)
         }
     }, [data])
 
     return (
         <>
+            <Head>
+                <meta name="product_id" content={data.product.id}/>
+                <meta name="product_name" content={data.product.title}/>
+                <meta name="product_price"
+                      content={productPrice?.discount ? productPrice?.discount.price : productPrice?.real}/>
+                <meta name="product_old_price"
+                      content={productPrice?.discount ? productPrice?.real : null}/>
+                <meta name="availability" content="instock or outofstock"/>
+                <meta name="guarantee" content="guarantee_sample"/>
+            </Head>
             <NextSeo
                 title={data.product.seo.title}
                 description={data.product.seo.description}
@@ -33,26 +47,29 @@ const ProductDetails = ({data, surveys, comments, sameProducts}) => {
                     }))
                 }}
             />
+            <ProductJsonLd
+                productName={data.product.title}
+                description={data.product.description}
+                images={images?.map(image => (`${process.env.NEXT_PUBLIC_API_DOMAIN}/${image.url}`))}
+                brand={data.product.brand.title}
+                category={data.product.main_category.title}
+                reviews={
+                    surveys.data.surveys.map(survey => ({
+                        author: survey.user,
+                        datePublished: j2g(survey.created_date),
+                        reviewBody: survey.text,
+                        reviewRating: {
+                            ratingValue: ((+survey.products_quality + +survey.pack_quality) / 2).toString()
+                        }
+                    }))
+                }
+            />
             <ProductDetailsPage data={data} surveys={surveys} comments={comments} sameProducts={sameProducts}/>
         </>
     );
 };
 
 export default ProductDetails;
-
-// export async function getStaticPaths() {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products`)
-//     const products = await res.json()
-//
-//     const paths = products.data.products.map(product => ({
-//         params: {
-//             categoryName: product.main_category.slug,
-//             productName: product.slug
-//         }
-//     }))
-//
-//     return {paths, fallback: 'blocking'}
-// }
 
 export async function getServerSideProps(context) {
     const {params} = context
@@ -78,9 +95,8 @@ export async function getServerSideProps(context) {
         }
     }
 
-    // const surveysRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/carts/survey/product/${params.productName}`)
-    // const surveys = await surveysRes.json()
-    const surveys = null
+    const surveysRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/carts/survey/product/${params.productName}`)
+    const surveys = await surveysRes.json()
 
     const commentsRes = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/comment/?product_slug=${params.productName}`, {
         headers: {
