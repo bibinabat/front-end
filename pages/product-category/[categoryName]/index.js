@@ -1,12 +1,24 @@
 import ProductListPage from "@/components/templates/ProductListPage";
+import {NextSeo} from "next-seo";
 
 const CategoryName = ({products, categories, category}) => {
     return (
-        <ProductListPage products={products} categories={categories}
-                         pageHeading={category.data.main_category.title}
-                         description={category.data.main_category.description}
-                         faqs={category.data.main_category.faqs}
-        />
+        <>
+            <NextSeo
+                title={category.data.main_category.seo.title}
+                description={category.data.main_category.seo.description}
+                canonical={`https://bibinabat.com/product-category/${category.data.main_category.slug}`}
+                openGraph={{
+                    type: "article",
+                    url: `https://bibinabat.com/product-category/${category.data.main_category.slug}`
+                }}
+            />
+            <ProductListPage products={products} categories={categories}
+                             pageHeading={category.data.main_category.title}
+                             description={category.data.main_category.description}
+                             faqs={category.data.main_category.faqs}
+            />
+        </>
     );
 };
 

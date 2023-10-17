@@ -4,6 +4,8 @@ import {Dialog, Rating, Tooltip} from "@mui/material";
 import {useRouter} from "next/router";
 import FastView from "@/components/modules/FastView";
 import Link from "next/link";
+import ProductTypes from "@/components/modules/ProductTypes";
+import ProductCardAddToCart from "@/components/elements/ProductCardAddToCart";
 
 const ProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
@@ -93,10 +95,7 @@ const ProductCard = ({data}) => {
                 <div className="flex justify-between gap-2 mt-1">
                     {
                         data.exists ? (
-                            <button
-                                className="text-white bg-blue-dark flex items-center justify-center gap-2 rounded-lg w-full text-sm font-[500]">
-                                افزودن به سبد خرید
-                            </button>
+                            <ProductCardAddToCart productId={productId} weights={data.weights}/>
                         ) : (
                             <button
                                 className="text-white bg-gray-400 flex items-center justify-center gap-2 rounded-lg w-full text-sm font-bold"
