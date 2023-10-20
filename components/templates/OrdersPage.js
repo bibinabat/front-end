@@ -31,7 +31,7 @@ const OrdersPage = ({data}) => {
     );
 };
 
-import OrderCard from "@/components/modules/OrderCard";
+import OrderCard from "@/components/modules/profile/OrderCard";
 import {useEffect} from "react";
 
 export default OrdersPage;

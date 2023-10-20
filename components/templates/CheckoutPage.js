@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import CheckoutForm from "@/components/modules/CheckoutForm";
-import CheckoutAside from "@/components/modules/CheckoutAside";
+import CheckoutForm from "@/components/modules/checkout/CheckoutForm";
+import CheckoutAside from "@/components/modules/checkout/CheckoutAside";
 import {useForm} from "react-hook-form";
-import CustomerInfo from "@/components/modules/CustomerInfo";
+import CustomerInfo from "@/components/modules/checkout/CustomerInfo";
 import useAuthState from "@/hooks/useAuth";
 import {useRouter} from "next/router";
 import {useCart} from "@/contexts/CartContext";

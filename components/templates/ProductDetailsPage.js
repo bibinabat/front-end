@@ -1,14 +1,14 @@
 import Link from "next/link";
-import ProductAlbum from "@/components/modules/ProductAlbum";
-import ProductInfo from "@/components/modules/ProductInfo";
-import SuggestedProducts from "@/components/modules/SuggestedProducts";
+import ProductAlbum from "@/components/modules/productDetails/ProductAlbum";
+import ProductInfo from "@/components/modules/productDetails/ProductInfo";
+import SuggestedProducts from "@/components/modules/product/SuggestedProducts";
 import Description from "@/components/modules/Description";
-import ProductVideo from "@/components/modules/ProductVideo";
-import MobileAddToCart from "@/components/modules/MobileAddToCart";
-import Comments from "@/components/modules/Comments";
+import ProductVideo from "@/components/modules/productDetails/ProductVideo";
+import MobileAddToCart from "@/components/modules/productDetails/MobileAddToCart";
+import Comments from "@/components/modules/comments/Comments";
 import {SwipeableDrawer} from "@mui/material";
 import {useEffect, useState} from "react";
-import SingleProductType from "@/components/modules/SingleProductType";
+import SingleProductType from "@/components/modules/product/SingleProductType";
 import useWindowSize from "@/hooks/useWindowSize";
 
 const ProductDetailsPage = ({data, surveys, comments, sameProducts}) => {

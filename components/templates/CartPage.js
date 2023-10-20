@@ -1,5 +1,5 @@
-import CartProductCard from "@/components/modules/CartProductCard";
-import CartAside from "@/components/modules/CartAside";
+import CartProductCard from "@/components/modules/cart/CartProductCard";
+import CartAside from "@/components/modules/cart/CartAside";
 import {useCart} from "@/contexts/CartContext";
 
 const CartPage = () => {

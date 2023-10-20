@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Transaction from "@/components/modules/Transaction";
+import Transaction from "@/components/modules/profile/Transaction";
 
 const WalletPage = () => {
     return (

@@ -1,5 +1,6 @@
 import {Rating} from "@mui/material";
 import React from "react";
+import Image from "next/image";
 
 const BlogContent = () => {
     return (
@@ -15,8 +16,8 @@ const BlogContent = () => {
                         }}
                 />
             </div>
-            <div>
-
+            <div className="mt-5">
+                <Image src="/testImages/khz3.jpg" alt="blogImage" width={500} height={500}/>
             </div>
         </div>
     );

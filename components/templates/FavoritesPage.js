@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FavoriteProductCard from "@/components/modules/FavoriteProductCard";
+import FavoriteProductCard from "@/components/modules/profile/FavoriteProductCard";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import Cookies from "js-cookie";

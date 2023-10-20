@@ -1,4 +1,4 @@
-import ProductTypes from "@/components/modules/ProductTypes";
+import ProductTypes from "@/components/modules/product/ProductTypes";
 import {Dialog} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";

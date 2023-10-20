@@ -1,10 +1,10 @@
-import PlpCategory from "@/components/modules/PLPCategory";
-import Sorting from "@/components/modules/Sorting";
+import PlpCategory from "@/components/modules/productsList/PLPCategory";
+import Sorting from "@/components/modules/productsList/Sorting";
 import {SwipeableDrawer} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import ProductCard from "@/components/modules/ProductCard";
+import ProductCard from "@/components/modules/product/ProductCard";
 import useWindowSize from "@/hooks/useWindowSize";
-import MobileProductCard from "@/components/modules/MobileProductCard";
+import MobileProductCard from "@/components/modules/product/MobileProductCard";
 import Description from "@/components/modules/Description";
 import {Router} from "next/router";
 

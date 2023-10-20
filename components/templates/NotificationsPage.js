@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Notification from "@/components/modules/Notification";
+import Notification from "@/components/modules/profile/Notification";
 
 const NotificationsPage = () => {
     return (

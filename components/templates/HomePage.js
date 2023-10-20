@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Slider from "@/components/modules/Slider";
-import SuggestedProducts from "@/components/modules/SuggestedProducts";
-import MiddleBanners from "@/components/modules/MiddleBanners";
-import HomeArticles from "@/components/modules/HomeArticles";
+import Slider from "@/components/modules/Home/Slider";
+import SuggestedProducts from "@/components/modules/product/SuggestedProducts";
+import MiddleBanners from "@/components/modules/Home/MiddleBanners";
+import HomeArticles from "@/components/modules/Home/HomeArticles";
 
 const HomePage = ({popularProducts, mostSaleProducts}) => {
     return (
