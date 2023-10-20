@@ -27,7 +27,7 @@ const SingleProductType = ({weight}) => {
     const handleRemoveFromCart = async () => {
         try {
             setIsLoading(true)
-            await removeFromCart(inCart.id)
+            await removeFromCart(inCart.product_weight.id)
             setIsLoading(false)
         } catch (err) {
             console.log(err)

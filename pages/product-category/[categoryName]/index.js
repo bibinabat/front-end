@@ -1,5 +1,5 @@
 import ProductListPage from "@/components/templates/ProductListPage";
-import {NextSeo} from "next-seo";
+import {NextSeo, BreadcrumbJsonLd} from "next-seo";
 
 const CategoryName = ({products, categories, category}) => {
     return (
@@ -13,6 +13,18 @@ const CategoryName = ({products, categories, category}) => {
                     url: `https://bibinabat.com/product-category/${category.data.main_category.slug}`
                 }}
             />
+            <BreadcrumbJsonLd itemListElements={[
+                {
+                    position: 1,
+                    name: "صفحه اصلی",
+                    item: "https://bibinabat.com"
+                },
+                {
+                    position: 2,
+                    name: category.data.main_category.seo.title,
+                    item: `https://bibinabat.com/product-category/${category.data.main_category.slug}`
+                }
+            ]} type="BreadcrumbList"/>
             <ProductListPage products={products} categories={categories}
                              pageHeading={category.data.main_category.title}
                              description={category.data.main_category.description}

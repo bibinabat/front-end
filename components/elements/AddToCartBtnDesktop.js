@@ -3,7 +3,7 @@ import {Dialog} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 
-const ProductCardAddToCart = ({productId, weights}) => {
+const AddToCartBtnDesktop = ({productId, weights}) => {
     const router = useRouter()
 
     const [isTypesOpen, setIsTypesOpen] = useState(router.asPath.split("#")[1] === `product_types_${productId}`)
@@ -46,4 +46,4 @@ const ProductCardAddToCart = ({productId, weights}) => {
     );
 };
 
-export default ProductCardAddToCart;
+export default AddToCartBtnDesktop;

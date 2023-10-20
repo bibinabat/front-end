@@ -1,12 +1,36 @@
 import ProductListPage from "@/components/templates/ProductListPage";
+import {BreadcrumbJsonLd, NextSeo} from "next-seo";
 
 const SubCategory = ({products, categories, category}) => {
     return (
-        <ProductListPage products={products} categories={categories}
-                         pageHeading={category.data.sub_category.title}
-                         faqs={category.data.sub_category.faqs}
-                         description={category.data.sub_category.description}
-        />
+        <>
+            <NextSeo
+                title={category.data.sub_category.seo.title}
+                description={category.data.sub_category.seo.description}
+                canonical={`https://bibinabat.com/product-category/${category.data.sub_category.slug}`}
+                openGraph={{
+                    type: "article",
+                    url: `https://bibinabat.com/product-category/${category.data.sub_category.slug}`
+                }}
+            />
+            <BreadcrumbJsonLd itemListElements={[
+                {
+                    position: 1,
+                    name: "صفحه اصلی",
+                    item: "https://bibinabat.com"
+                },
+                {
+                    position: 2,
+                    name: category.data.sub_category.seo.title,
+                    item: `https://bibinabat.com/product-category//${category.data.sub_category.slug}`
+                }
+            ]} type="BreadcrumbList"/>
+            <ProductListPage products={products} categories={categories}
+                             pageHeading={category.data.sub_category.title}
+                             faqs={category.data.sub_category.faqs}
+                             description={category.data.sub_category.description}
+            />
+        </>
     );
 };
 

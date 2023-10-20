@@ -11,7 +11,7 @@ const CartProductCard = ({data}) => {
     const handleRemoveFromCart = async () => {
         try {
             setIsLoading(true)
-            await removeFromCart(data.id)
+            await removeFromCart(data.product_weight.id)
             setIsLoading(false)
         } catch (err) {
             console.log(err)

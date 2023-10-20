@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import FastView from "@/components/modules/FastView";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import AddToCartBtnMobile from "@/components/elements/AddToCartBtnMobile";
 
 const MobileProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
@@ -89,10 +90,7 @@ const MobileProductCard = ({data}) => {
                     <div className="flex gap-2">
                         {
                             data.exists ? (
-                                <button
-                                    className="text-white bg-blue-dark flex items-center gap-2  px-3 rounded-lg w-full justify-center text-sm">
-                                    افزودن به سبد خرید
-                                </button>
+                                <AddToCartBtnMobile productId={productId} weights={data.weights}/>
                             ) : (
                                 <button
                                     disabled

@@ -5,7 +5,7 @@ import {useRouter} from "next/router";
 import FastView from "@/components/modules/FastView";
 import Link from "next/link";
 import ProductTypes from "@/components/modules/ProductTypes";
-import ProductCardAddToCart from "@/components/elements/ProductCardAddToCart";
+import AddToCartBtnDesktop from "@/components/elements/AddToCartBtnDesktop";
 
 const ProductCard = ({data}) => {
     const [productId, setProductId] = useState(Math.floor(Math.random() * 875643165))
@@ -95,7 +95,7 @@ const ProductCard = ({data}) => {
                 <div className="flex justify-between gap-2 mt-1">
                     {
                         data.exists ? (
-                            <ProductCardAddToCart productId={productId} weights={data.weights}/>
+                            <AddToCartBtnDesktop productId={productId} weights={data.weights}/>
                         ) : (
                             <button
                                 className="text-white bg-gray-400 flex items-center justify-center gap-2 rounded-lg w-full text-sm font-bold"

@@ -63,7 +63,7 @@ export const CartProvider = ({children}) => {
         }
     }
 
-    const removeFromCart = async (orderId) => {
+    const removeFromCart = async (weightId) => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/carts/order/`, {
             method: "DELETE",
             headers: {
@@ -71,12 +71,13 @@ export const CartProvider = ({children}) => {
                 "Authorization": Cookies.get("Authorization")
             },
             body: JSON.stringify({
-                "cart_order_id": orderId
+                "product_weight_id": weightId
             }),
             credentials: "include"
         })
 
         const data = await res.json()
+        console.log(data)
 
         if (data.data && data.data.messages && data.data.messages.success) {
             await getCart()
