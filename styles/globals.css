@@ -110,3 +110,22 @@
 .scrollbar-hidden::-webkit-scrollbar {
     display: none;
 }
+
+.blogContainer h2 {
+    margin-top: 1.25rem;
+    font-weight: bold;
+    color: #1F1A50;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.blogContainer p, ul {
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: rgb(75 85 99);
+    font-size: 0.95rem;
+}
+
+.blogContainer p a {
+    color: #D09B2C;
+}
