@@ -1,4 +1,5 @@
 import BlogContent from "@/components/modules/blog/BlogContent";
+import RelatedBlogs from "@/components/modules/blog/RelatedBlogs";
 
 const BlogDetailsPage = () => {
     return (

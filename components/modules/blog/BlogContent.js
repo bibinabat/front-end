@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Cta from "@/components/modules/blog/Cta";
+import RelatedBlogs from "@/components/modules/blog/RelatedBlogs";
 
 const BlogContent = () => {
     return (
@@ -109,6 +110,7 @@ const BlogContent = () => {
                     دکمه زیر کلیک کنید.
                 </p>
             </div>
+            <RelatedBlogs/>
         </div>
     );
 };
