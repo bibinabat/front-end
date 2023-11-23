@@ -4,7 +4,7 @@ import {useCart} from "@/contexts/CartContext";
 import {useState} from "react";
 
 const CartProductCard = ({data}) => {
-    const {removeFromCart} = useCart()
+    const {removeFromCart, updateCart} = useCart()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -12,6 +12,17 @@ const CartProductCard = ({data}) => {
         try {
             setIsLoading(true)
             await removeFromCart(data.product_weight.id)
+            setIsLoading(false)
+        } catch (err) {
+            console.log(err)
+            setIsLoading(false)
+        }
+    }
+
+    const handleUpdateCart = async () => {
+        try {
+            setIsLoading(true)
+            await updateCart(data.product_weight.id, 1)
             setIsLoading(false)
         } catch (err) {
             console.log(err)
@@ -80,7 +91,7 @@ const CartProductCard = ({data}) => {
                     </div>
                 </div>
                 <div className="flex items-center px-3 py-1.5 rounded-lg gap-5 border-2 border-gray-300">
-                    <i className="fa-solid fa-plus text-sm cursor-pointer text-blue-600"></i>
+                    <i className="fa-solid fa-plus text-sm cursor-pointer text-blue-600" onClick={handleUpdateCart}></i>
                     <span className="font-bold text-blue-dark">
                         {
                             isLoading ? (

@@ -31,7 +31,7 @@ const HeaderCart = ({isOpen, setIsOpen, cart}) => {
                                     <span className="text-sm font-[600]">تومان</span>
                                 </div>
                             </div>
-                            <Link href="/pages/cart"
+                            <Link href="/cart"
                                   className="bg-blue-dark text-white rounded-md px-2 py-2 text-sm font-[500]">
                                 مشاهده سبد خرید
                             </Link>

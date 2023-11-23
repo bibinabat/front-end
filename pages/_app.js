@@ -14,6 +14,7 @@ import ProgressBar from "@badrap/bar-of-progress";
 import {Router} from "next/router";
 import {CartProvider} from "@/contexts/CartContext";
 import {DefaultSeo, SiteLinksSearchBoxJsonLd} from "next-seo";
+import {AddressesProvider} from "@/contexts/AddressesContext";
 
 const progress = new ProgressBar({
     size: 2,
@@ -45,43 +46,45 @@ export default function App({Component, pageProps}) {
         <>
             <CartProvider>
                 <AuthProvider>
-                    <Head>
-                        <link rel="icon" href="/favicon.jpg"/>
-                        <link rel="shortcut icon"/>
-                    </Head>
-                    <CacheProvider value={cacheRtl}>
-                        <ThemeProvider theme={theme}>
-                            <Layout>
-                                <DefaultSeo
-                                    openGraph={{
-                                        type: "website",
-                                        locale: "fa_IR",
-                                        siteName: "بی بی نبات",
-                                    }}
-                                    twitter={{
-                                        cardType: "summary_large_image",
-                                        site: "@https://twitter.com/bibinabat_ir",
-                                        handle: "@https://twitter.com/bibinabat_ir"
-                                    }}
+                    <AddressesProvider>
+                        <Head>
+                            <link rel="icon" href="/favicon.jpg"/>
+                            <link rel="shortcut icon"/>
+                        </Head>
+                        <CacheProvider value={cacheRtl}>
+                            <ThemeProvider theme={theme}>
+                                <Layout>
+                                    <DefaultSeo
+                                        openGraph={{
+                                            type: "website",
+                                            locale: "fa_IR",
+                                            siteName: "بی بی نبات",
+                                        }}
+                                        twitter={{
+                                            cardType: "summary_large_image",
+                                            site: "@https://twitter.com/bibinabat_ir",
+                                            handle: "@https://twitter.com/bibinabat_ir"
+                                        }}
+                                    />
+                                    <SiteLinksSearchBoxJsonLd url="https://bibinabat.com" potentialActions={[
+                                        {
+                                            queryInput: "required name=search_term_string",
+                                            target: "https://bibinabat.com/?s={search_term_string}"
+                                        }
+                                    ]}/>
+                                    <Component {...pageProps} />
+                                </Layout>
+                                <ToastContainer
+                                    toastClassName={({type}) => contextClass[type || "default"] +
+                                        " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
+                                    className="!w-full flex flex-col items-center justify-center !p-3 sm:!p-0"
+                                    position="top-center"
+                                    icon={false}
+                                    closeButton={false}
                                 />
-                                <SiteLinksSearchBoxJsonLd url="https://bibinabat.com" potentialActions={[
-                                    {
-                                        queryInput: "required name=search_term_string",
-                                        target: "https://bibinabat.com/?s={search_term_string}"
-                                    }
-                                ]}/>
-                                <Component {...pageProps} />
-                            </Layout>
-                            <ToastContainer
-                                toastClassName={({type}) => contextClass[type || "default"] +
-                                    " relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer mb-2"}
-                                className="!w-full flex flex-col items-center justify-center !p-3 sm:!p-0"
-                                position="top-center"
-                                icon={false}
-                                closeButton={false}
-                            />
-                        </ThemeProvider>
-                    </CacheProvider>
+                            </ThemeProvider>
+                        </CacheProvider>
+                    </AddressesProvider>
                 </AuthProvider>
             </CartProvider>
         </>

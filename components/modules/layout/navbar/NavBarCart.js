@@ -17,7 +17,7 @@ const NavBarCart = ({handleClose}) => {
                             <i className="fa-duotone fa-spinner-third fa-spin"></i>
                         </div>
                     ) :
-                    cart.cartInfo.orders?.length ? (
+                    cart.cartInfo?.orders?.length ? (
                         <div className="p-3">
                             <div className="mt-2 flex flex-col gap-2 max-h-[250px] overflow-y-auto scrollbar-hidden">
                                 {
@@ -38,7 +38,7 @@ const NavBarCart = ({handleClose}) => {
                                         <span className="text-sm font-[600]">تومان</span>
                                     </div>
                                 </div>
-                                <Link href="/pages/cart"
+                                <Link href="/cart"
                                       onClick={handleClose}
                                       className="bg-blue-dark text-white rounded-md px-5 py-3 text-sm font-[500]">
                                     مشاهده سبد خرید

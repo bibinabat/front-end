@@ -9,8 +9,8 @@ const CartPage = () => {
         <div className="mt-36 md:mt-48 px-3 sm:px-7 xl:px-20">
             <h1 className="text-xl font-bold text-blue-dark mb-5">سبد خرید</h1>
             {
-                cart.cartInfo.orders ? (
-                    cart.cartInfo.orders.length ? (
+                cart.cartInfo.orders || cart.status === "loaded" ? (
+                    cart.cartInfo.orders?.length ? (
                         <div className="flex flex-col lg:flex-row gap-3 w-full">
                             <div className="flex-1 flex flex-col gap-2">
                                 {

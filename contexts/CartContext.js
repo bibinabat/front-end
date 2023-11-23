@@ -95,17 +95,24 @@ export const CartProvider = ({children}) => {
                 "Authorization": Cookies.get("Authorization")
             },
             body: JSON.stringify({
-                "cart_order_id": orderId,
+                "product_weight_id": orderId,
                 "count": count
             }),
             credentials: "include"
         })
 
         const data = await res.json()
+
+        if (data.data?.messages?.success) {
+            await getCart()
+            toast.info("محصول به سبد خرید اضافه شد.")
+        } else {
+            toast.error("مشکلی در انجام عملیات رخ داد.")
+        }
     }
 
     return (
-        <CartContext.Provider value={{cart, addToCart, removeFromCart, getCart}}>
+        <CartContext.Provider value={{cart, addToCart, removeFromCart, getCart, updateCart}}>
             {children}
         </CartContext.Provider>
     )
@@ -114,7 +121,7 @@ export const CartProvider = ({children}) => {
 export const useCart = () => {
     const context = useContext(CartContext)
     if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
+        throw new Error('useCart must be used within an AuthProvider');
     }
     return context;
 }
