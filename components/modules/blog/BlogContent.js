@@ -7,7 +7,7 @@ import RelatedBlogs from "@/components/modules/blog/RelatedBlogs";
 
 const BlogContent = () => {
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col flex-1 items-center">
             <div className="flex flex-col items-center gap-3">
                 <h1 className="text-blue-dark text-2xl font-bold">نبات چیست؟</h1>
                 <span className="text-sm font-[700] text-gray-400">14 اسفند 1402</span>

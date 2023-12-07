@@ -5,28 +5,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import FooterAccordion from "@/components/elements/FooterAccordion";
 import useAuthState from "@/hooks/useAuth";
 import {useEffect, useState} from "react";
+import {useCommunication} from "@/contexts/CommunicationContext";
+import Social from "@/components/modules/layout/Social";
 
 const Footer = () => {
-    const [communicationWays, setCommunicationWays] = useState("loading")
+    const {communicationWays} = useCommunication()
+
     const [categories, setCategories] = useState("loading")
     const [products, setProducts] = useState("loading")
 
     const {isLoggedIn} = useAuthState()
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/about_us/communication_ways`, {
-            method: "GET"
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.data.communication_ways) {
-                    setCommunicationWays(data.data.communication_ways)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
         fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/products/main_categories/`, {
             method: "GET"
         })
@@ -76,7 +66,7 @@ const Footer = () => {
                     <div className="p-10 flex justify-center lg:justify-between bg-[#E9E9E9] rounded-3xl min-h-64">
                         <div className="hidden lg:flex lg:flex-col">
                             <span className="text-blue-dark font-[600] mb-10 text-lg">پشتیبانی</span>
-                            <span className="mb-5">
+                            <span className="mb-5 flex items-center">
                                 <span className="text-[#676767] text-xl font-[500] ml-2">تلفنی:</span>
                                 <div className="flex">
                                     {
@@ -132,7 +122,7 @@ const Footer = () => {
             </div>
             <div className="flex lg:hidden flex-col px-5 mt-5">
                 <span className="text-blue-dark font-[600] mb-10 text-lg">پشتیبانی</span>
-                <span className="mb-5">
+                <span className="mb-5 flex items-center">
                     <span className="text-[#676767] text-xl font-[500] ml-2">تلفنی:</span>
                     <div className="flex">
                         {
@@ -230,30 +220,7 @@ const Footer = () => {
                             </div>
                         </>
                     )}
-                    <span className="text-[#4A4A4A] font-[600]">ما را در شبکه های اجتماعی دنبال کنید</span>
-                    <div className="w-full flex gap-10 text-[#C4C4C4] text-3xl">
-                        {
-                            communicationWays !== "loading" ? (
-                                communicationWays.map(way => {
-                                    if (way.is_social) {
-                                        return (
-                                            <Link key={way.id} href={way.link} target="_blank"
-                                                  className="hover:text-blue-dark">
-                                                <i className={way.icon_name}></i>
-                                            </Link>
-                                        )
-                                    }
-                                })
-                            ) : (
-                                <>
-                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
-                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
-                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
-                                    <Skeleton variant="circular" animation="wave" width={35} height={35}/>
-                                </>
-                            )
-                        }
-                    </div>
+                    <Social communicationWays={communicationWays}/>
                 </div>
             </div>
             <div className="flex flex-col gap-5 lg:gap-0 lg:flex-row items-center justify-between mt-10 px-5 md:px-20">
